@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Wia Documentation</title>
 
     <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
@@ -39,8 +39,8 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='https://www.wia.io/requestInvite'>Request an Invite to Wia</a></li>
+            <li><a href='mailto:team@wia.io'>Or say hello at team@wia.io</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -48,11 +48,63 @@
       <div class="content">
         <h1 id="introduction">Introduction</h1>
 
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Welcome to the Wia Documentation! You can use our API to access Wia API endpoints, which can get information on devices, events and users.</p>
 
-<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>We have client libraries in Node and Objective C (more coming soon!). You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
 
-<p>This example API documentation page was created with <a href="http://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&rsquo;s documentation.</p>
+<blockquote>
+<p>API Endpoint</p>
+</blockquote>
+<pre class="highlight plaintext"><code>https://api.wia.io
+</code></pre>
+
+<h1 id="objects">Objects</h1>
+
+<p>Wia data are structured around 3 main types of objects: Device, Event and User. You’ll find these objects in the format described below.</p>
+
+<h2 id="device">Device</h2>
+
+<blockquote>
+<p>Example of a Device object</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"deviceKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sdf892mdfgj238kdfg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Device One"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"isOnline"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>deviceKey</td>
+<td>String</td>
+<td>Unique key of the device</td>
+</tr>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>Name of the device</td>
+</tr>
+<tr>
+<td>isOnline</td>
+<td>Boolean</td>
+<td>Online status of the device</td>
+</tr>
+</tbody></table>
+
+<h2 id="event">Event</h2>
+
+<p>Something about event</p>
+
+<h2 id="user">User</h2>
+
+<p>Something about user</p>
 
 <h1 id="authentication">Authentication</h1>
 
