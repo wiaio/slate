@@ -1,5 +1,5 @@
 ---
-title: API Reference
+title: Wia Documentation
 
 language_tabs:
   - shell
@@ -7,8 +7,8 @@ language_tabs:
   - python
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
+  - <a href='https://www.wia.io/requestInvite'>Request an Invite to Wia</a>
+  - <a href='mailto:team@wia.io'>Or say hello at team@wia.io</a>
 
 includes:
   - errors
@@ -18,11 +18,45 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Wia Documentation! You can use our API to access Wia API endpoints, which can get information on devices, events and users.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have client libraries in Node and Objective C (more coming soon!). You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
-This example API documentation page was created with [Slate](http://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+> API Endpoint
+
+```
+https://api.wia.io
+```
+
+# Objects
+
+Wia data are structured around 3 main types of objects: Device, Event and User. You’ll find these objects in the format described below.
+
+## Device
+
+> Example of a Device object
+
+```
+{
+	"deviceKey": "sdf892mdfgj238kdfg",
+	"name": "Device One",
+	"isOnline": true
+}
+```
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+deviceKey | String | Unique key of the device
+name | String | Name of the device
+isOnline | Boolean | Online status of the device
+
+## Event
+
+Something about event
+
+## User
+
+Something about user
 
 # Authentication
 
@@ -165,4 +199,3 @@ This endpoint retrieves a specific kitten.
 Parameter | Description
 --------- | -----------
 ID | The ID of the kitten to retrieve
-
