@@ -2,8 +2,8 @@
 title: Wia Documentation
 
 language_tabs:
-  - ruby
-  - python
+  - shell: curl
+  - javascript: Node
 
 toc_footers:
   - <a href='https://www.wia.io/requestInvite'>Request an Invite to Wia</a>
@@ -19,7 +19,7 @@ search: true
 
 Welcome to the Wia Documentation! You can use our API to access Wia API endpoints, which can get information on devices, events and users.
 
-We have client libraries in python (more coming soon!). You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have client libraries in javascript (more coming soon!). You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 > API Endpoint
 
@@ -184,28 +184,28 @@ longitude | Number | Longitude of the location
 
 > To authorize a user, use this code:
 
-```ruby
+```shell
 require 'kittn'
 
 api = Kittn::APIClient.authorize!('meowmeowmeow')
 
 ```
 
-```python
+```javascript
 var userClient = require('wia-sdk')('u_jsdf812jkdf01kdf');
 
 ```
 
 > To authorize a device, use this code:
 
-```ruby
+```shell
 require 'kittn'
 
 api = Kittn::APIClient.authorize!('meowmeowmeow')
 
 ```
 
-```python
+```javascript
 var deviceClient = require('wia-sdk')('d_jsdf812jkdf01kdf');
 
 ```
@@ -225,12 +225,12 @@ Wia expects the access token to be included in all API requests to the server in
 
 ## Get Devices
 
-```ruby
-ruby "https://api.wia.io/v1/devices?limit=20"
+```shell
+shell "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
-```python
+```javascript
 var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDevices(
@@ -279,12 +279,12 @@ isOnline | No Default | If set to false, the device is not online. When a device
 ## Get a Specific Device
 
 
-```ruby
-ruby "https://api.wia.io/v1/devices?limit=20"
+```shell
+shell "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
-```python
+```javascript
 var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDevices(
