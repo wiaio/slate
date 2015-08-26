@@ -76,7 +76,7 @@ timestamp | Timestamp | Timestamp of the event (optional)
 List of permitted data key-value pairs for a Sensor event.
 
 Parameter | Type | Unit | Description
---------- | ----------- | -----------
+--------- | ---- | ---- | -----------
 objectTemperature | Number | Celsius | Temperature of object. 
 ambientTemperature (or temperature) | Number | Celsius | Ambient temperature.
 absoluteHumidity | Number | Percentage | Absolute humidity.
