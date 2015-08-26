@@ -53,12 +53,6 @@ createdAt | Timestamp | Timestamp of when device was created (optional)
 
 ## Event
 
-Parameter | Type | Description
---------- | ----------- | -----------
-name | String | Name of the event
-data | Object | Event data
-timestamp | Timestamp | Timestamp of the event (optional)
-
 > Example of an Event object
 
 ```
@@ -70,6 +64,12 @@ timestamp | Timestamp | Timestamp of the event (optional)
 	"timestamp": 1440597871
 }
 ```
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+name | String | Name of the event
+data | Object | Event data
+timestamp | Timestamp | Timestamp of the event (optional)
 
 ### Sensor
 
