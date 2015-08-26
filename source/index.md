@@ -65,9 +65,9 @@ eventTimestamp | Timestamp | Timestamp of the event (optional)
 {
 	"name": "EventName",
 	"data": {
-    "key": "value"
-  },
-  "timestamp": 1440597871
+		"key": "value"
+	},
+	"timestamp": 1440597871
 }
 ```
 
@@ -79,16 +79,16 @@ eventTimestamp | Timestamp | Timestamp of the event (optional)
 {
 	"name": "Sensor",
 	"data": {
-    "temperature": 17.5,
-    "humdidity": 4.2,
-    "pressure": 17.6,
-    "gyroscope": {
-      "x": 0.342,
-      "y": 0.765,
-      "z": 0.634
-    }
-  },
-  "timestamp": 1440597871
+		"temperature": 17.5,
+		"humdidity": 4.2,
+		"pressure": 17.6,
+		"gyroscope": {
+			"x": 0.342,
+			"y": 0.765,
+			"z": 0.634
+		}
+	},
+	"timestamp": 1440597871
 }
 ```
 
@@ -100,16 +100,29 @@ eventTimestamp | Timestamp | Timestamp of the event (optional)
 {
 	"name": "Location",
 	"data": {
-    "latitude": 54.60247,
-    "longitude": -5.92717
-  },
-  "timestamp": 1440597871
+		"latitude": 54.60247,
+		"longitude": -5.92717
+	},
+	"timestamp": 1440597871
 }
 ```
 
 ## User
 
-Something about user
+> Example of a User object
+
+```
+{
+	"userKey": "sd8msdfk9ksdfl",
+	"fullName": "Elliot Alderson",
+	"firstName": "Elliot",
+	"lastName": "Alderson",
+	"numberOfDevices": 3,
+	"maxNumberOfDevices": 5,
+	"eventsThisMonth": 128490,
+	"maxEventsPerMonth": 250000
+}
+```
 
 # Authentication
 
@@ -123,6 +136,7 @@ api = Kittn::APIClient.authorize!('meowmeowmeow')
 
 ```Node
 var deviceClient = require('wia-sdk')('u_jsdf812jkdf01kdf');
+
 ```
 
 > To authorize a device, use this code:
@@ -154,23 +168,21 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 
 ## Get Devices
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+```curl
+curl "https://api.wia.io/v1/devices?limit=20"
+  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
-```python
-import kittn
+```Node
+var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+userClient.getDevices(
+	{ limit: 20 }, 
+	function(err, devices) {
+		// asynchronously called
+	}
+);
 
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
 ```
 
 > The above command returns JSON structured like this:
@@ -178,13 +190,13 @@ curl "http://example.com/api/kittens"
 ```json
 [
   {
-    "deviceKey": "asmdf82mS8jdfl",
-    "name": "Fluffums",
+    "deviceKey": "Jas8snj1msdf89k83jdf",
+    "name": "Device One",
     "online": true
   },
   {
-    "deviceKey": "asmdf82mS8jdfl",
-    "name": "Fluffums",
+    "deviceKey": "Jas8snj1msdf89k83jdf",
+    "name": "Device Two",
     "online": false
   }
 ]
@@ -194,7 +206,7 @@ This endpoint retrieves devices.
 
 ### HTTP Request
 
-`GET http://api.wia.io/v1/devices`
+`GET https://api.wia.io/v1/devices`
 
 ### Query Parameters
 
@@ -203,9 +215,6 @@ Parameter | Default | Description
 limit | false | If set to true, the result will also include cats.
 available | true | If set to false, the result will include kittens that have already been adopted.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
 ## Get a Specific Kitten
 
