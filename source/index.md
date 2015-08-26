@@ -352,3 +352,45 @@ This endpoint retrieves the current device. Requires a Device token.
 ### HTTP Request
 
 `GET https://api.wia.io/v1/devices/me`
+
+
+## Create a Device
+
+```shell
+shell "https://api.wia.io/v1/devices?limit=20"
+  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
+```
+
+```javascript
+var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
+
+userClient.createDevice(
+	"Device Name", 
+	function(err, device) {
+		// asynchronously called
+	}
+);
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"name": "Device One",
+	"online": true
+}
+```
+
+This endpoint retrieves the current device. Requires a Device token.
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/devices`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+name | Name of device to be created
