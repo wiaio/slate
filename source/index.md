@@ -57,7 +57,7 @@ Parameter | Type | Description
 --------- | ----------- | -----------
 name | String | Name of the event
 data | Object | Event data
-eventTimestamp | Timestamp | Timestamp of the event (optional)
+timestamp | Timestamp | Timestamp of the event (optional)
 
 > Example of an Event object
 
@@ -72,6 +72,25 @@ eventTimestamp | Timestamp | Timestamp of the event (optional)
 ```
 
 ### Sensor
+
+List of permitted data key-value pairs for a Sensor event.
+
+Parameter | Type | Unit | Description
+--------- | ----------- | -----------
+objectTemperature | Number | Celsius | Temperature of object. 
+ambientTemperature (or temperature) | Number | Celsius | Ambient temperature.
+absoluteHumidity | Number | Percentage | Absolute humidity.
+relativeHumidity (or humidity) | Number | Percentage | Relative humidity.
+specificHumidity | Number | Percentage | Specific humidity.
+gyroscope | Object | Radian per second (rad/s) | Gyroscope. Use keys x, y and z.
+accelerometer | Object | Metre per second squared (m/s2) | Accelerometer. Use keys x, y and z.
+pressure | Number | Millibar (hPa) | Air pressure.
+magnetometer | Object | Microtesla (μT) | Magnetometer. Use keys x, y and z. 
+gravity | Object | Metre per second squared (m/s2) | Gravity. Use keys x, y and z.
+light | Number | Lux (lx) | Light.
+proximity | Number | Centimeters (cm) | Proximity.
+heartRate | Number | Beat per minute (BPM) Heart rate.
+orientation | Object | Degrees (°) | Orientation. Use keys x, y and z.
 
 > Example of a Sensor Event object
 
@@ -93,6 +112,13 @@ eventTimestamp | Timestamp | Timestamp of the event (optional)
 ```
 
 ### Location
+
+List of permitted data key-value pairs for a Location event.
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+latitude | Number | Latitude of the location
+longitude | Number | Longitude of the location
 
 > Example of a Location Event object
 
@@ -135,7 +161,7 @@ api = Kittn::APIClient.authorize!('meowmeowmeow')
 ```
 
 ```Node
-var deviceClient = require('wia-sdk')('u_jsdf812jkdf01kdf');
+var userClient = require('wia-sdk')('u_jsdf812jkdf01kdf');
 
 ```
 
