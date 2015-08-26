@@ -122,9 +122,7 @@ api = Kittn::APIClient.authorize!('meowmeowmeow')
 ```
 
 ```Node
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
+var deviceClient = require('wia-sdk')('u_jsdf812jkdf01kdf');
 ```
 
 > To authorize a device, use this code:
@@ -136,9 +134,8 @@ api = Kittn::APIClient.authorize!('meowmeowmeow')
 ```
 
 ```Node
-import kittn
+var deviceClient = require('wia-sdk')('d_jsdf812jkdf01kdf');
 
-api = kittn.authorize('meowmeowmeow')
 ```
 
 Wia uses access tokens to allow access to the API. When you create an account or a device, an access token is automatically generated.
