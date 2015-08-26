@@ -51,6 +51,7 @@ name | String | Name of the device
 isOnline | Boolean | Online status of the device
 createdAt | Timestamp | Timestamp of when device was created (optional)
 
+
 ## Event
 
 > Example of an Event object
@@ -71,7 +72,53 @@ name | String | Name of the event
 data | Object | Event data
 timestamp | Timestamp | Timestamp of the event (optional)
 
+
 ### Sensor
+
+> Example of a Sensor Event object
+
+```
+{
+	"name": "Sensor",
+	"data": {
+		"objectTemperature": 17.5,
+		"ambientTemperature": 4.2,
+		"absoluteHumidity": 17.6,
+		"relativeHumidity": 12.4,
+		"specificHumidity": 7.8,
+		"gyroscope": {
+			"x": 0.342,
+			"y": 0.765,
+			"z": 0.634
+		},
+		"accelerometer": {
+			"x": 0.342,
+			"y": 0.765,
+			"z": 0.634
+		},
+		"pressure": 7.8,
+		"magnetometer": {
+			"x": 0.342,
+			"y": 0.765,
+			"z": 0.634
+		},
+		"gravity": {
+			"x": 0.342,
+			"y": 0.765,
+			"z": 0.634
+		},
+		"light": 7.8,
+		"proximity": 7.8,
+		"heartRate": 7.8,
+		"orientation": {
+			"x": 0.342,
+			"y": 0.765,
+			"z": 0.634
+		}
+	},
+	"timestamp": 1440597871
+}
+```
 
 List of permitted data key-value pairs for a Sensor event.
 
@@ -92,24 +139,6 @@ proximity | Number | Centimeters (cm) | Proximity.
 heartRate | Number | Beat per minute (BPM) Heart rate.
 orientation | Object | Degrees (°) | Orientation. Use keys x, y and z.
 
-> Example of a Sensor Event object
-
-```
-{
-	"name": "Sensor",
-	"data": {
-		"temperature": 17.5,
-		"humdidity": 4.2,
-		"pressure": 17.6,
-		"gyroscope": {
-			"x": 0.342,
-			"y": 0.765,
-			"z": 0.634
-		}
-	},
-	"timestamp": 1440597871
-}
-```
 
 ### Location
 
