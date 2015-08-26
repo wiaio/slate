@@ -3,7 +3,7 @@ title: Wia Documentation
 
 language_tabs:
   - curl
-  - Node
+  - node
 
 toc_footers:
   - <a href='https://www.wia.io/requestInvite'>Request an Invite to Wia</a>
@@ -142,13 +142,6 @@ orientation | Object | Degrees (°) | Orientation. Use keys x, y and z.
 
 ### Location
 
-List of permitted data key-value pairs for a Location event.
-
-Parameter | Type | Description
---------- | ----------- | -----------
-latitude | Number | Latitude of the location
-longitude | Number | Longitude of the location
-
 > Example of a Location Event object
 
 ```
@@ -161,6 +154,13 @@ longitude | Number | Longitude of the location
 	"timestamp": 1440597871
 }
 ```
+
+List of permitted data key-value pairs for a Location event.
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+latitude | Number | Latitude of the location
+longitude | Number | Longitude of the location
 
 
 ## User
@@ -188,9 +188,10 @@ longitude | Number | Longitude of the location
 require 'kittn'
 
 api = Kittn::APIClient.authorize!('meowmeowmeow')
+
 ```
 
-```Node
+```node
 var userClient = require('wia-sdk')('u_jsdf812jkdf01kdf');
 
 ```
@@ -201,9 +202,10 @@ var userClient = require('wia-sdk')('u_jsdf812jkdf01kdf');
 require 'kittn'
 
 api = Kittn::APIClient.authorize!('meowmeowmeow')
+
 ```
 
-```Node
+```node
 var deviceClient = require('wia-sdk')('d_jsdf812jkdf01kdf');
 
 ```
@@ -214,7 +216,7 @@ You can find your user token in My Account and your device token in the device's
 
 Wia expects the access token to be included in all API requests to the server in a header that looks like the following:
 
-`Authorization: bearer: <TOKEN>`
+`Authorization: Bearer u_ksdf912jnmdfg9k123lk90`
 
 <aside class="warning">Some requests are user or device specific. If you are not using the correct type of token, you will get a 401 Unauthorized.</aside>
 
@@ -228,7 +230,7 @@ curl "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
-```Node
+```node
 var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDevices(
@@ -282,7 +284,7 @@ curl "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
-```Node
+```node
 var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDevices(
@@ -310,7 +312,7 @@ This endpoint retrieves a specific device.
 
 ### HTTP Request
 
-`GET https://api.wia.io/devices/:deviceKey<ID>`
+`GET https://api.wia.io/devices/:deviceKey`
 
 ### URL Parameters
 
