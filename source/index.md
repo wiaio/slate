@@ -2,8 +2,8 @@
 title: Wia Documentation
 
 language_tabs:
-  - curl
-  - node
+  - ruby
+  - python
 
 toc_footers:
   - <a href='https://www.wia.io/requestInvite'>Request an Invite to Wia</a>
@@ -19,7 +19,7 @@ search: true
 
 Welcome to the Wia Documentation! You can use our API to access Wia API endpoints, which can get information on devices, events and users.
 
-We have client libraries in Node (more coming soon!). You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have client libraries in python (more coming soon!). You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 > API Endpoint
 
@@ -184,28 +184,28 @@ longitude | Number | Longitude of the location
 
 > To authorize a user, use this code:
 
-```curl
+```ruby
 require 'kittn'
 
 api = Kittn::APIClient.authorize!('meowmeowmeow')
 
 ```
 
-```node
+```python
 var userClient = require('wia-sdk')('u_jsdf812jkdf01kdf');
 
 ```
 
 > To authorize a device, use this code:
 
-```curl
+```ruby
 require 'kittn'
 
 api = Kittn::APIClient.authorize!('meowmeowmeow')
 
 ```
 
-```node
+```python
 var deviceClient = require('wia-sdk')('d_jsdf812jkdf01kdf');
 
 ```
@@ -225,12 +225,12 @@ Wia expects the access token to be included in all API requests to the server in
 
 ## Get Devices
 
-```curl
-curl "https://api.wia.io/v1/devices?limit=20"
+```ruby
+ruby "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
-```node
+```python
 var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDevices(
@@ -279,12 +279,12 @@ isOnline | No Default | If set to false, the device is not online. When a device
 ## Get a Specific Device
 
 
-```curl
-curl "https://api.wia.io/v1/devices?limit=20"
+```ruby
+ruby "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
-```node
+```python
 var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDevices(
