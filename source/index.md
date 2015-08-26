@@ -259,7 +259,7 @@ userClient.getDevices(
 ]
 ```
 
-This endpoint retrieves devices.
+This endpoint retrieves devices. Requires a User token.
 
 ### HTTP Request
 
@@ -278,6 +278,47 @@ isOnline | No Default | If set to false, the device is not online. When a device
 
 ## Get a Specific Device
 
+```shell
+shell "https://api.wia.io/v1/devices/jasAj09df9mmdfgh19ldf"
+  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
+```
+
+```javascript
+var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
+
+userClient.getDevice(
+	"jnasdf892knsdfolsd" , 
+	function(err, device) {
+		// asynchronously called
+	}
+);
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"name": "Device One",
+	"online": true
+}
+```
+
+This endpoint retrieves a specific device. Requires a User token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/devices/:deviceKey`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+deviceKey | The key of the device to retrieve
+
+
+## Get Current Device
 
 ```shell
 shell "https://api.wia.io/v1/devices?limit=20"
@@ -306,16 +347,8 @@ userClient.getDevices(
 }
 ```
 
-This endpoint retrieves a specific device.
-
-<aside class="warning">If you're not using an administrator API key, note that some kittens will return 403 Forbidden if they are hidden for admins only.</aside>
+This endpoint retrieves the current device. Requires a Device token.
 
 ### HTTP Request
 
-`GET https://api.wia.io/devices/:deviceKey`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-deviceKey | The key of the device to retrieve
+`GET https://api.wia.io/v1/devices/me`
