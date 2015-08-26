@@ -162,6 +162,7 @@ longitude | Number | Longitude of the location
 }
 ```
 
+
 ## User
 
 > Example of a User object
@@ -215,9 +216,8 @@ Wia expects the access token to be included in all API requests to the server in
 
 `Authorization: bearer: <TOKEN>`
 
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
+<aside class="warning">Some requests are user or device specific. If you are not using the correct type of token, you will get a 401 Unauthorized.</aside>
+
 
 # Devices
 
@@ -267,53 +267,53 @@ This endpoint retrieves devices.
 
 Parameter | Default | Description
 --------- | ------- | -----------
-limit | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+limit | 20 | Number of devices to return. Max value 200.
+page | 0 | First page is 0. 
+order | name | Field to sort by. Valid values include name and lastUpdated.
+sort | asc | Either ascending (asc) or descending (desc).
+isOnline | No Default | If set to false, the device is not online. When a device is online, this is true. 
 
 
-## Get a Specific Kitten
+## Get a Specific Device
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+```curl
+curl "https://api.wia.io/v1/devices?limit=20"
+  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
-```python
-import kittn
+```Node
+var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+userClient.getDevices(
+	{ limit: 20 }, 
+	function(err, devices) {
+		// asynchronously called
+	}
+);
 
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Isis",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"name": "Device One",
+	"online": true
 }
 ```
 
-This endpoint retrieves a specific kitten.
+This endpoint retrieves a specific device.
 
 <aside class="warning">If you're not using an administrator API key, note that some kittens will return 403 Forbidden if they are hidden for admins only.</aside>
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET https://api.wia.io/devices/:deviceKey<ID>`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+deviceKey | The key of the device to retrieve
