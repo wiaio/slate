@@ -159,8 +159,8 @@ List of permitted data key-value pairs for a Location event.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-latitude | Number | Latitude of the location
-longitude | Number | Longitude of the location
+latitude | Number | Latitude of the location.
+longitude | Number | Longitude of the location.
 
 
 ## User
@@ -315,7 +315,7 @@ This endpoint retrieves a specific device. Requires a User token.
 
 Parameter | Description
 --------- | -----------
-deviceKey | The key of the device to retrieve
+deviceKey | The key of the device to retrieve.
 
 
 ## Get Current Device
@@ -382,7 +382,7 @@ userClient.createDevice(
 }
 ```
 
-This endpoint retrieves the current device. Requires a User token.
+This endpoint creates a device. Requires a User token.
 
 ### HTTP Request
 
@@ -392,7 +392,7 @@ This endpoint retrieves the current device. Requires a User token.
 
 Parameter | Description
 --------- | -----------
-name | Name of device to be created
+name | Name of device to be created.
 
 
 ## Delete a Device
@@ -424,7 +424,7 @@ userClient.deleteDevice(
 }
 ```
 
-This endpoint retrieves the current device. Requires a User token.
+This endpoint deletes a device. Requires a User token.
 
 ### HTTP Request
 
@@ -434,5 +434,71 @@ This endpoint retrieves the current device. Requires a User token.
 
 Parameter | Description
 --------- | -----------
-deviceKey | Key of device to be deleted
+deviceKey | Key of device to be deleted.
+
+
+## Get Device Events
+
+```shell
+shell "https://api.wia.io/v1/devices?limit=20"
+  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
+```
+
+```javascript
+var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
+
+userClient.getDeviceEvents(
+	"d_9mdflg982jdmdfglw89dfgn",
+	{ limit: 20 }, 
+	function(err, events) {
+		// asynchronously called
+	}
+);
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "name": "Sensor",
+    "data": {
+		"temperature": 14.5,
+		"humidity": 56.3   
+	},
+	"timestamp": 1440683447
+  },
+  {
+    "name": "Location",
+    "data": {
+		"latitude": 54.60247,
+		"longitude": -5.92717
+	},
+	"timestamp": 1440683234
+  }
+]
+```
+
+This endpoint retrieves a list of events for a device. Requires a User token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/devices/:deviceKey/events`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+deviceKey | Key of device to get events for.
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+limit | 20 | Number of devices to return. Max value 200.
+page | 0 | First page is 0. 
+order | name | Field to sort by. Valid values include name and lastUpdated.
+sort | asc | Either ascending (asc) or descending (desc).
+
 
