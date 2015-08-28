@@ -21,26 +21,22 @@ Welcome to the Wia Documentation! You can use our API to access Wia API endpoint
 
 We have client libraries in javascript (more coming soon!). You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
+> Official libraries
+
+```
+Node.js - https://github.com/wiaio/wia/wia-nodejs-sdk
+```
+
+```
+Objective C - https://github.com/wiaio/wia/wia-objective-c-sdk
+```
+
+
 > API Endpoint
 
 ```
 https://api.wia.io
 ```
-
-
-# Libraries
-
-## Official libraries
-
-Node.js
-
-```https://github.com/wiaio/wia/wia-nodejs-sdk```
-
-
-Objective C
-
-```https://github.com/wiaio/wia/wia-objective-c-sdk```
-
 
 # Objects
 
