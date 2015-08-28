@@ -30,14 +30,21 @@ https://api.wia.io
 
 # Libraries
 
-Official libraries
-Node.js - ```https://github.com/wiaio/wia/wia-nodejs-sdk```
-Objective C - ```https://github.com/wiaio/wia/wia-objective-c-sdk```
+## Official libraries
+
+Node.js
+
+```https://github.com/wiaio/wia/wia-nodejs-sdk```
+
+
+Objective C
+
+```https://github.com/wiaio/wia/wia-objective-c-sdk```
 
 
 # Objects
 
-Wia data are structured around 3 main types of objects: Device, Event and User. You’ll find these objects in the format described below.
+Wia data are structured around 2 main types of objects: Device and Event. You’ll find these objects in the format described below.
 
 ## Device
 
@@ -171,45 +178,13 @@ latitude | Number | Latitude of the location.
 longitude | Number | Longitude of the location.
 
 
-## User
-
-> Example of a User object
-
-```
-{
-	"userKey": "sd8msdfk9ksdfl",
-	"fullName": "Elliot Alderson",
-	"firstName": "Elliot",
-	"lastName": "Alderson",
-	"subscription": {
-		"plan": {
-			"name": "Maker",
-			"startDate": 1440597871
-		},
-		"numberOfDevices": 3,
-		"maxNumberOfDevices": 5,
-		"eventsThisMonth": 128490,
-		"maxEventsPerMonth": 250000
-	}
-}
-```
-
-Parameter | Type | Description
---------- | ----------- | -----------
-userKey | String | Unique key of the user
-fullName | String | Name of the user
-firstName | String | First name of the user
-lastName | String | Last name of the user
-
-
 # Authentication
 
 > To authorize a user, use this code:
 
 ```shell
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+curl https://api.wia.io/v1 \
+	-H "Authorization: Bearer u_jsdf812jkdf01kdf"
 
 ```
 
@@ -221,9 +196,8 @@ var userClient = require('wia-sdk')('u_jsdf812jkdf01kdf');
 > To authorize a device, use this code:
 
 ```shell
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+curl https://api.wia.io/v1 \
+	-H "Authorization: Bearer d_jsdf812jkdf01kdf"
 
 ```
 
@@ -234,13 +208,13 @@ var deviceClient = require('wia-sdk')('d_jsdf812jkdf01kdf');
 
 Wia uses access tokens to allow access to the API. When you create an account or a device, an access token is automatically generated.
 
-You can find your user token in My Account and your device token in the device's settings.
+You can find your user access token in My Account and your device access token in the device's settings.
 
 Wia expects the access token to be included in all API requests to the server in a header that looks like the following:
 
 `Authorization: Bearer u_ksdf912jnmdfg9k123lk90`
 
-<aside class="warning">Some requests are user or device specific. If you are not using the correct type of token, you will get a 401 Unauthorized.</aside>
+<aside class="warning">Some requests are user or device specific. If you are not using the correct type of token, you will get a 401 Unauthorized response.</aside>
 
 
 # Devices
