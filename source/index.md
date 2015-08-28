@@ -27,6 +27,14 @@ We have client libraries in javascript (more coming soon!). You can view code ex
 https://api.wia.io
 ```
 
+
+# Libraries
+
+Official libraries
+Node.js - ```https://github.com/wiaio/wia/wia-nodejs-sdk```
+Objective C - ```https://github.com/wiaio/wia/wia-objective-c-sdk```
+
+
 # Objects
 
 Wia data are structured around 3 main types of objects: Device, Event and User. You’ll find these objects in the format described below.
@@ -124,7 +132,7 @@ List of permitted data key-value pairs for a Sensor event.
 
 Parameter | Type | Unit | Description
 --------- | ---- | ---- | -----------
-objectTemperature | Number | Celsius | Temperature of object. 
+objectTemperature | Number | Celsius | Temperature of object.
 ambientTemperature (or temperature) | Number | Celsius | Ambient temperature.
 absoluteHumidity | Number | Percentage | Absolute humidity.
 relativeHumidity (or humidity) | Number | Percentage | Relative humidity.
@@ -132,7 +140,7 @@ specificHumidity | Number | Percentage | Specific humidity.
 gyroscope | Object | Radian per second (rad/s) | Gyroscope. Use keys x, y and z.
 accelerometer | Object | Metre per second squared (m/s2) | Accelerometer. Use keys x, y and z.
 pressure | Number | Millibar (hPa) | Air pressure.
-magnetometer | Object | Microtesla (μT) | Magnetometer. Use keys x, y and z. 
+magnetometer | Object | Microtesla (μT) | Magnetometer. Use keys x, y and z.
 gravity | Object | Metre per second squared (m/s2) | Gravity. Use keys x, y and z.
 light | Number | Lux (lx) | Light.
 proximity | Number | Centimeters (cm) | Proximity.
@@ -173,12 +181,26 @@ longitude | Number | Longitude of the location.
 	"fullName": "Elliot Alderson",
 	"firstName": "Elliot",
 	"lastName": "Alderson",
-	"numberOfDevices": 3,
-	"maxNumberOfDevices": 5,
-	"eventsThisMonth": 128490,
-	"maxEventsPerMonth": 250000
+	"subscription": {
+		"plan": {
+			"name": "Maker",
+			"startDate": 1440597871
+		},
+		"numberOfDevices": 3,
+		"maxNumberOfDevices": 5,
+		"eventsThisMonth": 128490,
+		"maxEventsPerMonth": 250000
+	}
 }
 ```
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+userKey | String | Unique key of the user
+fullName | String | Name of the user
+firstName | String | First name of the user
+lastName | String | Last name of the user
+
 
 # Authentication
 
@@ -234,7 +256,7 @@ shell "https://api.wia.io/v1/devices?limit=20"
 var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDevices(
-	{ limit: 20 }, 
+	{ limit: 20 },
 	function(err, devices) {
 		// asynchronously called
 	}
@@ -270,10 +292,10 @@ This endpoint retrieves devices. Requires a User token.
 Parameter | Default | Description
 --------- | ------- | -----------
 limit | 20 | Number of devices to return. Max value 200.
-page | 0 | First page is 0. 
+page | 0 | First page is 0.
 order | name | Field to sort by. Valid values include name and lastUpdated.
 sort | asc | Either ascending (asc) or descending (desc).
-isOnline | No Default | If set to false, the device is not online. When a device is online, this is true. 
+isOnline | No Default | If set to false, the device is not online. When a device is online, this is true.
 
 
 ## Get a Specific Device
@@ -287,7 +309,7 @@ shell "https://api.wia.io/v1/devices/jasAj09df9mmdfgh19ldf"
 var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDevice(
-	"jnasdf892knsdfolsd" , 
+	"jnasdf892knsdfolsd" ,
 	function(err, device) {
 		// asynchronously called
 	}
@@ -364,7 +386,7 @@ shell "https://api.wia.io/v1/devices?limit=20"
 var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
 userClient.createDevice(
-	{ name: "Device Name" }, 
+	{ name: "Device Name" },
 	function(err, device) {
 		// asynchronously called
 	}
@@ -406,7 +428,7 @@ shell "https://api.wia.io/v1/devices?limit=20"
 var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
 userClient.deleteDevice(
-	"asd9mnSL9mdf01m", 
+	"asd9mnSL9mdf01m",
 	function(err, device) {
 		// asynchronously called
 	}
@@ -449,7 +471,7 @@ var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDeviceEvents(
 	"d_9mdflg982jdmdfglw89dfgn",
-	{ limit: 20 }, 
+	{ limit: 20 },
 	function(err, events) {
 		// asynchronously called
 	}
@@ -465,7 +487,7 @@ userClient.getDeviceEvents(
     "name": "Sensor",
     "data": {
 		"temperature": 14.5,
-		"humidity": 56.3   
+		"humidity": 56.3
 	},
 	"timestamp": 1440683447
   },
@@ -497,8 +519,32 @@ deviceKey | Key of device to get events for.
 Parameter | Default | Description
 --------- | ------- | -----------
 limit | 20 | Number of devices to return. Max value 200.
-page | 0 | First page is 0. 
+page | 0 | First page is 0.
 order | name | Field to sort by. Valid values include name and lastUpdated.
 sort | asc | Either ascending (asc) or descending (desc).
 
+# Ping
+
+```shell
+curl http://localhost:8080/v1/ping \
+	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig"
+```
+
+```javascript
+var deviceClient = require('wia-sdk')('d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig');
+
+userClient.ping(
+	function(err) {
+		// asynchronously called
+	}
+);
+
+```
+
+This endpoint allows a device to let the service know it is online. It is not required to use this method when using a stream client. Requires a Device token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/ping` or
+`POST https://api.wia.io/v1/ping`
 
