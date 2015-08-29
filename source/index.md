@@ -434,6 +434,85 @@ Parameter | Description
 deviceKey | Key of device to be deleted.
 
 
+## Send a Ping
+
+```shell
+curl http://localhost:8080/v1/ping \
+	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig"
+```
+
+```javascript
+var WiaSDK = require('wia-sdk')
+var deviceClient = new WiaSDK.DeviceClient('d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig');
+
+deviceClient.ping(
+	function(err) {
+		// asynchronously called
+	}
+);
+
+```
+
+This endpoint allows a device to let the service know it is online. It is not required to use this method when using a stream client. Requires a Device token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/ping` or
+`POST https://api.wia.io/v1/ping`
+
+# Events
+
+## Publish an Event
+
+```shell
+Not supported.
+```
+
+```javascript
+var WiaSDK = require('wia-sdk');
+var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg');
+
+userClient.publishEvent(
+	"Sensor",
+	{
+		temperature: 34.5,
+		humidity: 67.4,
+		gyroscope: {
+			x: 0.34,
+			y: 0.67,
+			z: 0.24
+		}	
+	}
+	function(err) {
+		// asynchronously called
+	}
+);
+
+```
+
+> The above command returns status 200 OK when event has been created.
+
+This endpoint publishes an event. Requires a Device token.
+
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/devices/:deviceKey/events`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+deviceKey | Key of device to get events for.
+
+### Attributes
+
+Parameter | Description
+--------- | -----------
+name | Name of the event. Either Sensor or Location
+data | Event data.
+
+
 ## Get Device Events
 
 ```shell
@@ -499,29 +578,5 @@ page | 0 | First page is 0.
 order | name | Field to sort by. Valid values include name and lastUpdated.
 sort | asc | Either ascending (asc) or descending (desc).
 
-# Ping
 
-```shell
-curl http://localhost:8080/v1/ping \
-	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig"
-```
-
-```javascript
-var WiaSDK = require('wia-sdk')
-var deviceClient = new WiaSDK.DeviceClient('d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig');
-
-deviceClient.ping(
-	function(err) {
-		// asynchronously called
-	}
-);
-
-```
-
-This endpoint allows a device to let the service know it is online. It is not required to use this method when using a stream client. Requires a Device token.
-
-### HTTP Request
-
-`GET https://api.wia.io/v1/ping` or
-`POST https://api.wia.io/v1/ping`
 
