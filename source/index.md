@@ -568,7 +568,7 @@ deviceClient.ping(
 
 ```
 
-This endpoint allows a device to let the service know it is online. It is not required to use this method when using a stream client. Requires a Device token.
+This endpoint allows a device to let the service know it is online. It is not required to use this method when using a stream enabled client. Requires a Device token.
 
 ### HTTP Request
 
