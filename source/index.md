@@ -251,7 +251,7 @@ shell "https://api.wia.io/v1/devices?limit=20"
 var WiaSDK = require('wia-sdk')
 var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
 
-userClient.getDevices(
+userClient.listDevices(
 	{ limit: 20 },
 	function(err, devices) {
 		// asynchronously called
@@ -346,7 +346,7 @@ Not supported
 var WiaSDK = require('wia-sdk');
 var userClient = new WiaSDK.UserClient('u_ksdf8h23dsfg9kdfgn8');
 
-userClient.subscribeToEvents(
+userClient.subscribeToDeviceEvents(
 	"mndsf81knmsd9mndf",
 	function(err) {
 		// asynchronously called
@@ -365,7 +365,7 @@ This endpoint subscribes to device events. Requires a User token.
 `Not supported.`
 
 
-## Get Device Events
+## List Device Events
 
 ```shell
 shell "https://api.wia.io/v1/devices?limit=20"
@@ -376,7 +376,7 @@ shell "https://api.wia.io/v1/devices?limit=20"
 var WiaSDK = require('wia-sdk');
 var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
 
-userClient.getDeviceEvents(
+userClient.listDeviceEvents(
 	"d_9mdflg982jdmdfglw89dfgn",
 	{ limit: 20 },
 	function(err, events) {
