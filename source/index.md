@@ -292,7 +292,6 @@ limit | 20 | Number of devices to return. Max value 200.
 page | 0 | First page is 0.
 order | name | Field to sort by. Valid values include name and lastUpdated.
 sort | asc | Either ascending (asc) or descending (desc).
-isOnline | No Default | If set to false, the device is not online. When a device is online, this is true.
 
 
 ## Get a Device
@@ -446,9 +445,19 @@ shell "https://api.wia.io/v1/"
 var WiaSDK = require('wia-sdk');
 var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg');
 
+> Create a REST only device client
+
+var WiaSDK = require('wia-sdk');
+var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg', {
+		stream: false
+	});
+
 ```
 
-This create a Device client object. Requires a Device token.
+
+This creates a Device client instance. Requires a Device token.
+
+When a Device client instance is created, a stream via MQTT is automatically created. If you do not want this to happen, set the option ```stream``` to ```false```. If you do this, you will be required to manually send ping messages at intervals of up to 30 seconds to let the service know the device is still online.
 
 
 ## Get Current Device
