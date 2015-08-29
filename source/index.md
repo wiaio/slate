@@ -24,7 +24,7 @@ We have client libraries in javascript (more coming soon!). You can view code ex
 > Official libraries
 
 ```
-Node.js - <a href="#">https://github.com/wiaio/wia-nodejs-sdk</a>
+Node.js - https://github.com/wiaio/wia-nodejs-sdk
 ```
 
 ```
