@@ -56,6 +56,8 @@ Wia data are structured around 2 main types of objects: Device and Event. You’
 }
 ```
 
+All devices are made up of the same object structure.
+
 Parameter | Type | Description
 --------- | ----------- | -----------
 deviceKey | String | Unique key of the device
@@ -78,11 +80,13 @@ createdAt | Timestamp | Timestamp of when device was created (optional)
 }
 ```
 
+All events are made up of the same object structure.
+
 Parameter | Type | Description
 --------- | ----------- | -----------
 name | String | Name of the event
 data | Object | Event data
-timestamp | Timestamp | Timestamp of the event (optional)
+timestamp | Timestamp | Timestamp of the event in milliseconds (optional)
 
 
 ### Sensor
@@ -434,18 +438,12 @@ sort | asc | Either ascending (asc) or descending (desc).
 ```shell
 shell "https://api.wia.io/v1/"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
+  
 ```
 
 ```javascript
 var WiaSDK = require('wia-sdk');
 var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg');
-
-> Create a REST only device client
-
-var WiaSDK = require('wia-sdk');
-var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg', {
-	stream: false
-});
 
 ```
 
