@@ -24,11 +24,11 @@ We have client libraries in javascript (more coming soon!). You can view code ex
 > Official libraries
 
 ```
-Node.js - https://github.com/wiaio/wia/wia-nodejs-sdk
+Node.js - <a href="#">https://github.com/wiaio/wia-nodejs-sdk</a>
 ```
 
 ```
-Objective C - https://github.com/wiaio/wia/wia-objective-c-sdk
+Objective C - https://github.com/wiaio/wia-objective-c-sdk
 ```
 
 
@@ -449,8 +449,8 @@ var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg');
 
 var WiaSDK = require('wia-sdk');
 var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg', {
-		stream: false
-	});
+	stream: false
+});
 
 ```
 
