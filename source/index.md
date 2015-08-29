@@ -32,10 +32,16 @@ Objective C - https://github.com/wiaio/wia/wia-objective-c-sdk
 ```
 
 
-> API Endpoint
+> REST API Endpoint
 
 ```
 https://api.wia.io
+```
+
+> MQTT Endpoint
+
+```
+mqtt://mqtt.wia.io (ports 1883 or 8883)
 ```
 
 # Objects
@@ -174,7 +180,7 @@ latitude | Number | Latitude of the location.
 longitude | Number | Longitude of the location.
 
 
-# Authentication
+# Authorization
 
 > To authorize a user, use this code:
 
@@ -185,7 +191,8 @@ curl https://api.wia.io/v1 \
 ```
 
 ```javascript
-var userClient = require('wia-sdk')('u_jsdf812jkdf01kdf');
+var WiaSDK = require('wia-sdk');
+var userClient = new WiaSDK.UserClient('u_jsdf812jkdf01kdf');
 
 ```
 
@@ -198,7 +205,8 @@ curl https://api.wia.io/v1 \
 ```
 
 ```javascript
-var deviceClient = require('wia-sdk')('d_jsdf812jkdf01kdf');
+var WiaSDK = require('wia-sdk');
+var deviceClient = new WiaSDK.DeviceClient('d_jsdf812jkdf01kdf');
 
 ```
 
@@ -223,7 +231,8 @@ shell "https://api.wia.io/v1/devices?limit=20"
 ```
 
 ```javascript
-var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
+var WiaSDK = require('wia-sdk')
+var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDevices(
 	{ limit: 20 },
@@ -276,7 +285,8 @@ shell "https://api.wia.io/v1/devices/jasAj09df9mmdfgh19ldf"
 ```
 
 ```javascript
-var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
+var WiaSDK = require('wia-sdk');
+var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDevice(
 	"jnasdf892knsdfolsd" ,
@@ -318,10 +328,11 @@ shell "https://api.wia.io/v1/devices?limit=20"
 ```
 
 ```javascript
-var deviceClient = require('wia-sdk')('d_8jdflsdf912kasdf2dffg');
+var WiaSDK = require('wia-sdk');
+var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg');
 
 deviceClient.getDeviceMe(
-	function(err, devices) {
+	function(err, device) {
 		// asynchronously called
 	}
 );
@@ -353,7 +364,8 @@ shell "https://api.wia.io/v1/devices?limit=20"
 ```
 
 ```javascript
-var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
+var WiaSDK = require('wia-sdk');
+var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
 
 userClient.createDevice(
 	{ name: "Device Name" },
@@ -369,8 +381,7 @@ userClient.createDevice(
 ```json
 {
 	"deviceKey": "Jas8snj1msdf89k83jdf",
-	"name": "Device One",
-	"online": true
+	"name": "Device One"
 }
 ```
 
@@ -395,7 +406,8 @@ shell "https://api.wia.io/v1/devices?limit=20"
 ```
 
 ```javascript
-var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
+var WiaSDK = require('wia-sdk');
+var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
 
 userClient.deleteDevice(
 	"asd9mnSL9mdf01m",
@@ -406,15 +418,8 @@ userClient.deleteDevice(
 
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns status 200 when a device has been deleted.
 
-```json
-{
-	"deviceKey": "Jas8snj1msdf89k83jdf",
-	"name": "Device One",
-	"online": true
-}
-```
 
 This endpoint deletes a device. Requires a User token.
 
@@ -437,7 +442,8 @@ shell "https://api.wia.io/v1/devices?limit=20"
 ```
 
 ```javascript
-var userClient = require('wia-sdk')('u_8jdflsdf912kasdf2dffg');
+var WiaSDK = require('wia-sdk');
+var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
 
 userClient.getDeviceEvents(
 	"d_9mdflg982jdmdfglw89dfgn",
@@ -501,9 +507,10 @@ curl http://localhost:8080/v1/ping \
 ```
 
 ```javascript
-var deviceClient = require('wia-sdk')('d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig');
+var WiaSDK = require('wia-sdk')
+var deviceClient = new WiaSDK.DeviceClient('d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig');
 
-userClient.ping(
+deviceClient.ping(
 	function(err) {
 		// asynchronously called
 	}
