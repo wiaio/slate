@@ -19,18 +19,13 @@ search: true
 
 Welcome to the Wia Documentation! You can use our API to access Wia API endpoints, which can get information on devices, events and users.
 
-We have client libraries in javascript (more coming soon!). You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have client libraries in Node.js (more coming soon!). You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 > Official libraries
 
 ```
 Node.js - https://github.com/wiaio/wia-nodejs-sdk
 ```
-
-```
-Objective C - https://github.com/wiaio/wia-objective-c-sdk
-```
-
 
 > REST API Endpoint
 
