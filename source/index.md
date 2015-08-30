@@ -224,22 +224,52 @@ Wia expects the access token to be included in all API requests to the server in
 
 ## Constructor
 
+> Definition
+
 ```shell
-shell "https://api.wia.io/v1/devices?limit=20"
+shell "https://api.wia.io/v1"
+  -H "Authorization: Bearer USER_TOKEN"
+  
+```
+
+```javascript
+
+UserClient(userToken, options);
+
+```
+
+> Example Request
+
+```shell
+shell "https://api.wia.io/v1"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
   
 ```
 
 ```javascript
 var WiaSDK = require('wia-sdk')
-var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
+var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg', {
+	stream: true,
+	secure: true
+});
 
 ```
 
-This create a User client object. Requires a User token.
+This creates a User client object which can be used to make request to User methods. Requires a User token.
+
+It is not required to pass the options variable, if you do, the following options are available.
+
+List of options
+
+Parameter | Type | Default | Description
+--------- | ----------- | ----------- | -----------
+stream | Boolean | true | Whether to use stream or not. Setting this to false may restrict the use of methods like subscribing to events.
+secure | Boolean | true | Whether to use a secure connection, for either stream or REST requests.
 
 
 ## List Devices
+
+> Example Request
 
 ```shell
 shell "https://api.wia.io/v1/devices?limit=20"
@@ -254,13 +284,14 @@ var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
 userClient.listDevices(
 	{ limit: 20 },
 	function(err, devices) {
-		// asynchronously called
+		if (err) console.log(err);
+		if (devices) console.log(devices);
 	}
 );
 
 ```
 
-> The above command returns JSON structured like this:
+> Example Response
 
 ```json
 [
@@ -295,6 +326,8 @@ sort | asc | Either ascending (asc) or descending (desc).
 
 ## Get a Device
 
+> Example Request
+
 ```shell
 shell "https://api.wia.io/v1/devices/jasAj09df9mmdfgh19ldf"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
@@ -313,7 +346,7 @@ userClient.getDevice(
 
 ```
 
-> The above command returns JSON structured like this:
+> Example Response
 
 ```json
 {
@@ -338,6 +371,8 @@ deviceKey | The key of the device to retrieve.
 
 ## Subscribe to Device Events
 
+> Example
+
 ```shell
 Not supported
 ```
@@ -348,14 +383,14 @@ var userClient = new WiaSDK.UserClient('u_ksdf8h23dsfg9kdfgn8');
 
 userClient.subscribeToDeviceEvents(
 	"mndsf81knmsd9mndf",
-	function(err) {
+	function(err, event) {
 		// asynchronously called
 	}
 );
 
 ```
 
-> The above command returns status 200 OK when event has been created.
+> The above command returns an Event object when one has been received.
 
 This endpoint subscribes to device events. Requires a User token.
 
@@ -366,6 +401,8 @@ This endpoint subscribes to device events. Requires a User token.
 
 
 ## List Device Events
+
+> Example Request
 
 ```shell
 shell "https://api.wia.io/v1/devices?limit=20"
@@ -386,7 +423,7 @@ userClient.listDeviceEvents(
 
 ```
 
-> The above command returns JSON structured like this:
+> Example Response
 
 ```json
 [
@@ -435,18 +472,35 @@ sort | asc | Either ascending (asc) or descending (desc).
 # Device
 
 ## Constructor
+
+
+> Definition
+
+```shell
+shell "https://api.wia.io/v1"
+  -H "Authorization: Bearer DEVICE_TOKEN"
+  
+```
+
+```javascript
+
+DeviceClient(deviceToken, options);
+
+```
+
+> Example Request
+
 ```shell
 shell "https://api.wia.io/v1/"
-  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
+  -H "Authorization: Bearer d_kasd9ldsjsdf823fgdfgwdfdfs"
   
 ```
 
 ```javascript
 var WiaSDK = require('wia-sdk');
-var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg');
+var deviceClient = new WiaSDK.DeviceClient('d_kasd9ldsjsdf823fgdfgwdfdfs');
 
 ```
-
 
 This creates a Device client instance. Requires a Device token.
 
@@ -454,6 +508,8 @@ When a Device client instance is created, a stream via MQTT is automatically cre
 
 
 ## Get Current Device
+
+> Example Request
 
 ```shell
 shell "https://api.wia.io/v1/devices?limit=20"
@@ -472,7 +528,7 @@ deviceClient.getDeviceMe(
 
 ```
 
-> The above command returns JSON structured like this:
+> Example Response
 
 ```json
 {
@@ -489,6 +545,8 @@ This endpoint retrieves the current device. Requires a Device token.
 `GET https://api.wia.io/v1/devices/me`
 
 ## Publish a Device Event
+
+> Example Request
 
 ```shell
 curl http://localhost:8080/v1/devices/:deviceKey/events \
@@ -544,6 +602,8 @@ data | Event data.
 
 ## Send a Ping
 
+> Example Request
+
 ```shell
 curl http://localhost:8080/v1/ping \
 	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig"
@@ -560,6 +620,9 @@ deviceClient.ping(
 );
 
 ```
+
+> The above command returns status 200 OK when a ping has been received.
+
 
 This endpoint allows a device to let the service know it is online. It is not required to use this method when using a stream enabled client. Requires a Device token.
 
