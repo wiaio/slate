@@ -405,7 +405,7 @@ This endpoint subscribes to device events. Requires a User token.
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices?limit=20"
+shell "https://api.wia.io/v1/devices/9mdflg982jdmdfglw89dfgn/events?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
@@ -414,7 +414,7 @@ var WiaSDK = require('wia-sdk');
 var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
 
 userClient.listDeviceEvents(
-	"d_9mdflg982jdmdfglw89dfgn",
+	"9mdflg982jdmdfglw89dfgn",
 	{ limit: 20 },
 	function(err, events) {
 		// asynchronously called
@@ -549,7 +549,7 @@ This endpoint retrieves the current device. Requires a Device token.
 > Example Request
 
 ```shell
-curl http://localhost:8080/v1/devices/:deviceKey/events \
+curl http://localhost:8080/v1/events \
 	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig" \
 	-H "Content-Type: application/json" \
 	-X POST -d '{"name":"Sensor","data":{"temperature":34.5}}'
@@ -584,7 +584,7 @@ This endpoint publishes an event. Requires a Device token.
 
 ### HTTP Request
 
-`POST https://api.wia.io/v1/devices/:deviceKey/events`
+`POST https://api.wia.io/v1/events`
 
 ### URL Parameters
 
