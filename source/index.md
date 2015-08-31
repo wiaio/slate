@@ -399,6 +399,36 @@ This endpoint subscribes to device events. Requires a User token.
 
 `Not supported.`
 
+## Unsubscribe to Device Events
+
+> Example
+
+```shell
+Not supported
+```
+
+```javascript
+var WiaSDK = require('wia-sdk');
+var userClient = new WiaSDK.UserClient('u_ksdf8h23dsfg9kdfgn8');
+
+userClient.unsubscribeToDeviceEvents(
+	"mndsf81knmsd9mndf",
+	function(err, event) {
+		// asynchronously called
+	}
+);
+
+```
+
+> The above command returns an Event object when one has been received.
+
+This endpoint unsubscribes to device events. Requires a User token.
+
+
+### HTTP Request
+
+`Not supported.`
+
 
 ## List Device Events
 
