@@ -399,7 +399,7 @@ This endpoint subscribes to device events. Requires a User token.
 
 `Not supported.`
 
-## Unsubscribe to Device Events
+## Unsubscribe from Device Events
 
 > Example
 
@@ -422,7 +422,7 @@ userClient.unsubscribeToDeviceEvents(
 
 > The above command returns an Event object when one has been received.
 
-This endpoint unsubscribes to device events. Requires a User token.
+This endpoint unsubscribes from device events. Requires a User token.
 
 
 ### HTTP Request
