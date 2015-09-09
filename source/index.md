@@ -141,9 +141,9 @@ List of permitted data key-value pairs for a Sensor event.
 Parameter | Type | Unit | Description
 --------- | ---- | ---- | -----------
 objectTemperature | Number | Celsius | Temperature of object.
-ambientTemperature (or temperature) | Number | Celsius | Ambient temperature.
+ambientTemperature | Number | Celsius | Ambient temperature.
 absoluteHumidity | Number | Percentage | Absolute humidity.
-relativeHumidity (or humidity) | Number | Percentage | Relative humidity.
+relativeHumidity | Number | Percentage | Relative humidity.
 specificHumidity | Number | Percentage | Specific humidity.
 gyroscope | Object | Radian per second (rad/s) | Gyroscope. Use keys x, y and z.
 accelerometer | Object | Metre per second squared (m/s2) | Accelerometer. Use keys x, y and z.
@@ -152,7 +152,7 @@ magnetometer | Object | Microtesla (μT) | Magnetometer. Use keys x, y and z.
 gravity | Object | Metre per second squared (m/s2) | Gravity. Use keys x, y and z.
 light | Number | Lux (lx) | Light.
 proximity | Number | Centimeters (cm) | Proximity.
-heartRate | Number | Beat per minute (BPM) Heart rate.
+heartRate | Number | Beat per minute (BPM) | Heart rate.
 orientation | Object | Degrees (°) | Orientation. Use keys x, y and z.
 
 
@@ -229,7 +229,7 @@ Wia expects the access token to be included in all API requests to the server in
 ```shell
 shell "https://api.wia.io/v1"
   -H "Authorization: Bearer USER_TOKEN"
-  
+
 ```
 
 ```javascript
@@ -243,7 +243,7 @@ UserClient(userToken, options);
 ```shell
 shell "https://api.wia.io/v1"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
-  
+
 ```
 
 ```javascript
@@ -274,7 +274,7 @@ secure | Boolean | true | Whether to use a secure connection, for either stream 
 ```shell
 shell "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
-  
+
 ```
 
 ```javascript
@@ -509,7 +509,7 @@ sort | asc | Either ascending (asc) or descending (desc).
 ```shell
 shell "https://api.wia.io/v1"
   -H "Authorization: Bearer DEVICE_TOKEN"
-  
+
 ```
 
 ```javascript
@@ -523,7 +523,7 @@ DeviceClient(deviceToken, options);
 ```shell
 shell "https://api.wia.io/v1/"
   -H "Authorization: Bearer d_kasd9ldsjsdf823fgdfgwdfdfs"
-  
+
 ```
 
 ```javascript
@@ -598,7 +598,7 @@ deviceClient.publishEvent(
 			x: 0.34,
 			y: 0.67,
 			z: 0.24
-		}	
+		}
 	},
 	function(err) {
 		// asynchronously called
@@ -660,4 +660,3 @@ This endpoint allows a device to let the service know it is online. It is not re
 
 `GET https://api.wia.io/v1/ping` or
 `POST https://api.wia.io/v1/ping`
-
