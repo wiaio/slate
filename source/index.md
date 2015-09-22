@@ -227,7 +227,7 @@ Wia expects the access token to be included in all API requests to the server in
 > Definition
 
 ```shell
-shell "https://api.wia.io/v1"
+curl "https://api.wia.io/v1"
   -H "Authorization: Bearer USER_TOKEN"
 
 ```
@@ -241,7 +241,7 @@ UserClient(userToken, options);
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1"
+curl "https://api.wia.io/v1"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 
 ```
@@ -272,7 +272,7 @@ secure | Boolean | true | Whether to use a secure connection, for either stream 
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices?limit=20"
+curl "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 
 ```
@@ -329,7 +329,7 @@ sort | asc | Either ascending (asc) or descending (desc).
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices/jasAj09df9mmdfgh19ldf"
+curl "https://api.wia.io/v1/devices/jasAj09df9mmdfgh19ldf"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
@@ -435,7 +435,7 @@ This endpoint unsubscribes from device events. Requires a User token.
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices/9mdflg982jdmdfglw89dfgn/events?limit=20"
+curl "https://api.wia.io/v1/devices/9mdflg982jdmdfglw89dfgn/events?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
@@ -507,7 +507,7 @@ sort | asc | Either ascending (asc) or descending (desc).
 > Definition
 
 ```shell
-shell "https://api.wia.io/v1"
+curl "https://api.wia.io/v1"
   -H "Authorization: Bearer DEVICE_TOKEN"
 
 ```
@@ -521,7 +521,7 @@ DeviceClient(deviceToken, options);
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/"
+curl "https://api.wia.io/v1/"
   -H "Authorization: Bearer d_kasd9ldsjsdf823fgdfgwdfdfs"
 
 ```
@@ -542,7 +542,7 @@ When a Device client instance is created, a stream via MQTT is automatically cre
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices?limit=20"
+curl "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
@@ -579,7 +579,7 @@ This endpoint retrieves the current device. Requires a Device token.
 > Example Request
 
 ```shell
-curl http://localhost:8080/v1/events \
+curl https://api.wia.io/v1/events \
 	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig" \
 	-H "Content-Type: application/json" \
 	-X POST -d '{"name":"Sensor","data":{"temperature":34.5}}'
@@ -635,7 +635,7 @@ data | Event data.
 > Example Request
 
 ```shell
-curl http://localhost:8080/v1/ping \
+curl https://api.wia.io/v1/ping \
 	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig"
 ```
 
