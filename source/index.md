@@ -89,7 +89,12 @@ data | Object | Event data
 timestamp | Timestamp | Timestamp of the event in milliseconds (optional)
 
 
-### Sensor
+### Reserved Events
+A number of event names are reserved. This means that they must use particular data type names and only those names will be supported.
+
+At the moment this is just for "Sensor" and "Location" events.
+
+#### Sensor
 
 > Example of a Sensor Event object
 
@@ -155,8 +160,7 @@ proximity | Number | Centimeters (cm) | Proximity.
 heartRate | Number | Beat per minute (BPM) | Heart rate.
 orientation | Object | Degrees (°) | Orientation. Use keys x, y and z.
 
-
-### Location
+#### Location
 
 > Example of a Location Event object
 
@@ -165,7 +169,11 @@ orientation | Object | Degrees (°) | Orientation. Use keys x, y and z.
 	"name": "Location",
 	"data": {
 		"latitude": 54.60247,
-		"longitude": -5.92717
+    "longitude": -5.92717,
+    "altitude": 30,
+    "speed": 29.5,
+    "heading": 94,
+    "climb": 3
 	},
 	"timestamp": 1440597871
 }
@@ -173,11 +181,14 @@ orientation | Object | Degrees (°) | Orientation. Use keys x, y and z.
 
 List of permitted data key-value pairs for a Location event.
 
-Parameter | Type | Description
---------- | ----------- | -----------
-latitude | Number | Latitude of the location.
-longitude | Number | Longitude of the location.
-
+Parameter | Type | Unit | Description
+--------- | ---- | ---- | -----------
+latitude | Number | - | Latitude of the location.
+longitude | Number | - | Longitude of the location.
+altitude | Number | Feet (ft) | Altitude.
+speed | Number | Miles per hour (mph) | Speed.
+heading | Number | Degrees (°) | Direction.
+climb | Number | Feet per minute (mph) | Climb.
 
 # Authorization
 
@@ -227,7 +238,7 @@ Wia expects the access token to be included in all API requests to the server in
 > Definition
 
 ```shell
-curl "https://api.wia.io/v1"
+shell "https://api.wia.io/v1"
   -H "Authorization: Bearer USER_TOKEN"
 
 ```
@@ -241,7 +252,7 @@ UserClient(userToken, options);
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1"
+shell "https://api.wia.io/v1"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 
 ```
@@ -272,7 +283,7 @@ secure | Boolean | true | Whether to use a secure connection, for either stream 
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/devices?limit=20"
+shell "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 
 ```
@@ -329,7 +340,7 @@ sort | asc | Either ascending (asc) or descending (desc).
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/devices/jasAj09df9mmdfgh19ldf"
+shell "https://api.wia.io/v1/devices/jasAj09df9mmdfgh19ldf"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
@@ -435,7 +446,7 @@ This endpoint unsubscribes from device events. Requires a User token.
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/devices/9mdflg982jdmdfglw89dfgn/events?limit=20"
+shell "https://api.wia.io/v1/devices/9mdflg982jdmdfglw89dfgn/events?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
@@ -507,7 +518,7 @@ sort | asc | Either ascending (asc) or descending (desc).
 > Definition
 
 ```shell
-curl "https://api.wia.io/v1"
+shell "https://api.wia.io/v1"
   -H "Authorization: Bearer DEVICE_TOKEN"
 
 ```
@@ -521,7 +532,7 @@ DeviceClient(deviceToken, options);
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/"
+shell "https://api.wia.io/v1/"
   -H "Authorization: Bearer d_kasd9ldsjsdf823fgdfgwdfdfs"
 
 ```
@@ -542,7 +553,7 @@ When a Device client instance is created, a stream via MQTT is automatically cre
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/devices?limit=20"
+shell "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
@@ -579,7 +590,7 @@ This endpoint retrieves the current device. Requires a Device token.
 > Example Request
 
 ```shell
-curl https://api.wia.io/v1/events \
+curl http://localhost:8080/v1/events \
 	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig" \
 	-H "Content-Type: application/json" \
 	-X POST -d '{"name":"Sensor","data":{"temperature":34.5}}'
@@ -635,7 +646,7 @@ data | Event data.
 > Example Request
 
 ```shell
-curl https://api.wia.io/v1/ping \
+curl http://localhost:8080/v1/ping \
 	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig"
 ```
 
