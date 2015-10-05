@@ -230,11 +230,8 @@ Wia expects the access token to be included in all API requests to the server in
 
 <aside class="warning">Some requests are user or device specific. If you are not using the correct type of token, you will get a 401 Unauthorized response.</aside>
 
-
-# User
-
-## Constructor
-
+# Clients
+## User Client
 > Definition
 
 ```shell
@@ -277,9 +274,74 @@ Parameter | Type | Default | Description
 stream | Boolean | true | Whether to use stream or not. Setting this to false may restrict the use of methods like subscribing to events.
 secure | Boolean | true | Whether to use a secure connection, for either stream or REST requests.
 
+## Device Client
+> Definition
+
+```shell
+shell "https://api.wia.io/v1"
+  -H "Authorization: Bearer DEVICE_TOKEN"
+
+```
+
+```javascript
+
+DeviceClient(deviceToken, options);
+
+```
+
+> Example Request
+
+```shell
+shell "https://api.wia.io/v1/"
+  -H "Authorization: Bearer d_kasd9ldsjsdf823fgdfgwdfdfs"
+
+```
+
+```javascript
+var WiaSDK = require('wia-sdk');
+var deviceClient = new WiaSDK.DeviceClient('d_kasd9ldsjsdf823fgdfgwdfdfs');
+
+```
+
+This creates a Device client instance. Requires a Device token.
+
+When a Device client instance is created, a stream via MQTT is automatically created. If you do not want this to happen, set the option ```stream``` to ```false```. If you do this, you will be required to manually send ping messages at intervals of up to 30 seconds to let the service know the device is still online.
+
+
+# Devices
+## Create a Device
+> Example Request
+
+```shell
+shell "https://api.wia.io/v1/devices"
+  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs" \
+  -H "Content-Type: application/json" \
+  -X POST -d '{"name":"My first device"}'
+```
+
+> Example Response
+
+```json
+{
+  "deviceKey": "Jas8snj1msdf89k83jdf",
+  "name": "Device One",
+  "createdAt": 1444062135000
+}
+```
+
+This endpoint creates a device. Requires a User token.
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/devices`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+name | Name of the device to be created
 
 ## List Devices
-
 > Example Request
 
 ```shell
@@ -334,22 +396,20 @@ page | 0 | First page is 0.
 order | name | Field to sort by. Valid values include name and lastUpdated.
 sort | asc | Either ascending (asc) or descending (desc).
 
-
-## Get a Device
+## Retrieve Current Device
 
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices/jasAj09df9mmdfgh19ldf"
+shell "https://api.wia.io/v1/devices?limit=20"
   -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
 ```javascript
 var WiaSDK = require('wia-sdk');
-var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
+var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg');
 
-userClient.getDevice(
-	"jnasdf892knsdfolsd" ,
+deviceClient.getDeviceMe(
 	function(err, device) {
 		// asynchronously called
 	}
@@ -367,79 +427,11 @@ userClient.getDevice(
 }
 ```
 
-This endpoint retrieves a specific device. Requires a User token.
+This endpoint retrieves the current device. Requires a Device token.
 
 ### HTTP Request
 
-`GET https://api.wia.io/v1/devices/:deviceKey`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-deviceKey | The key of the device to retrieve.
-
-
-## Subscribe to Device Events
-
-> Example
-
-```shell
-Not supported
-```
-
-```javascript
-var WiaSDK = require('wia-sdk');
-var userClient = new WiaSDK.UserClient('u_ksdf8h23dsfg9kdfgn8');
-
-userClient.subscribeToDeviceEvents(
-	"mndsf81knmsd9mndf",
-	function(err, event) {
-		// asynchronously called
-	}
-);
-
-```
-
-> The above command returns an Event object when one has been received.
-
-This endpoint subscribes to device events. Requires a User token.
-
-
-### HTTP Request
-
-`Not supported.`
-
-## Unsubscribe from Device Events
-
-> Example
-
-```shell
-Not supported
-```
-
-```javascript
-var WiaSDK = require('wia-sdk');
-var userClient = new WiaSDK.UserClient('u_ksdf8h23dsfg9kdfgn8');
-
-userClient.unsubscribeToDeviceEvents(
-	"mndsf81knmsd9mndf",
-	function(err, event) {
-		// asynchronously called
-	}
-);
-
-```
-
-> The above command returns an Event object when one has been received.
-
-This endpoint unsubscribes from device events. Requires a User token.
-
-
-### HTTP Request
-
-`Not supported.`
-
+`GET https://api.wia.io/v1/devices/me`
 
 ## List Device Events
 
@@ -510,81 +502,7 @@ sort | asc | Either ascending (asc) or descending (desc).
 
 
 
-# Device
-
-## Constructor
-
-
-> Definition
-
-```shell
-shell "https://api.wia.io/v1"
-  -H "Authorization: Bearer DEVICE_TOKEN"
-
-```
-
-```javascript
-
-DeviceClient(deviceToken, options);
-
-```
-
-> Example Request
-
-```shell
-shell "https://api.wia.io/v1/"
-  -H "Authorization: Bearer d_kasd9ldsjsdf823fgdfgwdfdfs"
-
-```
-
-```javascript
-var WiaSDK = require('wia-sdk');
-var deviceClient = new WiaSDK.DeviceClient('d_kasd9ldsjsdf823fgdfgwdfdfs');
-
-```
-
-This creates a Device client instance. Requires a Device token.
-
-When a Device client instance is created, a stream via MQTT is automatically created. If you do not want this to happen, set the option ```stream``` to ```false```. If you do this, you will be required to manually send ping messages at intervals of up to 30 seconds to let the service know the device is still online.
-
-
-## Get Current Device
-
-> Example Request
-
-```shell
-shell "https://api.wia.io/v1/devices?limit=20"
-  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
-```
-
-```javascript
-var WiaSDK = require('wia-sdk');
-var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg');
-
-deviceClient.getDeviceMe(
-	function(err, device) {
-		// asynchronously called
-	}
-);
-
-```
-
-> Example Response
-
-```json
-{
-	"deviceKey": "Jas8snj1msdf89k83jdf",
-	"name": "Device One",
-	"online": true
-}
-```
-
-This endpoint retrieves the current device. Requires a Device token.
-
-### HTTP Request
-
-`GET https://api.wia.io/v1/devices/me`
-
+# Events
 ## Publish a Device Event
 
 > Example Request
@@ -640,6 +558,64 @@ Parameter | Description
 name | Name of the event. Either Sensor or Location
 data | Event data.
 
+## Subscribe to Device Events
+
+> Example
+
+```shell
+Not supported
+```
+
+```javascript
+var WiaSDK = require('wia-sdk');
+var userClient = new WiaSDK.UserClient('u_ksdf8h23dsfg9kdfgn8');
+
+userClient.subscribeToDeviceEvents(
+	"mndsf81knmsd9mndf",
+	function(err, event) {
+		// asynchronously called
+	}
+);
+
+```
+
+> The above command returns an Event object when one has been received.
+
+This endpoint subscribes to device events. Requires a User token.
+
+
+### HTTP Request
+
+`Not supported.`
+
+## Unsubscribe from Device Events
+
+> Example
+
+```shell
+Not supported
+```
+
+```javascript
+var WiaSDK = require('wia-sdk');
+var userClient = new WiaSDK.UserClient('u_ksdf8h23dsfg9kdfgn8');
+
+userClient.unsubscribeToDeviceEvents(
+	"mndsf81knmsd9mndf",
+	function(err, event) {
+		// asynchronously called
+	}
+);
+
+```
+
+> The above command returns an Event object when one has been received.
+
+This endpoint unsubscribes from device events. Requires a User token.
+
+### HTTP Request
+
+`Not supported.`
 
 ## Send a Ping
 
@@ -671,3 +647,44 @@ This endpoint allows a device to let the service know it is online. It is not re
 
 `GET https://api.wia.io/v1/ping` or
 `POST https://api.wia.io/v1/ping`
+
+# User
+## Retrieve Current User
+
+> Example Request
+
+```shell
+shell "https://api.wia.io/v1/users/me"
+  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
+```
+
+```javascript
+var WiaSDK = require('wia-sdk');
+var userClient = new WiaSDK.UserClient('u_gh9dfmsdflkasdf2dffg');
+
+userClient.getUserMe(
+	function(err, user) {
+		// asynchronously called
+	}
+);
+
+```
+
+> Example Response
+
+```json
+{
+  "userKey": "jhdfg8ndfglk",
+  "username": "elliot@fsociety.com",
+  "firstName": "Elliot",
+  "lastName": "Alderson",
+  "fullName": "Elliot Alderson",
+  "createdAt": 1444063382000
+}
+```
+
+This endpoint retrieves the currently authenticated user. Requires a User token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/users/me`
