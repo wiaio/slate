@@ -371,12 +371,12 @@ userClient.listDevices(
   {
     "deviceKey": "Jas8snj1msdf89k83jdf",
     "name": "Device One",
-    "online": true
+    "isOnline": true
   },
   {
     "deviceKey": "Jas8snj1msdf89k83jdf",
     "name": "Device Two",
-    "online": false
+    "isOnline": false
   }
 ]
 ```
@@ -503,15 +503,15 @@ sort | asc | Either ascending (asc) or descending (desc).
 
 
 # Events
-## Publish a Device Event
+## Publish an Event
 
 > Example Request
 
 ```shell
-curl http://localhost:8080/v1/events \
+curl https://api.wia.io/v1/events \
 	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig" \
 	-H "Content-Type: application/json" \
-	-X POST -d '{"name":"Sensor","data":{"temperature":34.5}}'
+	-X POST -d '{"name":"Sensor","data":{"ambientTemperature":24.5}}'
 ```
 
 ```javascript
@@ -521,7 +521,7 @@ var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg');
 deviceClient.publishEvent(
 	"Sensor",
 	{
-		temperature: 34.5,
+		ambientTemperature: 34.5,
 		humidity: 67.4,
 		gyroscope: {
 			x: 0.34,
@@ -557,6 +557,58 @@ Parameter | Description
 --------- | -----------
 name | Name of the event. Either Sensor or Location
 data | Event data.
+
+## List all events
+
+> Example Request
+
+```shell
+curl https://api.wia.io/v1/events \
+	-H "Authorization: Bearer u_0123456789abcdef"
+```
+
+```javascript
+var WiaSDK = require('wia-sdk');
+var userClient = new WiaSDK.DeviceClient('u_0123456789abcdef');
+
+userClient.listEvents({
+		ambientTemperature: 34.5,
+		humidity: 67.4
+	},
+	function(err, events) {
+		// asynchronously called
+	}
+);
+
+```
+
+> The above command returns status 200 OK when event has been created.
+
+This endpoint publishes an event. Requires a User token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/events`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+name | Name of event.
+limit | Number of events to return.
+page | Page of events to return.
+fromTimestamp | From timestamp in milliseconds.
+toTimestamp | To timestamp in milliseconds.
+deviceKey | Key of device to get events for.
+
+
+### Attributes
+
+Parameter | Description
+--------- | -----------
+name | Name of the event. Either Sensor or Location
+data | Event data.
+
 
 ## Subscribe to Device Events
 
