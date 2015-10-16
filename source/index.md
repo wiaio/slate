@@ -201,8 +201,8 @@ curl https://api.wia.io/v1 \
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk');
-var userClient = new WiaSDK.UserClient('u_jsdf812jkdf01kdf');
+var Wia = require('wia');
+var userClient = new Wia.UserClient('u_jsdf812jkdf01kdf');
 
 ```
 
@@ -215,8 +215,8 @@ curl https://api.wia.io/v1 \
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk');
-var deviceClient = new WiaSDK.DeviceClient('d_jsdf812jkdf01kdf');
+var Wia = require('wia');
+var deviceClient = new Wia.DeviceClient('d_jsdf812jkdf01kdf');
 
 ```
 
@@ -255,8 +255,8 @@ shell "https://api.wia.io/v1"
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk')
-var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg', {
+var Wia = require('wia')
+var userClient = new Wia.UserClient('u_8jdflsdf912kasdf2dffg', {
 	stream: true,
 	secure: true
 });
@@ -298,8 +298,8 @@ shell "https://api.wia.io/v1/"
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk');
-var deviceClient = new WiaSDK.DeviceClient('d_kasd9ldsjsdf823fgdfgwdfdfs');
+var Wia = require('wia');
+var deviceClient = new Wia.DeviceClient('d_kasd9ldsjsdf823fgdfgwdfdfs');
 
 ```
 
@@ -351,8 +351,8 @@ shell "https://api.wia.io/v1/devices?limit=20"
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk')
-var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
+var Wia = require('wia')
+var userClient = new Wia.UserClient('u_8jdflsdf912kasdf2dffg');
 
 userClient.listDevices(
 	{ limit: 20 },
@@ -406,8 +406,8 @@ shell "https://api.wia.io/v1/devices?limit=20"
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk');
-var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg');
+var Wia = require('wia');
+var deviceClient = new Wia.DeviceClient('d_8jdflsdf912kasdf2dffg');
 
 deviceClient.getDeviceMe(
 	function(err, device) {
@@ -443,8 +443,8 @@ shell "https://api.wia.io/v1/devices/9mdflg982jdmdfglw89dfgn/events?limit=20"
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk');
-var userClient = new WiaSDK.UserClient('u_8jdflsdf912kasdf2dffg');
+var Wia = require('wia');
+var userClient = new Wia.UserClient('u_8jdflsdf912kasdf2dffg');
 
 userClient.listDeviceEvents(
 	"9mdflg982jdmdfglw89dfgn",
@@ -515,8 +515,8 @@ curl https://api.wia.io/v1/events \
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk');
-var deviceClient = new WiaSDK.DeviceClient('d_8jdflsdf912kasdf2dffg');
+var Wia = require('wia');
+var deviceClient = new Wia.DeviceClient('d_8jdflsdf912kasdf2dffg');
 
 deviceClient.publishEvent(
 	"Sensor",
@@ -568,8 +568,8 @@ curl https://api.wia.io/v1/events \
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk');
-var userClient = new WiaSDK.DeviceClient('u_0123456789abcdef');
+var Wia = require('wia');
+var userClient = new Wia.UserClient('u_0123456789abcdef');
 
 userClient.listEvents({
 		ambientTemperature: 34.5,
@@ -619,8 +619,8 @@ Not supported
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk');
-var userClient = new WiaSDK.UserClient('u_ksdf8h23dsfg9kdfgn8');
+var Wia = require('wia');
+var userClient = new Wia.UserClient('u_ksdf8h23dsfg9kdfgn8');
 
 userClient.subscribeToDeviceEvents(
 	"mndsf81knmsd9mndf",
@@ -649,8 +649,8 @@ Not supported
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk');
-var userClient = new WiaSDK.UserClient('u_ksdf8h23dsfg9kdfgn8');
+var Wia = require('wia');
+var userClient = new Wia.UserClient('u_ksdf8h23dsfg9kdfgn8');
 
 userClient.unsubscribeToDeviceEvents(
 	"mndsf81knmsd9mndf",
@@ -679,8 +679,8 @@ curl http://localhost:8080/v1/ping \
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk')
-var deviceClient = new WiaSDK.DeviceClient('d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig');
+var Wia = require('wia')
+var deviceClient = new Wia.DeviceClient('d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig');
 
 deviceClient.ping(
 	function(err) {
@@ -700,6 +700,168 @@ This endpoint allows a device to let the service know it is online. It is not re
 `GET https://api.wia.io/v1/ping` or
 `POST https://api.wia.io/v1/ping`
 
+
+# Commands
+## Run a Command
+> Example Request
+
+```shell
+shell "https://api.wia.io/v1/devices/92nkdng9mkdfg0mdfg/commands/helloCommand/run"
+  -H "Authorization: Bearer u_abcdef0123456789" \
+  -H "Content-Type: application/json" \
+  -X POST
+```
+
+```javascript
+var Wia = require('wia');
+var userClient = new Wia.UserClient('u_0123456789abcdef');
+
+userClient.runCommand("myFirstDevice", "helloCommand",
+	function(err) {
+		// asynchronously called
+	}
+);
+
+```
+
+> Example Response
+
+```
+200 OK
+```
+
+This endpoint runs a command on a device. Requires a User token.
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/devices/:deviceKey/commands/:commandName/run`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+deviceKey | Key of the device
+commandName | Name of the command to be run
+
+
+## Register a Command
+> Example Request
+
+```shell
+shell "https://api.wia.io/v1/commands/register"
+  -H "Authorization: Bearer d_0123456789abcdef" \
+  -H "Content-Type: application/json" \
+  -X POST -d '{"name":"commandName"}'
+```
+
+```javascript
+var Wia = require('wia');
+var deviceClient = new Wia.DeviceClient('d_0123456789abcdef');
+
+deviceClient.registerCommand("helloCommand",
+	function(data) {
+    // Function to run
+		// asynchronously called
+	}
+);
+
+```
+
+> Example Response
+
+```json
+{
+  "name": "helloCommand",
+  "isEnabled": true,
+  "enabledAt": 1444995277000,
+  "createdAt": 1444995244000,
+  "updatedAt": 1444995277000
+}
+```
+
+This endpoint register a command for a device. Requires a Device token.
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/commands/register`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+name | Name of the command to be registered
+
+
+## Deregister a Command
+> Example Request
+
+```shell
+shell "https://api.wia.io/v1/commands/deregister"
+  -H "Authorization: Bearer d_0123456789abcdef" \
+  -H "Content-Type: application/json" \
+  -X PUT -d '{"name":"commandName"}'
+```
+
+```javascript
+var Wia = require('wia');
+var deviceClient = new Wia.DeviceClient('d_0123456789abcdef');
+
+deviceClient.deregisterCommand("helloCommand");
+
+```
+
+> Example Response
+
+```json
+200 OK
+```
+
+This endpoint deregisters a command for a device. Requires a Device token.
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/commands/deregister`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+name | Name of the command to be deregistered
+
+
+## Deregisters All Commands
+> Example Request
+
+```shell
+shell "https://api.wia.io/v1/commands/deregisterAll"
+  -H "Authorization: Bearer d_0123456789abcdef" \
+  -X PUT
+```
+
+```javascript
+var Wia = require('wia');
+var deviceClient = new Wia.DeviceClient('d_0123456789abcdef');
+
+deviceClient.deregisterAllCommands();
+
+```
+
+> Example Response
+
+```json
+200 OK
+```
+
+This endpoint deregisters all commands for a device. Requires a Device token.
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/commands/deregisterAll`
+
+### URL Parameters
+
+No URL Parameters
+
 # User
 ## Retrieve Current User
 
@@ -711,8 +873,8 @@ shell "https://api.wia.io/v1/users/me"
 ```
 
 ```javascript
-var WiaSDK = require('wia-sdk');
-var userClient = new WiaSDK.UserClient('u_gh9dfmsdflkasdf2dffg');
+var Wia = require('wia');
+var userClient = new Wia.UserClient('u_gh9dfmsdflkasdf2dffg');
 
 userClient.getUserMe(
 	function(err, user) {
