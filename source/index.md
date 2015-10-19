@@ -3,11 +3,11 @@ title: Wia Documentation
 
 language_tabs:
   - shell: curl
-  - javascript: Node
+  - javascript: Node.js
 
 toc_footers:
-  - <a href='https://www.wia.io/requestInvite'>Request an Invite to Wia</a>
-  - <a href='mailto:team@wia.io'>Or say hello at team@wia.io</a>
+  - <a href='https://www.wia.io/signup' target="_blank">Signup for Wia</a>
+  - <a href='http://twitter.com/wiaio' target="_blank">Follow us @wiaio</a>
 
 includes:
   - errors
@@ -19,7 +19,7 @@ search: true
 
 Welcome to the Wia Documentation! You can use our API to access Wia API endpoints, which can get information on devices, events and users.
 
-We have client libraries in Node.js (more coming soon!). You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have client libraries in Node.js and Objective-C. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 > Official libraries
 
@@ -41,7 +41,7 @@ mqtt://mqtt.wia.io (ports 1883 or 8883)
 
 # Objects
 
-Wia data are structured around 2 main types of objects: Device and Event. You’ll find these objects in the format described below.
+Wia data are structured around objects. You’ll find these objects in the format described below.
 
 ## Device
 
@@ -52,7 +52,21 @@ Wia data are structured around 2 main types of objects: Device and Event. You’
 	"deviceKey": "sdf892mdfgj238kdfg",
 	"name": "Device One",
 	"isOnline": true,
-	"createdAt": "2015-01-15 09:30:25"
+	"events": {
+	    "sensor": {
+	        "timestamp": 1444995825836,
+	        "ambientTemperature": {
+	            "value": 19.7867,
+	            "timestamp": 1444995825836
+	        },
+	        "light": {
+	            "value": 123.65,
+	            "timestamp": 1444995825836
+	        }
+	    }
+	},
+	"createdAt": "1445198559000",
+	"updatedAt": "1445198559000"
 }
 ```
 
@@ -62,8 +76,10 @@ Parameter | Type | Description
 --------- | ----------- | -----------
 deviceKey | String | Unique key of the device
 name | String | Name of the device
+events | Object | List of most recent events
 isOnline | Boolean | Online status of the device
-createdAt | Timestamp | Timestamp of when device was created (optional)
+createdAt | Timestamp | Timestamp of when device was created
+updatedAt | Timestamp | Timestamp of when device was updated
 
 
 ## Event
@@ -72,7 +88,7 @@ createdAt | Timestamp | Timestamp of when device was created (optional)
 
 ```
 {
-	"name": "EventName",
+	"name": "eventName",
 	"data": {
 		"key": "value"
 	},
@@ -84,9 +100,9 @@ All events are made up of the same object structure.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-name | String | Name of the event
-data | Object | Event data
-timestamp | Timestamp | Timestamp of the event in milliseconds (optional)
+name | String | Name of the event. Alphanumeric characters only. We recommend using camel case with the first letter being lower case (e.g. thisIsMyFirstEvent).
+data | Object | Event data object
+timestamp | Timestamp | Timestamp of the event in milliseconds
 
 
 ### Reserved Events
@@ -100,7 +116,7 @@ At the moment this is just for "Sensor" and "Location" events.
 
 ```
 {
-	"name": "Sensor",
+	"name": "sensor",
 	"data": {
 		"objectTemperature": 17.5,
 		"ambientTemperature": 4.2,
@@ -137,7 +153,7 @@ At the moment this is just for "Sensor" and "Location" events.
 			"z": 0.634
 		}
 	},
-	"timestamp": 1440597871
+	"timestamp": 1440597871675
 }
 ```
 
@@ -166,16 +182,16 @@ orientation | Object | Degrees (°) | Orientation. Use keys x, y and z.
 
 ```
 {
-	"name": "Location",
+	"name": "location",
 	"data": {
 		"latitude": 54.60247,
-    "longitude": -5.92717,
-    "altitude": 30,
-    "speed": 29.5,
-    "heading": 94,
-    "climb": 3
+	    "longitude": -5.92717,
+	    "altitude": 30,
+	    "speed": 29.5,
+	    "heading": 94,
+	    "climb": 3
 	},
-	"timestamp": 1440597871
+	"timestamp": 1440597871546
 }
 ```
 
@@ -190,34 +206,47 @@ speed | Number | Miles per hour (mph) | Speed.
 heading | Number | Degrees (°) | Direction.
 climb | Number | Feet per minute (mph) | Climb.
 
-# Authorization
 
-> To authorize a user, use this code:
+## User
+
+> Example of a User object
+
+```
+{
+	"userKey": "asdjfunmdf002imfg",
+	"username": "elliot@alderson.com",
+	"fullName": "Elliot Alderson",
+	"email": "elliot@alderson.com",
+	"createdAt": 1440597871546,
+	"updatedAt": 1440597871154
+}
+```
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+userKey | String | Unique identifier for the user.
+username | String | Username of the user.
+fullNmae | String | Full name of the user.
+email | String | Email address of the user.
+createdAt | Timestamp | Timestamp of the when the user was created.
+updatedAt | Timestamp | Timestamp of the when the user was updated.
+
+# Authorization
+> To authorize, use this code:
 
 ```shell
 curl https://api.wia.io/v1 \
 	-H "Authorization: Bearer u_jsdf812jkdf01kdf"
-
 ```
 
 ```javascript
+// To create a UserClient
 var Wia = require('wia');
-var userClient = new Wia.UserClient('u_jsdf812jkdf01kdf');
+var userClient = new Wia.UserClient('userToken');
 
-```
-
-> To authorize a device, use this code:
-
-```shell
-curl https://api.wia.io/v1 \
-	-H "Authorization: Bearer d_jsdf812jkdf01kdf"
-
-```
-
-```javascript
+// To create a DeviceClient
 var Wia = require('wia');
-var deviceClient = new Wia.DeviceClient('d_jsdf812jkdf01kdf');
-
+var deviceClient = new Wia.DeviceClient('deviceToken');
 ```
 
 Wia uses access tokens to allow access to the API. When you create an account or a device, an access token is automatically generated.
@@ -230,102 +259,38 @@ Wia expects the access token to be included in all API requests to the server in
 
 <aside class="warning">Some requests are user or device specific. If you are not using the correct type of token, you will get a 401 Unauthorized response.</aside>
 
-# Clients
-## User Client
-> Definition
-
-```shell
-shell "https://api.wia.io/v1"
-  -H "Authorization: Bearer USER_TOKEN"
-
-```
-
-```javascript
-
-UserClient(userToken, options);
-
-```
-
-> Example Request
-
-```shell
-shell "https://api.wia.io/v1"
-  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
-
-```
-
-```javascript
-var Wia = require('wia')
-var userClient = new Wia.UserClient('u_8jdflsdf912kasdf2dffg', {
-	stream: true,
-	secure: true
-});
-
-```
-
-This creates a User client object which can be used to make request to User methods. Requires a User token.
-
-It is not required to pass the options variable, if you do, the following options are available.
-
-List of options
-
-Parameter | Type | Default | Description
---------- | ----------- | ----------- | -----------
-stream | Boolean | true | Whether to use stream or not. Setting this to false may restrict the use of methods like subscribing to events.
-secure | Boolean | true | Whether to use a secure connection, for either stream or REST requests.
-
-## Device Client
-> Definition
-
-```shell
-shell "https://api.wia.io/v1"
-  -H "Authorization: Bearer DEVICE_TOKEN"
-
-```
-
-```javascript
-
-DeviceClient(deviceToken, options);
-
-```
-
-> Example Request
-
-```shell
-shell "https://api.wia.io/v1/"
-  -H "Authorization: Bearer d_kasd9ldsjsdf823fgdfgwdfdfs"
-
-```
-
-```javascript
-var Wia = require('wia');
-var deviceClient = new Wia.DeviceClient('d_kasd9ldsjsdf823fgdfgwdfdfs');
-
-```
-
-This creates a Device client instance. Requires a Device token.
-
-When a Device client instance is created, a stream via MQTT is automatically created. If you do not want this to happen, set the option ```stream``` to ```false```. If you do this, you will be required to manually send ping messages at intervals of up to 30 seconds to let the service know the device is still online.
-
-
 # Devices
 ## Create a Device
+
 > Example Request
 
 ```shell
 shell "https://api.wia.io/v1/devices"
-  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs" \
-  -H "Content-Type: application/json" \
-  -X POST -d '{"name":"My first device"}'
+	-H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs" \
+	-H "Content-Type: application/json" \
+	-X POST -d '{"name":"My first device"}'
+```
+
+```javascript
+var Wia = require('wia');
+var client = new Wia.UserClient('u_jsdf812jkdf01kdf');
+client.createDevice({
+	name: "My first device"
+}, function(err, device) {
+  if (err) console.log(err);
+	if (device) console.log(device);
+});
 ```
 
 > Example Response
 
 ```json
 {
-  "deviceKey": "Jas8snj1msdf89k83jdf",
-  "name": "Device One",
-  "createdAt": 1444062135000
+	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"name": "Device One",
+	"isOnline": false,
+	"createdAt": 1444062135000,
+	"updatedAt": 1444062135000
 }
 ```
 
@@ -346,22 +311,18 @@ name | Name of the device to be created
 
 ```shell
 shell "https://api.wia.io/v1/devices?limit=20"
-  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
-
+	-H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
 ```javascript
-var Wia = require('wia')
-var userClient = new Wia.UserClient('u_8jdflsdf912kasdf2dffg');
-
-userClient.listDevices(
-	{ limit: 20 },
-	function(err, devices) {
-		if (err) console.log(err);
-		if (devices) console.log(devices);
-	}
-);
-
+var Wia = require('wia');
+var client = new Wia.UserClient('u_jsdf812jkdf01kdf');
+client.listDevices({
+	limit: 20
+}, function(err, data) {
+  if (err) console.log(err);
+	if (data) console.log(data);
+});
 ```
 
 > Example Response
@@ -371,12 +332,16 @@ userClient.listDevices(
   {
     "deviceKey": "Jas8snj1msdf89k83jdf",
     "name": "Device One",
-    "isOnline": true
+    "isOnline": true,
+    "createdAt": 1445199652859,
+    "updatedAt": 1445199652234
   },
   {
     "deviceKey": "Jas8snj1msdf89k83jdf",
     "name": "Device Two",
-    "isOnline": false
+    "isOnline": false,
+    "createdAt": 1445199652859,
+    "updatedAt": 1445199652234
   }
 ]
 ```
@@ -396,25 +361,22 @@ page | 0 | First page is 0.
 order | name | Field to sort by. Valid values include name and lastUpdated.
 sort | asc | Either ascending (asc) or descending (desc).
 
-## Retrieve Current Device
+## Retrieve a Device
 
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices?limit=20"
-  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
+shell "https://api.wia.io/v1/devices/jnsdf8nmdg09kdfg"
+	-H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
 ```javascript
 var Wia = require('wia');
-var deviceClient = new Wia.DeviceClient('d_8jdflsdf912kasdf2dffg');
-
-deviceClient.getDeviceMe(
-	function(err, device) {
-		// asynchronously called
-	}
-);
-
+var client = new Wia.UserClient('u_jsdf812jkdf01kdf');
+client.getDevice("jnsdf8nmdg09kdfg", function(err, device) {
+  if (err) console.log(err);
+  if (device) console.log(device);
+});
 ```
 
 > Example Response
@@ -423,7 +385,58 @@ deviceClient.getDeviceMe(
 {
 	"deviceKey": "Jas8snj1msdf89k83jdf",
 	"name": "Device One",
-	"online": true
+	"isOnline": true,
+	"events": {
+	    "sensor": {
+	        "timestamp": 1444995825836,
+	        "ambientTemperature": {
+	            "value": 19.7867,
+	            "timestamp": 1444995825836
+	        },
+	        "light": {
+	            "value": 123.65,
+	            "timestamp": 1444995825836
+	        }
+	    }
+	},
+	"createdAt": 1445199652859,
+	"updatedAt": 1445199652234
+}
+```
+
+This endpoint retrieves a device. Requires a User token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/devices/:deviceKey`
+
+## Retrieve Current Device
+
+> Example Request
+
+```shell
+shell "https://api.wia.io/v1/devices/me"
+	-H "Authorization: Bearer d_8jdflsdf912kasdf2dffg"
+```
+
+```javascript
+var Wia = require('wia');
+var client = new Wia.DeviceClient('d_8jdflsdf912kasdf2dffg');
+client.getMe(function(err, device) {
+  if (err) console.log(err);
+  if (device) console.log(device);
+});
+```
+
+> Example Response
+
+```json
+{
+	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"name": "Device One",
+	"isOnline": true,
+	"createdAt": 1445199652859,
+	"updatedAt": 1445199652234
 }
 ```
 
@@ -439,21 +452,18 @@ This endpoint retrieves the current device. Requires a Device token.
 
 ```shell
 shell "https://api.wia.io/v1/devices/9mdflg982jdmdfglw89dfgn/events?limit=20"
-  -H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
+	-H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
 ```
 
 ```javascript
 var Wia = require('wia');
-var userClient = new Wia.UserClient('u_8jdflsdf912kasdf2dffg');
-
-userClient.listDeviceEvents(
-	"9mdflg982jdmdfglw89dfgn",
-	{ limit: 20 },
-	function(err, events) {
-		// asynchronously called
-	}
-);
-
+var client = new Wia.UserClient('u_kasd9ldsjsdf823fgdfgwdfdfs');
+client.listDeviceEvents("9mdflg982jdmdfglw89dfgn", {
+  limit: 20
+}, function(err, data) {
+  if (err) console.log(err);
+  if (data) console.log(data);
+});
 ```
 
 > Example Response
@@ -461,20 +471,20 @@ userClient.listDeviceEvents(
 ```json
 [
   {
-    "name": "Sensor",
+    "name": "sensor",
     "data": {
-		"temperature": 14.5,
-		"humidity": 56.3
-	},
-	"timestamp": 1440683447
+  		"temperature": 14.5,
+  		"humidity": 56.3
+  	},
+  	"timestamp": 1440683447
   },
   {
-    "name": "Location",
+    "name": "location",
     "data": {
-		"latitude": 54.60247,
-		"longitude": -5.92717
-	},
-	"timestamp": 1440683234
+  		"latitude": 54.60247,
+  		"longitude": -5.92717
+  	},
+  	"timestamp": 1440683234
   }
 ]
 ```
@@ -501,7 +511,6 @@ order | name | Field to sort by. Valid values include name and lastUpdated.
 sort | asc | Either ascending (asc) or descending (desc).
 
 
-
 # Events
 ## Publish an Event
 
@@ -516,30 +525,23 @@ curl https://api.wia.io/v1/events \
 
 ```javascript
 var Wia = require('wia');
-var deviceClient = new Wia.DeviceClient('d_8jdflsdf912kasdf2dffg');
-
-deviceClient.publishEvent(
-	"Sensor",
+var client = new Wia.DeviceClient('d_8jdflsdf912kasdf2dffg');
+client.publishEvent(
+	"sensor",
 	{
 		ambientTemperature: 34.5,
-		humidity: 67.4,
-		gyroscope: {
-			x: 0.34,
-			y: 0.67,
-			z: 0.24
-		}
+		humidity: 67.4
 	},
 	function(err) {
-		// asynchronously called
+    if (err) console.log(err);
+    else console.log("Event published.");
 	}
 );
-
 ```
 
 > The above command returns status 200 OK when event has been created.
 
 This endpoint publishes an event. Requires a Device token.
-
 
 ### HTTP Request
 
@@ -569,17 +571,15 @@ curl https://api.wia.io/v1/events \
 
 ```javascript
 var Wia = require('wia');
-var userClient = new Wia.UserClient('u_0123456789abcdef');
-
-userClient.listEvents({
-		ambientTemperature: 34.5,
-		humidity: 67.4
+var client = new Wia.UserClient('u_0123456789abcdef');
+client.listEvents({
+		limit: 20
 	},
-	function(err, events) {
-		// asynchronously called
+	function(err, data) {
+    if (err) console.log(err);
+    if (data) console.log(data);
 	}
 );
-
 ```
 
 > The above command returns status 200 OK when event has been created.
@@ -620,21 +620,31 @@ Not supported
 
 ```javascript
 var Wia = require('wia');
-var userClient = new Wia.UserClient('u_ksdf8h23dsfg9kdfgn8');
+var client = new Wia.UserClient('u_0123456789abcdef');
 
-userClient.subscribeToDeviceEvents(
+// For all events use:
+client.subscribeToAllDeviceEvents(
 	"mndsf81knmsd9mndf",
 	function(err, event) {
-		// asynchronously called
+    if (err) console.log(err);
+    if (event) console.log(event);
 	}
 );
 
+// For a specific event use:
+client.subscribeToDeviceEvent(
+	"mndsf81knmsd9mndf",
+  "sensor",
+	function(err, event) {
+    if (err) console.log(err);
+    if (event) console.log(event);
+	}
+);
 ```
 
 > The above command returns an Event object when one has been received.
 
 This endpoint subscribes to device events. Requires a User token.
-
 
 ### HTTP Request
 
@@ -650,15 +660,24 @@ Not supported
 
 ```javascript
 var Wia = require('wia');
-var userClient = new Wia.UserClient('u_ksdf8h23dsfg9kdfgn8');
+var client = new Wia.UserClient('u_0123456789abcdef');
 
-userClient.unsubscribeToDeviceEvents(
+// For all device events use:
+client.unsubscribeFromAllDeviceEvents(
 	"mndsf81knmsd9mndf",
-	function(err, event) {
-		// asynchronously called
+	function(err) {
+    if (err) console.log(err);
 	}
 );
 
+// For a specific device event use:
+client.unsubscribeFromDeviceEvent(
+  "mndsf81knmsd9mndf",
+  "sensor",
+	function(err) {
+    if (err) console.log(err);
+	}
+);
 ```
 
 > The above command returns an Event object when one has been received.
@@ -675,19 +694,17 @@ This endpoint unsubscribes from device events. Requires a User token.
 
 ```shell
 curl http://localhost:8080/v1/ping \
-	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig"
+	-H "Authorization: Bearer d_bzw35dvId2x4Esf"
 ```
 
 ```javascript
-var Wia = require('wia')
-var deviceClient = new Wia.DeviceClient('d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig');
-
-deviceClient.ping(
+var Wia = require('wia');
+var client = new Wia.DeviceClient('d_bzw35dvId2x4Esf');
+client.sendPing(
 	function(err) {
-		// asynchronously called
+    if (err) console.log(err);
 	}
 );
-
 ```
 
 > The above command returns status 200 OK when a ping has been received.
@@ -697,8 +714,7 @@ This endpoint allows a device to let the service know it is online. It is not re
 
 ### HTTP Request
 
-`GET https://api.wia.io/v1/ping` or
-`POST https://api.wia.io/v1/ping`
+`GET https://api.wia.io/v1/ping`
 
 
 # Commands
@@ -714,14 +730,12 @@ shell "https://api.wia.io/v1/devices/92nkdng9mkdfg0mdfg/commands/helloCommand/ru
 
 ```javascript
 var Wia = require('wia');
-var userClient = new Wia.UserClient('u_0123456789abcdef');
-
-userClient.runCommand("myFirstDevice", "helloCommand",
+var client = new Wia.UserClient('u_0123456789abcdef');
+client.runCommand("myFirstDeviceKey", "helloCommand",
 	function(err) {
-		// asynchronously called
+    if (err) console.log(err);
 	}
 );
-
 ```
 
 > Example Response
@@ -749,33 +763,31 @@ commandName | Name of the command to be run
 
 ```shell
 shell "https://api.wia.io/v1/commands/register"
-  -H "Authorization: Bearer d_0123456789abcdef" \
-  -H "Content-Type: application/json" \
-  -X POST -d '{"name":"commandName"}'
+	-H "Authorization: Bearer d_0123456789abcdef" \
+	-H "Content-Type: application/json" \
+	-X POST -d '{"name":"commandName"}'
 ```
 
 ```javascript
 var Wia = require('wia');
-var deviceClient = new Wia.DeviceClient('d_0123456789abcdef');
-
-deviceClient.registerCommand("helloCommand",
+var client = new Wia.DeviceClient('d_0123456789abcdef');
+client.registerCommand("helloCommand",
 	function(data) {
     // Function to run
 		// asynchronously called
 	}
 );
-
 ```
 
 > Example Response
 
 ```json
 {
-  "name": "helloCommand",
-  "isEnabled": true,
-  "enabledAt": 1444995277000,
-  "createdAt": 1444995244000,
-  "updatedAt": 1444995277000
+	"name": "helloCommand",
+	"isEnabled": true,
+	"enabledAt": 1444995277000,
+	"createdAt": 1444995244000,
+	"updatedAt": 1444995277000
 }
 ```
 
@@ -804,10 +816,10 @@ shell "https://api.wia.io/v1/commands/deregister"
 
 ```javascript
 var Wia = require('wia');
-var deviceClient = new Wia.DeviceClient('d_0123456789abcdef');
-
-deviceClient.deregisterCommand("helloCommand");
-
+var client = new Wia.DeviceClient('d_0123456789abcdef');
+client.deregisterCommand("helloCommand", function(err) {
+  if (err) console.log(err);
+});
 ```
 
 > Example Response
@@ -820,7 +832,7 @@ This endpoint deregisters a command for a device. Requires a Device token.
 
 ### HTTP Request
 
-`POST https://api.wia.io/v1/commands/deregister`
+`PUT https://api.wia.io/v1/commands/deregister`
 
 ### URL Parameters
 
@@ -840,10 +852,10 @@ shell "https://api.wia.io/v1/commands/deregisterAll"
 
 ```javascript
 var Wia = require('wia');
-var deviceClient = new Wia.DeviceClient('d_0123456789abcdef');
-
-deviceClient.deregisterAllCommands();
-
+var client = new Wia.DeviceClient('d_0123456789abcdef');
+client.deregisterAllCommands(function(err) {
+  if (err) console.log(err);
+});
 ```
 
 > Example Response
@@ -856,7 +868,7 @@ This endpoint deregisters all commands for a device. Requires a Device token.
 
 ### HTTP Request
 
-`POST https://api.wia.io/v1/commands/deregisterAll`
+`PUT https://api.wia.io/v1/commands/deregisterAll`
 
 ### URL Parameters
 
@@ -876,12 +888,12 @@ shell "https://api.wia.io/v1/users/me"
 var Wia = require('wia');
 var userClient = new Wia.UserClient('u_gh9dfmsdflkasdf2dffg');
 
-userClient.getUserMe(
+userClient.getMe(
 	function(err, user) {
+    if (err) console.log(err);
 		// asynchronously called
 	}
 );
-
 ```
 
 > Example Response
