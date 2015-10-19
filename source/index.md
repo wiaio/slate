@@ -718,6 +718,61 @@ This endpoint allows a device to let the service know it is online. It is not re
 
 
 # Commands
+## List Device Commands
+> Example Request
+
+```shell
+shell "https://api.wia.io/v1/devices/Jas8snj1msdf89k83jdf/commands"
+	-H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
+```
+
+```javascript
+var Wia = require('wia');
+var client = new Wia.UserClient('u_jsdf812jkdf01kdf');
+client.listDeviceCommands("Jas8snj1msdf89k83jdf", {
+	limit: 20
+}, function(err, commands) {
+	if (err) console.log(err);
+	if (commands) console.log(commands);
+});
+```
+
+> Example Response
+
+```json
+[
+	{   
+	    "deviceKey": "Jas8snj1msdf89k83jdf",
+  		"name":"helloCommand",
+  		"isEnabled":true,
+  		"enabledAt":1445253805000,
+  		"createdAt":1444995244000,
+  		"updatedAt":1445253805000
+  	},
+  	{	
+	    "deviceKey": "Jas8snj1msdf89k83jdf",
+  		"name":"testCommand16",
+  		"isEnabled":true,
+  		"enabledAt":1445253805000,
+  		"createdAt":1445253575000,
+  		"updatedAt":1445253805000
+  	}
+]
+```
+
+This endpoint retrieves devices. Requires a User token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/devices/:deviceKey/commands`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+limit | 20 | Number of commands to return. Max value 200.
+page | 0 | First page is 0.
+
 ## Run a Command
 > Example Request
 
