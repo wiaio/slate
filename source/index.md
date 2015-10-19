@@ -226,7 +226,7 @@ Parameter | Type | Description
 --------- | ----------- | -----------
 userKey | String | Unique identifier for the user.
 username | String | Username of the user.
-fullNmae | String | Full name of the user.
+fullName | String | Full name of the user.
 email | String | Email address of the user.
 createdAt | Timestamp | Timestamp of the when the user was created.
 updatedAt | Timestamp | Timestamp of the when the user was updated.
