@@ -4,6 +4,7 @@ title: Wia Documentation
 language_tabs:
   - shell: curl
   - javascript: Node.js
+  - objective_c: iOS
 
 toc_footers:
   - <a href='https://www.wia.io/signup' target="_blank">Signup for Wia</a>
@@ -19,12 +20,14 @@ search: true
 
 Welcome to the Wia Documentation! You can use our API to access Wia API endpoints, which can get information on devices, events and users.
 
-We have client libraries in Node.js and Objective-C. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have client libraries for Node.js and iOS. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 > Official libraries
 
 ```
-Node.js - https://github.com/wiaio/wia-nodejs-sdk
+Node.js - https://github.com/wiaio/wia-nodejs-sdk  
+
+iOS - https://github.com/wiaio/wia-ios-sdk
 ```
 
 > REST API Endpoint
@@ -236,7 +239,7 @@ updatedAt | Timestamp | Timestamp of the when the user was updated.
 
 ```shell
 curl https://api.wia.io/v1 \
-	-H "Authorization: Bearer u_jsdf812jkdf01kdf"
+	-H "Authorization: Bearer userToken"
 ```
 
 ```javascript
@@ -249,13 +252,18 @@ var Wia = require('wia');
 var deviceClient = new Wia.DeviceClient('deviceToken');
 ```
 
+```objective_c
+// To create a UserClient
+WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
+```
+
 Wia uses access tokens to allow access to the API. When you create an account or a device, an access token is automatically generated.
 
 You can find your user access token in My Account and your device access token in the device's settings.
 
 Wia expects the access token to be included in all API requests to the server in a header that looks like the following:
 
-`Authorization: Bearer u_ksdf912jnmdfg9k123lk90`
+`Authorization: Bearer userToken`
 
 <aside class="warning">Some requests are user or device specific. If you are not using the correct type of token, you will get a 401 Unauthorized response.</aside>
 
@@ -266,20 +274,29 @@ Wia expects the access token to be included in all API requests to the server in
 
 ```shell
 shell "https://api.wia.io/v1/devices"
-	-H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs" \
+	-H "Authorization: Bearer u_userToken" \
 	-H "Content-Type: application/json" \
 	-X POST -d '{"name":"My first device"}'
 ```
 
 ```javascript
 var Wia = require('wia');
-var client = new Wia.UserClient('u_jsdf812jkdf01kdf');
+var client = new Wia.UserClient('userToken');
 client.createDevice({
 	name: "My first device"
 }, function(err, device) {
   if (err) console.log(err);
 	if (device) console.log(device);
 });
+```
+
+```objective_c
+WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
+[userClient createDevice:@"My first device" success:^(WiaDevice *device) {
+    NSLog(@"%@", device);
+} failure:^(NSError *error) {
+    NSLog(@"%@", [error localizedDescription]);
+}];
 ```
 
 > Example Response
@@ -310,19 +327,28 @@ name | Name of the device to be created
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices?limit=20"
-	-H "Authorization: Bearer u_kasd9ldsjsdf823fgdfgwdfdfs"
+shell "https://api.wia.io/v1/devices"
+	-H "Authorization: Bearer userToken"
 ```
 
 ```javascript
 var Wia = require('wia');
-var client = new Wia.UserClient('u_jsdf812jkdf01kdf');
+var client = new Wia.UserClient('userToken');
 client.listDevices({
 	limit: 20
 }, function(err, data) {
   if (err) console.log(err);
 	if (data) console.log(data);
 });
+```
+
+```objective_c
+WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
+[userClient listDevices:20 page:0 success:^(NSArray *devices) {
+    NSLog(@"%@", devices);
+} failure:^(NSError *error) {
+    NSLog(@"%@", [error localizedDescription]);
+}];
 ```
 
 > Example Response
@@ -379,6 +405,15 @@ client.getDevice("jnsdf8nmdg09kdfg", function(err, device) {
 });
 ```
 
+```objective_c
+WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
+[userClient getDevice:@"deviceKey" success:^(WiaDevice *device) {
+    NSLog(@"%@", device);
+} failure:^(NSError *error) {
+    NSLog(@"%@", [error localizedDescription]);
+}];
+```
+
 > Example Response
 
 ```json
@@ -428,6 +463,10 @@ client.getMe(function(err, device) {
 });
 ```
 
+```objective_c
+Currently not supported
+```
+
 > Example Response
 
 ```json
@@ -464,6 +503,15 @@ client.listDeviceEvents("9mdflg982jdmdfglw89dfgn", {
   if (err) console.log(err);
   if (data) console.log(data);
 });
+```
+
+```objective_c
+WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
+[userClient listDeviceEvents:@"deviceToken" limit:20 page:0 eventName:@"sensor" success:^(NSArray *events) {
+    NSLog(@"%@", events);
+} failure:^(NSError *error) {
+    NSLog(@"%@", [error localizedDescription]);
+}];
 ```
 
 > Example Response
@@ -539,6 +587,10 @@ client.publishEvent(
 );
 ```
 
+```objective_c
+Currently not supported.
+```
+
 > The above command returns status 200 OK when event has been created.
 
 This endpoint publishes an event. Requires a Device token.
@@ -580,6 +632,15 @@ client.listEvents({
     if (data) console.log(data);
 	}
 );
+```
+
+```objective_c
+WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
+[userClient listEvents:20 page:0 eventName:@"sensor" success:^(NSArray *events) {
+    NSLog(@"%@", events);
+} failure:^(NSError *error) {
+    NSLog(@"%@", [error localizedDescription]);
+}];
 ```
 
 > The above command returns status 200 OK when event has been created.
@@ -642,6 +703,10 @@ client.subscribeToDeviceEvent(
 );
 ```
 
+```objective_c
+Currently not supported.
+```
+
 > The above command returns an Event object when one has been received.
 
 This endpoint subscribes to device events. Requires a User token.
@@ -680,6 +745,10 @@ client.unsubscribeFromDeviceEvent(
 );
 ```
 
+```objective_c
+Currently not supported.
+```
+
 > The above command returns an Event object when one has been received.
 
 This endpoint unsubscribes from device events. Requires a User token.
@@ -705,6 +774,10 @@ client.sendPing(
     if (err) console.log(err);
 	}
 );
+```
+
+```objective_c
+Currently not supported.
 ```
 
 > The above command returns status 200 OK when a ping has been received.
@@ -735,6 +808,15 @@ client.listDeviceCommands("Jas8snj1msdf89k83jdf", {
 	if (err) console.log(err);
 	if (commands) console.log(commands);
 });
+```
+
+```objective_c
+WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
+[userClient listDeviceCommands:@"deviceKey" limit:20 page:0 success:^(NSArray *commands) {
+    NSLog(@"%@", commands);
+} failure:^(NSError *error) {
+    NSLog(@"%@", [error localizedDescription]);
+}];
 ```
 
 > Example Response
@@ -793,6 +875,15 @@ client.runCommand("myFirstDeviceKey", "helloCommand",
 );
 ```
 
+```objective_c
+WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
+[userClient runCommand:@"deviceKey" commandName:@"commandName" commandData:nil success:^(NSObject *obj) {
+    NSLog(@"Command sent!");
+} failure:^(NSError *error) {
+    NSLog(@"%@", [error localizedDescription]);
+}];
+```
+
 > Example Response
 
 ```
@@ -832,6 +923,10 @@ client.registerCommand("helloCommand",
 		// asynchronously called
 	}
 );
+```
+
+```objective_c
+Currently not supported.
 ```
 
 > Example Response
@@ -877,6 +972,10 @@ client.deregisterCommand("helloCommand", function(err) {
 });
 ```
 
+```objective_c
+Currently not supported.
+```
+
 > Example Response
 
 ```json
@@ -911,6 +1010,10 @@ var client = new Wia.DeviceClient('d_0123456789abcdef');
 client.deregisterAllCommands(function(err) {
   if (err) console.log(err);
 });
+```
+
+```objective_c
+Currently not supported.
 ```
 
 > Example Response
@@ -949,6 +1052,15 @@ userClient.getMe(
 		// asynchronously called
 	}
 );
+```
+
+```objective_c
+WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
+[userClient getUserMe:^(WiaUser *user) {
+    NSLog(@"%@", user);
+} failure:^(NSError *error) {
+    NSLog(@"%@", [error localizedDescription]);
+}];
 ```
 
 > Example Response
