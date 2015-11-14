@@ -8,12 +8,12 @@ language_tabs:
 
 toc_footers:
   - <a href='https://www.wia.io/signup' target="_blank">Signup for Wia</a>
-  - <a href='http://twitter.com/wiaio' target="_blank">Follow us @wiaio</a>
+  - <a href='http://twitter.com/wiaio' target="_blank">Follow us on Twitter @wiaio</a>
 
 includes:
   - errors
 
-search: true
+search: false
 ---
 
 # Introduction
@@ -107,109 +107,6 @@ name | String | Name of the event. Alphanumeric characters only. We recommend us
 data | Object | Event data object
 timestamp | Timestamp | Timestamp of the event in milliseconds
 
-
-### Reserved Events
-A number of event names are reserved. This means that they must use particular data type names and only those names will be supported.
-
-At the moment this is just for "Sensor" and "Location" events.
-
-#### Sensor
-
-> Example of a Sensor Event object
-
-```
-{
-	"name": "sensor",
-	"data": {
-		"objectTemperature": 17.5,
-		"ambientTemperature": 4.2,
-		"absoluteHumidity": 17.6,
-		"relativeHumidity": 12.4,
-		"specificHumidity": 7.8,
-		"gyroscope": {
-			"x": 0.342,
-			"y": 0.765,
-			"z": 0.634
-		},
-		"accelerometer": {
-			"x": 0.342,
-			"y": 0.765,
-			"z": 0.634
-		},
-		"pressure": 7.8,
-		"magnetometer": {
-			"x": 0.342,
-			"y": 0.765,
-			"z": 0.634
-		},
-		"gravity": {
-			"x": 0.342,
-			"y": 0.765,
-			"z": 0.634
-		},
-		"light": 7.8,
-		"proximity": 7.8,
-		"heartRate": 7.8,
-		"orientation": {
-			"x": 0.342,
-			"y": 0.765,
-			"z": 0.634
-		}
-	},
-	"timestamp": 1440597871675
-}
-```
-
-List of permitted data key-value pairs for a Sensor event.
-
-Parameter | Type | Unit | Description
---------- | ---- | ---- | -----------
-objectTemperature | Number | Celsius | Temperature of object.
-ambientTemperature | Number | Celsius | Ambient temperature.
-absoluteHumidity | Number | Percentage | Absolute humidity.
-relativeHumidity | Number | Percentage | Relative humidity.
-specificHumidity | Number | Percentage | Specific humidity.
-gyroscope | Object | Radian per second (rad/s) | Gyroscope. Use keys x, y and z.
-accelerometer | Object | Metre per second squared (m/s2) | Accelerometer. Use keys x, y and z.
-pressure | Number | Millibar (hPa) | Air pressure.
-magnetometer | Object | Microtesla (μT) | Magnetometer. Use keys x, y and z.
-gravity | Object | Metre per second squared (m/s2) | Gravity. Use keys x, y and z.
-light | Number | Lux (lx) | Light.
-proximity | Number | Centimeters (cm) | Proximity.
-heartRate | Number | Beat per minute (BPM) | Heart rate.
-orientation | Object | Degrees (°) | Orientation. Use keys x, y and z.
-
-#### Location
-
-> Example of a Location Event object
-
-```
-{
-	"name": "location",
-	"data": {
-		"latitude": 54.60247,
-	    "longitude": -5.92717,
-	    "altitude": 30,
-	    "speed": 29.5,
-	    "heading": 94,
-	    "climb": 3
-	},
-	"timestamp": 1440597871546
-}
-```
-
-List of permitted data key-value pairs for a Location event.
-
-Parameter | Type | Unit | Description
---------- | ---- | ---- | -----------
-latitude | Number | - | Latitude of the location.
-longitude | Number | - | Longitude of the location.
-altitude | Number | Feet (ft) | Altitude.
-speed | Number | Miles per hour (mph) | Speed.
-heading | Number | Degrees (°) | Direction.
-climb | Number | Feet per minute (mph) | Climb.
-
-
 ## User
 
 > Example of a User object
@@ -243,18 +140,13 @@ curl https://api.wia.io/v1 \
 ```
 
 ```javascript
-// To create a UserClient
 var Wia = require('wia');
-var userClient = new Wia.UserClient('userToken');
-
-// To create a DeviceClient
-var Wia = require('wia');
-var deviceClient = new Wia.DeviceClient('deviceToken');
+var client = new Wia.Client('token');
 ```
 
 ```objective_c
-// To create a UserClient
-WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
+// To create a client
+WiaClient *client = [[WiaClient alloc] initWithToken:@"token"];
 ```
 
 Wia uses access tokens to allow access to the API. When you create an account or a device, an access token is automatically generated.
@@ -263,7 +155,7 @@ You can find your user access token in My Account and your device access token i
 
 Wia expects the access token to be included in all API requests to the server in a header that looks like the following:
 
-`Authorization: Bearer userToken`
+`Authorization: Bearer token`
 
 <aside class="warning">Some requests are user or device specific. If you are not using the correct type of token, you will get a 401 Unauthorized response.</aside>
 
@@ -831,7 +723,7 @@ WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
   		"createdAt":1444995244000,
   		"updatedAt":1445253805000
   	},
-  	{	
+  	{
 	    "deviceKey": "Jas8snj1msdf89k83jdf",
   		"name":"testCommand16",
   		"isEnabled":true,
