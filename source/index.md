@@ -4,7 +4,7 @@ title: Wia Documentation
 language_tabs:
   - shell: curl
   - javascript: Node.js
-  - objective_c: iOS
+#   - objective_c: iOS
 
 toc_footers:
   - <a href='https://www.wia.io/signup' target="_blank">Create a Wia account</a>
@@ -51,8 +51,8 @@ curl https://api.wia.io/v1/auth/token \
 ```
 
 ```javascript
-var Wia = require('wia');
-var accessToken = Wia.generateAccessToken({
+var wia = require('wia');
+var accessToken = wia.generateAccessToken({
 		username: "username",
 		password: "password",
 		grantType: "password",
@@ -74,8 +74,9 @@ curl https://<organisation-slug>.wia.io/v1/auth/token \
 ```
 
 ```javascript
-var Wia = require('wia');
-var accessToken = Wia.generateAccessToken({
+var wia = require('wia');
+wia.setOrganisationSlug('org-slug');
+var accessToken = wia.generateAccessToken({
 		username: "username",
 		password: "password",
 		grantType: "password",
@@ -147,20 +148,21 @@ If you are connecting using your own MQTT client, put your access token in the u
 {
 	"deviceKey": "sdf892mdfgj238kdfg",
 	"name": "Device One",
-	"isOnline": true,
 	"events": {
-	    "sensor": {
-	        "timestamp": 1444995825836,
-	        "ambientTemperature": {
-	            "value": 19.7867,
-	            "timestamp": 1444995825836
-	        },
-	        "light": {
-	            "value": 123.65,
-	            "timestamp": 1444995825836
-	        }
+	    "temperature": {
+		    "data": 21.5,
+	        "timestamp": 1444995825836
+	    },
+	    "gyroscope": {
+		    "data": {
+			    "x": 0.015,
+			    "y": 0.67,
+			    "z": 0.49
+		    },
+	        "timestamp": 1444995825836
 	    }
 	},
+	"isOnline": true,
 	"createdAt": "1445198559000",
 	"updatedAt": "1445198559000"
 }
@@ -182,30 +184,22 @@ updatedAt | Timestamp | Timestamp of when device was updated
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices"
+curl "https://api.wia.io/v1/devices"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
 	-X POST -d '{"name":"My first device"}'
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.UserClient('userToken');
-client.createDevice({
+var wia = require('wia')(
+	'token'
+);
+wia.devices.create({
 	name: "My first device"
 }, function(err, device) {
-  if (err) console.log(err);
+	if (err) console.log(err);
 	if (device) console.log(device);
 });
-```
-
-```objective_c
-WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
-[userClient createDevice:@"My first device" success:^(WiaDevice *device) {
-    NSLog(@"%@", device);
-} failure:^(NSError *error) {
-    NSLog(@"%@", [error localizedDescription]);
-}];
 ```
 
 > Example Response
@@ -237,26 +231,18 @@ name | Name of the device to be created
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices/jnsdf8nmdg09kdfg"
+curl "https://api.wia.io/v1/devices/:deviceKey"
 	-H "Authorization: Bearer token"
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.UserClient('token');
-client.getDevice("jnsdf8nmdg09kdfg", function(err, device) {
-  if (err) console.log(err);
-  if (device) console.log(device);
+var wia = require('wia')(
+	'token'
+);
+wia.devices.retrieve("deviceKey", function(err, device) {
+	if (err) console.log(err);
+	if (device) console.log(device);
 });
-```
-
-```objective_c
-WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
-[userClient getDevice:@"deviceKey" success:^(WiaDevice *device) {
-    NSLog(@"%@", device);
-} failure:^(NSError *error) {
-    NSLog(@"%@", [error localizedDescription]);
-}];
 ```
 
 > Example Response
@@ -295,21 +281,18 @@ This endpoint retrieves a device. Requires a User token.
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices/me"
-	-H "Authorization: Bearer d_8jdflsdf912kasdf2dffg"
+curl "https://api.wia.io/v1/devices/me"
+	-H "Authorization: Bearer token"
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.DeviceClient('d_8jdflsdf912kasdf2dffg');
-client.getMe(function(err, device) {
-  if (err) console.log(err);
-  if (device) console.log(device);
+var wia = require('wia')(
+	'token'
+);
+wia.devices.me(function(err, device) {
+	if (err) console.log(err);
+	if (device) console.log(device);
 });
-```
-
-```objective_c
-Currently not supported
 ```
 
 > Example Response
@@ -335,15 +318,15 @@ This endpoint retrieves the current device. Requires a Device token.
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices/me"
-	-H "Authorization: Bearer d_8jdflsdf912kasdf2dffg"
+curl "https://api.wia.io/v1/devices/me"
+	-H "Authorization: Bearer token"
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.UserClient('accessToken');
-
-client.devices.update("deviceKey", {
+var wia = require('wia')(
+	'token'
+);
+wia.devices.update("deviceKey", {
 		name: "newName"
 	}, function(err, device) {
 		if (err) console.log(err);
@@ -374,17 +357,21 @@ This endpoint updates a device's details. Requires a User token.
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices/me"
-	-H "Authorization: Bearer d_8jdflsdf912kasdf2dffg"
+curl "https://api.wia.io/v1/devices/me"
+	-H "Authorization: Bearer token"
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.DeviceClient('d_8jdflsdf912kasdf2dffg');
-client.getMe(function(err, device) {
-  if (err) console.log(err);
-  if (device) console.log(device);
-});
+var wia = require('wia')(
+	'token'
+);
+wia.devices.delete(
+	"deviceKey",
+	function(err, confirmed) {
+	  if (err) console.log(err);
+	  if (confirmed) console.log(confirmed);
+	}
+);
 ```
 
 > Example Response
@@ -409,28 +396,21 @@ This endpoint deletes a device. Requires a User token.
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices"
+curl "https://api.wia.io/v1/devices"
 	-H "Authorization: Bearer userToken"
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.UserClient('userToken');
-client.listDevices({
-	limit: 20
+var wia = require('wia')(
+	'token'
+);
+wia.devices.list({
+	limit: 20,
+	page: 0
 }, function(err, data) {
  	if (err) console.log(err);
 	if (data) console.log(data);
 });
-```
-
-```objective_c
-WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
-[userClient listDevices:20 page:0 success:^(NSArray *devices) {
-    NSLog(@"%@", devices);
-} failure:^(NSError *error) {
-    NSLog(@"%@", [error localizedDescription]);
-}];
 ```
 
 > Example Response
@@ -474,28 +454,21 @@ sort | asc | Either ascending (asc) or descending (desc).
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/devices/:deviceKey/events"
+curl "https://api.wia.io/v1/devices/:deviceKey/events"
 	-H "Authorization: Bearer token"
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.UserClient('token');
-client.listDeviceEvents("deviceKey", {
-  limit: 20
+var wia = require('wia')(
+	'token'
+);
+wia.devices.listEvents("deviceKey", {
+	limit: 20,
+	page: 0
 }, function(err, data) {
-  if (err) console.log(err);
-  if (data) console.log(data);
+	if (err) console.log(err);
+	if (data) console.log(data);
 });
-```
-
-```objective_c
-WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
-[userClient listDeviceEvents:@"deviceToken" limit:20 page:0 eventName:@"sensor" success:^(NSArray *events) {
-    NSLog(@"%@", events);
-} failure:^(NSError *error) {
-    NSLog(@"%@", [error localizedDescription]);
-}];
 ```
 
 > Example Response
@@ -542,27 +515,81 @@ page | 0 | First page is 0.
 order | name | Field to sort by. Valid values include name and lastUpdated.
 sort | asc | Either ascending (asc) or descending (desc).
 
+
+## List device commands
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/devices/:deviceKey/commands"
+	-H "Authorization: Bearer token"
+```
+
+```javascript
+var wia = require('wia')(
+	'token'	
+);
+wia.devices.listCommands("deviceKey", {
+	limit: 20
+}, function(err, commands) {
+	if (err) console.log(err);
+	if (commands) console.log(commands);
+});
+```
+
+> Example Response
+
+```json
+[
+	{   
+	    "deviceKey": "Jas8snj1msdf89k83jdf",
+  		"name":"helloCommand",
+  		"isEnabled":true,
+  		"enabledAt":1445253805000,
+  		"createdAt":1444995244000,
+  		"updatedAt":1445253805000
+  	},
+  	{
+	    "deviceKey": "Jas8snj1msdf89k83jdf",
+  		"name":"testCommand16",
+  		"isEnabled":true,
+  		"enabledAt":1445253805000,
+  		"createdAt":1445253575000,
+  		"updatedAt":1445253805000
+  	}
+]
+```
+
+This endpoint retrieves devices. Requires a User token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/devices/:deviceKey/commands`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+limit | 20 | Number of commands to return. Max value 200.
+page | 0 | First page is 0.
+
 ## Send a ping
 
 > Example Request
 
 ```shell
 curl http://api.wia.io/v1/ping \
-	-H "Authorization: Bearer d_bzw35dvId2x4Esf"
+	-H "Authorization: Bearer token"
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.DeviceClient('d_bzw35dvId2x4Esf');
-client.sendPing(
+var wia = require('wia')(
+	'token'
+);
+wia.sendPing(
 	function(err) {
-    if (err) console.log(err);
+   		if (err) console.log(err);
 	}
 );
-```
-
-```objective_c
-Currently not supported.
 ```
 
 > The above command returns status 200 OK when a ping has been received.
@@ -613,29 +640,22 @@ timestamp | Timestamp | Timestamp of the event in milliseconds.
 
 ```shell
 curl https://api.wia.io/v1/events \
-	-H "Authorization: Bearer d_bzw35dvId2x4Esf23sdgf3fgOUdp16ysUqoig" \
+	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
 	-X POST -d '{"name":"temperature","data":21.5}'
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.DeviceClient('d_8jdflsdf912kasdf2dffg');
-client.publishEvent(
-	"sensor",
-	{
-		ambientTemperature: 34.5,
-		humidity: 67.4
-	},
-	function(err) {
-    if (err) console.log(err);
-    else console.log("Event published.");
+var wia = require('wia')(
+	'token'
+);
+wia.events.publish(
+	"temperature", 21.5,
+	function(err, published) {
+	    if (err) console.log(err);
+	    if (published) console.log("Event published.");
 	}
 );
-```
-
-```objective_c
-Currently not supported.
 ```
 
 > The above command returns status 200 OK when event has been created.
@@ -663,12 +683,12 @@ Not supported
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.UserClient('token');
-
+var wia = require('wia')(
+	'token'
+);
 // For all events use:
-client.subscribeToAllDeviceEvents(
-	"deviceKey",
+wia.events.subscribe(
+	{ deviceKey: "deviceKey" },
 	function(err, event) {
 	    if (err) console.log(err);
 	    if (event) console.log(event);
@@ -676,18 +696,14 @@ client.subscribeToAllDeviceEvents(
 );
 
 // For a specific event use:
-client.subscribeToDeviceEvent(
-	"deviceKey",
-	"eventName",
+wia.events.subscribe(
+	{ deviceKey: "deviceKey",
+	  name: "eventName" },
 	function(err, event) {
 	    if (err) console.log(err);
 	    if (event) console.log(event);
 	}
 );
-```
-
-```objective_c
-Currently not supported.
 ```
 
 > The above command returns an Event object when one has been received.
@@ -707,29 +723,26 @@ Not supported
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.UserClient('token');
+var wia = require('wia')(
+	'token'
+);
 
 // For all device events use:
-client.unsubscribeFromAllDeviceEvents(
-	"deviceKey",
+wia.events.unsubscribe(
+	{ deviceKey: "deviceKey" },
 	function(err) {
  	   if (err) console.log(err);
 	}
 );
 
 // For a specific device event use:
-client.unsubscribeFromDeviceEvent(
-	"token",
-	"eventName",
+wia.events.unsubscribe(
+	{ deviceKey: "deviceKey",
+	  name: "eventName" },
 	function(err) {
  	   if (err) console.log(err);
 	}
 );
-```
-
-```objective_c
-Currently not supported.
 ```
 
 > The above command returns an Event object when one has been received.
@@ -741,140 +754,54 @@ This endpoint unsubscribes from device events. Requires a User token.
 `Not supported.`
 
 # Commands
-## List device commands
-> Example Request
+## The command object
 
-```shell
-shell "https://api.wia.io/v1/devices/:deviceKey/commands"
-	-H "Authorization: Bearer token"
-```
-
-```javascript
-var Wia = require('wia');
-var client = new Wia.UserClient('token');
-client.listDeviceCommands("deviceKey", {
-	limit: 20
-}, function(err, commands) {
-	if (err) console.log(err);
-	if (commands) console.log(commands);
-});
-```
-
-```objective_c
-WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"token"];
-[userClient listDeviceCommands:@"deviceKey" limit:20 page:0 success:^(NSArray *commands) {
-    NSLog(@"%@", commands);
-} failure:^(NSError *error) {
-    NSLog(@"%@", [error localizedDescription]);
-}];
-```
-
-> Example Response
-
-```json
-[
-	{   
-	    "deviceKey": "Jas8snj1msdf89k83jdf",
-  		"name":"helloCommand",
-  		"isEnabled":true,
-  		"enabledAt":1445253805000,
-  		"createdAt":1444995244000,
-  		"updatedAt":1445253805000
-  	},
-  	{
-	    "deviceKey": "Jas8snj1msdf89k83jdf",
-  		"name":"testCommand16",
-  		"isEnabled":true,
-  		"enabledAt":1445253805000,
-  		"createdAt":1445253575000,
-  		"updatedAt":1445253805000
-  	}
-]
-```
-
-This endpoint retrieves devices. Requires a User token.
-
-### HTTP Request
-
-`GET https://api.wia.io/v1/devices/:deviceKey/commands`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-limit | 20 | Number of commands to return. Max value 200.
-page | 0 | First page is 0.
-
-## Run a command
-> Example Request
-
-```shell
-shell "https://api.wia.io/v1/devices/:deviceKey/commands/:commandName/run"
-  -H "Authorization: Bearer token" \
-  -H "Content-Type: application/json" \
-  -X POST
-```
-
-```javascript
-var Wia = require('wia');
-var client = new Wia.UserClient('token');
-client.runCommand("deviceKey", "commandName",
-	function(err) {
-    	if (err) console.log(err);
-	}
-);
-```
-
-```objective_c
-WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"token"];
-[userClient runCommand:@"deviceKey" commandName:@"commandName" commandData:nil success:^(NSObject *obj) {
-    NSLog(@"Command sent!");
-} failure:^(NSError *error) {
-    NSLog(@"%@", [error localizedDescription]);
-}];
-```
-
-> Example Response
+> Example of a Command object
 
 ```
-200 OK
+{
+	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"name": "helloCommand",
+	"isEnabled": true,
+	"enabledAt": 1445253805000,
+	"createdAt": 1444995244000,
+	"updatedAt": 1445253805000
+}
 ```
 
-This endpoint runs a command on a device. Requires a User token.
+All commands are made up of the same object structure.
 
-### HTTP Request
-
-`POST https://api.wia.io/v1/devices/:deviceKey/commands/:commandName/run`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-deviceKey | Key of the device
-commandName | Name of the command to be run
+Parameter | Type | Description
+--------- | ----------- | -----------
+deviceKey | String | Unique key for the device.
+name | String | Name of the command.
+isEnabled | Boolean | If the command is currently enabled or not.
+enabledAt | Timestamp | Timestamp in milliseconds of when the command was last enabled.
+createdAt | Timestamp | Timestamp in milliseconds of when the command was initially created.
+updatedAt | Timestamp | Timestamp in milliseconds of when the command was last updated.
 
 ## Register a command
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/commands/register"
+curl "https://api.wia.io/v1/commands/register"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
 	-X POST -d '{"name":"commandName"}'
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.DeviceClient('token');
-client.registerCommand("commandName",
+var wia = require('wia')(
+	'token'
+);
+wia.commands.register("commandName",
 	function(data) {
    		// Function to run
+	}, function(err, registered) {
+		if (err) // Error occurred
+		if (registered) // Registered successfully	
 	}
 );
-```
-
-```objective_c
-Currently not supported.
 ```
 
 > Example Response
@@ -906,22 +833,22 @@ name | Name of the command to be registered
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/commands/deregister"
+curl "https://api.wia.io/v1/commands/deregister"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
 	-X PUT -d '{"name":"commandName"}'
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.DeviceClient('tokenn');
-client.deregisterCommand("helloCommand", function(err) {
-	if (err) console.log(err);
-});
-```
-
-```objective_c
-Currently not supported.
+var wia = require('wia')(
+	'token'
+);
+wia.commands.deregister("commandName",
+	function(err, registered) {
+		if (err) // Error occurred
+		if (deregistered) // Deregistered successfully	
+	}
+);
 ```
 
 > Example Response
@@ -946,21 +873,21 @@ name | Name of the command to be deregistered
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/commands/deregisterAll"
+curl "https://api.wia.io/v1/commands/deregisterAll"
 	-H "Authorization: Bearer token" \
 	-X PUT
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.DeviceClient('token');
-client.deregisterAllCommands(function(err) {
-	if (err) console.log(err);
-});
-```
-
-```objective_c
-Currently not supported.
+var wia = require('wia')(
+	'token'
+);
+wia.commands.deregisterAll(
+	function(err, deregistered) {
+		if (err) // Error occurred
+		if (deregistered) // Deregistered successfully	
+	}
+);
 ```
 
 > Example Response
@@ -978,6 +905,48 @@ This endpoint deregisters all commands for a device. Requires a Device token.
 ### URL Parameters
 
 No URL Parameters
+
+## Run a command
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/devices/:deviceKey/commands/:commandName/run"
+	-H "Authorization: Bearer token" \
+	-H "Content-Type: application/json" \
+	-X POST
+```
+
+```javascript
+var wia = require('wia')(
+	'token'
+);
+wia.commands.run(
+	{ deviceKey: "deviceKey",
+	  commandName: "commandName" },
+	function(err) {
+    	if (err) console.log(err);
+	}
+);
+```
+
+> Example Response
+
+```
+200 OK
+```
+
+This endpoint runs a command on a device. Requires a User token.
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/devices/:deviceKey/commands/:commandName/run`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+deviceKey | Key of the device
+commandName | Name of the command to be run
 
 # Customers
 ## The customer object
@@ -1016,10 +985,11 @@ curl https://<organisation-slug>.wia.io/v1/customers \
 ```
 
 ```javascript
-var Wia = require('wia');
-var userClient = new Wia.UserClient('token', 'org-slug');
-
-userClient.customers.create({
+var wia = require('wia')(
+	'token', 
+	'org-slug'
+);
+wia.customers.create({
 		fullName: "fullName",
 		email: "email"
 	}, function(err, customer) {
@@ -1033,12 +1003,12 @@ userClient.customers.create({
 
 ```json
 {
-  "customerKey": "jhdfg8ndfglk",
-  "username": "elliot@fsociety.com",
-  "email": "elliot@fsociety.com",
-  "fullName": "Elliot Alderson",
-  "createdAt": 1444063382000,
-  "updatedAt": 1444063382000
+	"customerKey": "cus_jhdfg8ndfglk",
+	"username": "elliot@fsociety.com",
+	"email": "elliot@fsociety.com",
+	"fullName": "Elliot Alderson",
+	"createdAt": 1435104000000,
+	"updatedAt": 1441152000000
 }
 ```
 
@@ -1053,29 +1023,33 @@ This endpoint creates a new customer. Requires a User token.
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/customers/:customerKey"
+curl "https://api.wia.io/v1/customers/:customerKey"
 	-H "Authorization: Bearer token"
 ```
 
 ```javascript
-var Wia = require('wia');
-var client = new Wia.UserClient('token', 'org-slug');
-client.getCustomer("customerKey", function(err, device) {
-	if (err) console.log(err);
-	if (device) console.log(device);
-});
+var wia = require('wia')(
+	'token',
+	'org-slug'
+);
+wia.customers.retrieve("customerKey", 
+	function(err, customer) {
+		if (err) console.log(err);
+		if (customer) console.log(customer);
+	}
+);
 ```
 
 > Example Response
 
 ```json
 {
-	"customerKey": "jhdfg8ndfglk",
+	"customerKey": "cus_jhdfg8ndfglk",
 	"username": "elliot@fsociety.com",
 	"email": "elliot@fsociety.com",
 	"fullName": "Elliot Alderson",
-	"createdAt": 1444063382000,
-	"updatedAt": 1444063382000
+	"createdAt": 1435104000000,
+	"updatedAt": 1441152000000
 }
 ```
 
@@ -1084,6 +1058,140 @@ This endpoint retrieves a customer. Requires a User token.
 ### HTTP Request
 
 `GET https://api.wia.io/v1/customers/:customerKey`
+
+## Update a customer
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/customers/:customerKey"
+	-H "Authorization: Bearer token"
+	-X PUT -d '{"name":"commandName"}'
+```
+
+```javascript
+var wia = require('wia')(
+	'token',
+	'org-slug'
+);
+wia.customers.update("customerKey", {
+		fullName: "New Name"
+	}, function(err, customer) {
+	if (err) console.log(err);
+	if (customer) console.log(customer);
+});
+```
+
+> Example Response
+
+```json
+{
+	"customerKey": "cus_jhdfg8ndfglk",
+	"username": "elliot@fsociety.com",
+	"email": "elliot@fsociety.com",
+	"fullName": "Elliot Alderson",
+	"createdAt": 1435104000000,
+	"updatedAt": 1441152000000
+}
+```
+
+This endpoint retrieves a customer. Requires a User token.
+
+### HTTP Request
+
+`PUT https://api.wia.io/v1/customers/:customerKey`
+
+## Delete a customer
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/customers/:customerKey"
+	-H "Authorization: Bearer token"
+	-X DELETE'
+```
+
+```javascript
+var wia = require('wia')(
+	'token',
+	'org-slug'
+);
+wia.customers.delete("customerKey", function(err, deleted) {
+	if (err) console.log(err);
+	if (deleted) console.log(deleted);
+});
+```
+
+> Example Response
+
+```
+200 OK
+```
+
+This endpoint deletes a customer. Requires a User token.
+
+### HTTP Request
+
+`DELETE https://api.wia.io/v1/customers/:customerKey`
+
+## List customers
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/customers"
+	-H "Authorization: Bearer token"
+```
+
+```javascript
+var wia = require('wia')(
+	'token',
+	'org-slug'
+);
+wia.customers.list({
+	limit: 20
+}, function(err, data) {
+ 	if (err) console.log(err);
+	if (data) console.log(data);
+});
+```
+
+> Example Response
+
+```json
+[
+  {
+	"customerKey": "cus_jhdfg8ndfglk",
+	"username": "elliot@fsociety.com",
+	"email": "elliot@fsociety.com",
+	"fullName": "Elliot Alderson",
+	"createdAt": 1435104000000,
+	"updatedAt": 1441152000000
+  },
+  {
+	"customerKey": "cus_20kdfgj9kfo",
+	"username": "a.moss@allsafe.com",
+	"email": "a.moss@allsafe.com",
+	"fullName":  "Angela Moss",
+	"createdAt": 1435104000000,
+	"updatedAt": 1441152000000
+  }
+]
+```
+
+This endpoint retrieves devices. Requires a User token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/customers`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+limit | 20 | Number of devices to return. Max value 200.
+page | 0 | First page is 0.
+order | name | Field to sort by. Valid values include name and lastUpdated.
+sort | asc | Either ascending (asc) or descending (desc).
 
 # Users
 ## The user object
@@ -1115,15 +1223,16 @@ updatedAt | Timestamp | Timestamp of the when the user was updated.
 > Example Request
 
 ```shell
-shell "https://api.wia.io/v1/users/me"
-  -H "Authorization: Bearer token"
+curl "https://api.wia.io/v1/users/me"
+	-H "Authorization: Bearer token"
 ```
 
 ```javascript
-var Wia = require('wia');
-var userClient = new Wia.UserClient('token');
-
-userClient.getMe(
+var wia = require('wia')(
+	'token',
+	'org-slug'
+);
+wia.users.me(
 	function(err, user) {
     if (err) console.log(err);
 		// asynchronously called
@@ -1131,25 +1240,16 @@ userClient.getMe(
 );
 ```
 
-```objective_c
-WiaUserClient *userClient = [[WiaUserClient alloc] initWithToken:@"userToken"];
-[userClient getUserMe:^(WiaUser *user) {
-    NSLog(@"%@", user);
-} failure:^(NSError *error) {
-    NSLog(@"%@", [error localizedDescription]);
-}];
-```
-
 > Example Response
 
 ```json
 {
-  "userKey": "jhdfg8ndfglk",
-  "username": "elliot@fsociety.com",
-  "firstName": "Elliot",
-  "lastName": "Alderson",
-  "fullName": "Elliot Alderson",
-  "createdAt": 1444063382000
+	"userKey": "user_jhdfg8ndfglk",
+	"username": "elliot@fsociety.com",
+	"firstName": "Elliot",
+	"lastName": "Alderson",
+	"fullName": "Elliot Alderson",
+	"createdAt": 1444063382000
 }
 ```
 
@@ -1186,3 +1286,43 @@ slug | String | Slug of the organisation. Used as the organisations URL.
 avatar | String | Avatar of the organisation
 createdAt | Timestamp | Timestamp of the when the organisation was created.
 updatedAt | Timestamp | Timestamp of the when the organisation was updated.
+
+## Retrieve current organisation
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/organisations/me"
+	-H "Authorization: Bearer token"
+```
+
+```javascript
+var wia = require('wia')(
+	'token',
+	'org-slug'
+);
+wia.organisations.me(
+	function(err, org) {
+   		if (err) console.log(err);
+   		if (org) console.log(org);
+	}
+);
+```
+
+> Example Response
+
+```json
+{
+	"organisationKey": "org_asdjfunmdf002imfg",
+	"name": "ACME Inc",
+	"slug": "acme-inc",
+	"avatar": {
+		"default": "https://cdn.wia.io/images/acme-org-avatar.png",
+		"thumbnail": "https://cdn.wia.io/images/acme-org-avatar_thumb.png"
+	},
+	"createdAt": 1440597871546,
+	"updatedAt": 1440597871154
+}
+```
+
+This endpoint retrieves the current organisation in use. Requires a User token.
