@@ -527,7 +527,8 @@ var wia = require('wia')(
 	'token'
 );
 wia.events.publish(
-	"temperature", 21.5,
+	{ name: "temperature", 
+	  data: 21.5 },
 	function(err, published) {
 	    if (err) console.log(err);
 	    if (published) console.log("Event published.");
@@ -683,15 +684,16 @@ This endpoint retrieves a list of events for a device. Requires a User token.
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-deviceKey | - | Key of device to get events for. Required.
-limit | 20 | Number of devices to return. Max value 200.
-page | 0 | First page is 0.
-order | name | Field to sort by. Valid values include name and lastUpdated.
-sort | asc | Either ascending (asc) or descending (desc).
-since | timestamp | Timestamp to start from.
-until | timestamp | Timestamp to return up until.
+Parameter | Type | Default | Description
+--------- | ---- | ------- | -----------
+deviceKey | String | - | Key of device to get events for. Required.
+name | String | - | Name of the event to return.
+limit | Number | 20 | Number of devices to return. Max value 200.
+page | Number | 0 | First page is 0.
+order | String | name | Field to sort by. Valid values include name and lastUpdated.
+sort | String | asc | Either ascending (asc) or descending (desc).
+since | Timestamp | - | Timestamp to start from.
+until | Timestamp | - | Timestamp to return up until.
 
 # Commands
 ## The command object
