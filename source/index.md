@@ -172,12 +172,12 @@ All devices are made up of the same object structure.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-deviceKey | String | Unique key of the device
-name | String | Name of the device
-events | Object | List of most recent events
-isOnline | Boolean | Online status of the device
-createdAt | Timestamp | Timestamp of when device was created
-updatedAt | Timestamp | Timestamp of when device was updated
+deviceKey | String | Unique key of the device.
+name | String | Name of the device.
+events | Object | List of most recent events.
+isOnline | Boolean | Online status of the device.
+createdAt | Timestamp | Timestamp of when device was created.
+updatedAt | Timestamp | Timestamp of when device was updated.
 
 ## Create a device
 
@@ -442,135 +442,12 @@ This endpoint retrieves devices. Requires a User token.
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-limit | 20 | Number of devices to return. Max value 200.
-page | 0 | First page is 0.
-order | name | Field to sort by. Valid values include name and lastUpdated.
-sort | asc | Either ascending (asc) or descending (desc).
-
-## List device events
-
-> Example Request
-
-```shell
-curl "https://api.wia.io/v1/devices/:deviceKey/events"
-	-H "Authorization: Bearer token"
-```
-
-```javascript
-var wia = require('wia')(
-	'token'
-);
-wia.devices.listEvents("deviceKey", {
-	limit: 20,
-	page: 0
-}, function(err, data) {
-	if (err) console.log(err);
-	if (data) console.log(data);
-});
-```
-
-> Example Response
-
-```json
-[
-  {
-    "name": "sensor",
-    "data": {
-  		"temperature": 14.5,
-  		"humidity": 56.3
-  	},
-  	"timestamp": 1440683447
-  },
-  {
-    "name": "location",
-    "data": {
-  		"latitude": 54.60247,
-  		"longitude": -5.92717
-  	},
-  	"timestamp": 1440683234
-  }
-]
-```
-
-This endpoint retrieves a list of events for a device. Requires a User token.
-
-### HTTP Request
-
-`GET https://api.wia.io/v1/devices/:deviceKey/events`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-deviceKey | Key of device to get events for.
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-limit | 20 | Number of devices to return. Max value 200.
-page | 0 | First page is 0.
-order | name | Field to sort by. Valid values include name and lastUpdated.
-sort | asc | Either ascending (asc) or descending (desc).
-
-
-## List device commands
-> Example Request
-
-```shell
-curl "https://api.wia.io/v1/devices/:deviceKey/commands"
-	-H "Authorization: Bearer token"
-```
-
-```javascript
-var wia = require('wia')(
-	'token'	
-);
-wia.devices.listCommands("deviceKey", {
-	limit: 20
-}, function(err, commands) {
-	if (err) console.log(err);
-	if (commands) console.log(commands);
-});
-```
-
-> Example Response
-
-```json
-[
-	{   
-	    "deviceKey": "Jas8snj1msdf89k83jdf",
-  		"name":"helloCommand",
-  		"isEnabled":true,
-  		"enabledAt":1445253805000,
-  		"createdAt":1444995244000,
-  		"updatedAt":1445253805000
-  	},
-  	{
-	    "deviceKey": "Jas8snj1msdf89k83jdf",
-  		"name":"testCommand16",
-  		"isEnabled":true,
-  		"enabledAt":1445253805000,
-  		"createdAt":1445253575000,
-  		"updatedAt":1445253805000
-  	}
-]
-```
-
-This endpoint retrieves devices. Requires a User token.
-
-### HTTP Request
-
-`GET https://api.wia.io/v1/devices/:deviceKey/commands`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-limit | 20 | Number of commands to return. Max value 200.
-page | 0 | First page is 0.
+Parameter | Type | Default | Description
+--------- | ---- | ------- | -----------
+limit | Number | 20 | Number of devices to return. Max value 200.
+page | Number | 0 | First page is 0.
+order | String | name | Field to sort by. Valid values include name and lastUpdated.
+sort | String | asc | Either ascending (asc) or descending (desc).
 
 ## Send a ping
 
@@ -752,6 +629,69 @@ This endpoint unsubscribes from device events. Requires a User token.
 ### HTTP Request
 
 `Not supported.`
+
+## List events
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/events"
+	-H "Authorization: Bearer token"
+```
+
+```javascript
+var wia = require('wia')(
+	'token'
+);
+wia.events.list({
+	deviceKey: "deviceKey",
+	limit: 20,
+	page: 0
+}, function(err, data) {
+	if (err) console.log(err);
+	if (data) console.log(data);
+});
+```
+
+> Example Response
+
+```json
+[
+  {
+	"deviceKey": "dev_ms8dfgknLA9k",
+    "name": "temperature",
+    "data": 25.4,
+  	"timestamp": 1440683447
+  },
+  {
+	"deviceKey": "dev_bijgwe29nNlop",	 
+    "name": "location",
+    "data": {
+  		"latitude": 54.60247,
+  		"longitude": -5.92717
+  	},
+  	"timestamp": 1440683234
+  }
+]
+```
+
+This endpoint retrieves a list of events for a device. Requires a User token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/events`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+deviceKey | - | Key of device to get events for. Required.
+limit | 20 | Number of devices to return. Max value 200.
+page | 0 | First page is 0.
+order | name | Field to sort by. Valid values include name and lastUpdated.
+sort | asc | Either ascending (asc) or descending (desc).
+since | timestamp | Timestamp to start from.
+until | timestamp | Timestamp to return up until.
 
 # Commands
 ## The command object
@@ -945,8 +885,66 @@ This endpoint runs a command on a device. Requires a User token.
 
 Parameter | Description
 --------- | -----------
-deviceKey | Key of the device
-commandName | Name of the command to be run
+deviceKey | Unique key of the device.
+commandName | Name of the command to be run.
+
+## List commands
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/commands"
+	-H "Authorization: Bearer token"
+```
+
+```javascript
+var wia = require('wia')(
+	'token'	
+);
+wia.commands.list({
+	deviceKey: "deviceKey",
+	limit: 20
+}, function(err, commands) {
+	if (err) console.log(err);
+	if (commands) console.log(commands);
+});
+```
+
+> Example Response
+
+```json
+[
+	{   
+	    "deviceKey": "Jas8snj1msdf89k83jdf",
+  		"name":"helloCommand",
+  		"isEnabled":true,
+  		"enabledAt":1445253805000,
+  		"createdAt":1444995244000,
+  		"updatedAt":1445253805000
+  	},
+  	{
+	    "deviceKey": "Jas8snj1msdf89k83jdf",
+  		"name":"testCommand16",
+  		"isEnabled":true,
+  		"enabledAt":1445253805000,
+  		"createdAt":1445253575000,
+  		"updatedAt":1445253805000
+  	}
+]
+```
+
+This endpoint retrieves devices. Requires a User token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/commands`
+
+### Query Parameters
+
+Parameter | Type | Default | Description
+--------- | ---- | ------- | -----------
+deviceKey | String | - | Unique key of the device. Required.
+limit | Number | 20 | Number of commands to return. Max value 200.
+page | Number | 0 | Page of results.
 
 # Customers
 ## The customer object
@@ -966,7 +964,7 @@ commandName | Name of the command to be run
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-customerKey | String | Unique identifier for the customer.
+customerKey | String | Unique key for the customer.
 username | String | Username of the customer.
 fullName | String | Full name of the customer.
 email | String | Email address of the customer.
