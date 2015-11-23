@@ -7,7 +7,7 @@ language_tabs:
   - objective_c: iOS
 
 toc_footers:
-  - <a href='https://www.wia.io/signup' target="_blank">Signup for Wia</a>
+  - <a href='https://www.wia.io/signup' target="_blank">Create a Wia account</a>
   - <a href='http://twitter.com/wiaio' target="_blank">Follow us on Twitter @wiaio</a>
 
 includes:
@@ -20,14 +20,14 @@ search: false
 > REST Endpoint
 
 ```
-https://api.wia.io
+https://api.wia.io (port 443)
 ```
 
 > MQTT Endpoint
 
 ```
-mqtt://mqtt.wia.io (port 1883)
-mqtts://mqtt.wia.io (port 8883)
+mqtt://api.wia.io (port 1883)
+mqtts://api.wia.io (port 8883)
 ```
 
 The Wia API is designed to be as intuitive as possible. We offer both a REST API and streaming over MQTT. If you have any questions, would like to see a new feature or find something is broken then <a href="mailto:support@wia.io">let us know</a>.
@@ -86,9 +86,31 @@ var accessToken = Wia.generateAccessToken({
 	}); 
 ```
 
+> Example of an access token
+
+```
+{
+	"accessToken": "u_kna8MAsd92ksdf00ksla0k2mhndf",
+	"tokenType": "bearer",
+	"expiresIn": "0",
+	"refreshToken": "u_mdfg8MMAS8msd912kasdf89mj",
+	"scope": "user"
+}
+```
+
 An access token may be generated for a user, customer or device.
 
-By default, access tokens expire after 24 hours unless specified using either `expiresAt` or `expiresIn` parameters. For an access token that lives forever, set `expiresIn` to `0`.
+By default, access tokens expire after 24 hours unless specified using `expiresIn` parameter. For an access token that lives forever, set `expiresIn` to `0`.
+
+Access token request parameters: 
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+username | String | Username of the entity requesting access.
+password | String | Password of the entity requesting access.
+expiresIn | Number | Number of seconds this token is valid for. 0 means forever.
+grantType | String | One of either 'password' or 'refreshToken'.
+scope | String | Scope of the access token that is being requested. Default is 'user'.
 
 All access tokens are made up of the same object structure.
 
@@ -98,8 +120,9 @@ Parameter | Type | Description
 --------- | ----------- | -----------
 accessToken | String | Unique access token that is used for all requests.
 tokenType | String | The type of access token.
-expiresIn | Number | Number of milliseconds this token is valid for. 0 means forever.
+expiresIn | Number | Number of seconds this token is valid for. 0 means forever.
 refreshToken | String | Unique refresh token that is used to generate a new access token.
+scope | String | Scope of the access token.
 
 ## Authenticating requests
 
@@ -110,6 +133,10 @@ The Wia API expects the access token to be included in all API requests to the s
 <aside class="warning">If you are not using the correct type of token, you will get a 401 Unauthorized response.</aside>
 
 If you are connecting using your own MQTT client, put your access token in the username field and blank space for the password.
+
+`Endpoint: mqtt://api.wia.io:1883 or mqtts://api.wia.io:8883`  
+`Username: "token"`  
+`Password: " " // Note the space`  
 
 # Devices
 ## The device object
@@ -393,7 +420,7 @@ var client = new Wia.UserClient('userToken');
 client.listDevices({
 	limit: 20
 }, function(err, data) {
-  if (err) console.log(err);
+ 	if (err) console.log(err);
 	if (data) console.log(data);
 });
 ```
@@ -1177,4 +1204,3 @@ slug | String | Slug of the organisation. Used as the organisations URL.
 avatar | String | Avatar of the organisation
 createdAt | Timestamp | Timestamp of the when the organisation was created.
 updatedAt | Timestamp | Timestamp of the when the organisation was updated.
-
