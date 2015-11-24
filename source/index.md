@@ -396,8 +396,9 @@ This endpoint deletes a device. Requires a User token.
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/devices"
-	-H "Authorization: Bearer userToken"
+curl "https://api.wia.io/v1/devices?limit=20" \
+	-H "Authorization: Bearer token" \
+	-X GET
 ```
 
 ```javascript
@@ -633,7 +634,7 @@ wia.events.list({
 	"deviceKey": "dev_ms8dfgknLA9k",
     "name": "temperature",
     "data": 25.4,
-  	"timestamp": 1440683447
+  	"timestamp": 1440683447764
   },
   {
 	"deviceKey": "dev_bijgwe29nNlop",	 
@@ -642,7 +643,7 @@ wia.events.list({
   		"latitude": 54.60247,
   		"longitude": -5.92717
   	},
-  	"timestamp": 1440683234
+  	"timestamp": 1440683234546
   }
 ]
 ```
@@ -663,6 +664,220 @@ limit | Number | 20 | Number of devices to return. Max value 200.
 page | Number | 0 | First page is 0.
 order | String | name | Field to sort by. Valid values include name and lastUpdated.
 sort | String | asc | Either ascending (asc) or descending (desc).
+since | Timestamp | - | Timestamp to start from.
+until | Timestamp | - | Timestamp to return up until.
+
+# Logs
+## The log object
+
+> Example of an Event object with single data value
+
+```
+{
+	"deviceKey": "dev_ksd892MN9k12l",
+	"level": "warning",
+	"message": "Memory usage too high.",
+	"data": {
+		"memory": 425
+	},
+	"timestamp": 1440597871365
+}
+```
+
+All logs are made up of the same object structure.
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+deviceKey | String | Unique key for the device.
+level | String | Level of the log. Only 'fatal','error','warn','info','debug' or 'trace' allowed.
+message | String | Message of the log
+data | Any | Data associated with the log. A number, string or object can be passed into this.
+timestamp | Timestamp | Timestamp of the event in milliseconds.
+
+## Publish a log
+
+> Example Request
+
+```shell
+curl https://api.wia.io/v1/logs \
+	-H "Authorization: Bearer token" \
+	-H "Content-Type: application/json" \
+	-X POST -d '{"level":"info","message":"message"}'
+```
+
+```javascript
+var wia = require('wia')(
+	'token'
+);
+wia.logs.publish(
+	{ level: "info", 
+	  message: "message" },
+	function(err, published) {
+	    if (err) console.log(err);
+	    if (published) console.log("Log published.");
+	}
+);
+```
+
+> The above command returns status 200 OK when log has been created.
+
+This endpoint publishes a log. Requires a Device token.
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/logs`
+
+### Attributes
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+deviceKey | String | Unique key for the device.
+level | String | Level of the log. Only 'fatal','error','warn','info','debug' or 'trace' allowed.
+message | String | Message of the log
+data | Any | Data associated with the log. A number, string or object can be passed into this.
+timestamp | Timestamp | Timestamp of the event in milliseconds.
+
+## Subscribe to logs
+
+> Example
+
+```shell
+Not supported
+```
+
+```javascript
+var wia = require('wia')(
+	'token'
+);
+// For all logs use:
+wia.logs.subscribe(
+	{ deviceKey: "deviceKey" },
+	function(err, log) {
+	    if (err) console.log(err);
+	    if (log) console.log(log);
+	}
+);
+
+// For a specific log use:
+wia.logs.subscribe(
+	{ deviceKey: "deviceKey",
+	  level: "level" },
+	function(err, log) {
+	    if (err) console.log(err);
+	    if (log) console.log(log);
+	}
+);
+```
+
+> The above command returns a log object when one has been received.
+
+This endpoint subscribes to logs. Requires a User token.
+
+### HTTP Request
+
+`Not supported.`
+
+## Unsubscribe from logs
+
+> Example
+
+```shell
+Not supported
+```
+
+```javascript
+var wia = require('wia')(
+	'token'
+);
+
+// For all device events use:
+wia.logs.unsubscribe(
+	{ deviceKey: "deviceKey" },
+	function(err) {
+ 	   if (err) console.log(err);
+	}
+);
+
+// For a specific device event use:
+wia.logs.unsubscribe(
+	{ deviceKey: "deviceKey",
+	  level: "level" },
+	function(err) {
+ 	   if (err) console.log(err);
+	}
+);
+```
+
+This endpoint unsubscribes from device logs. Requires a User token.
+
+### HTTP Request
+
+`Not supported.`
+
+## List logs
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/logs"
+	-H "Authorization: Bearer token"
+```
+
+```javascript
+var wia = require('wia')(
+	'token'
+);
+wia.logs.list({
+	deviceKey: "deviceKey",
+	limit: 20,
+	page: 0
+}, function(err, data) {
+	if (err) console.log(err);
+	if (data) console.log(data);
+});
+```
+
+> Example Response
+
+```json
+[
+  {
+	"deviceKey": "dev_ksd892MN9k12l",
+	"level": "warning",
+	"message": "Memory usage too high.",
+	"data": {
+		"memory": 425
+	},
+	"timestamp": 1440597871365
+  },
+  {
+	"deviceKey": "dev_ksd892MN9k12l",
+	"level": "warning",
+	"message": "Memory usage too high.",
+	"data": {
+		"memory": 425
+	},
+	"timestamp": 1440597871365
+  }
+]
+```
+
+This endpoint retrieves a list of logs for a device. Requires a User token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/logs`
+
+### Query Parameters
+
+Parameter | Type | Default | Description
+--------- | ---- | ------- | -----------
+deviceKey | String | - | Key of device to get events for. Required.
+level | String | - | Level of the log to return.
+limit | Number | 20 | Number of logs to return. Max value 200.
+page | Number | 0 | First page is 0.
+order | String | timestamp | Field to sort by.
+sort | String | desc | Either ascending (asc) or descending (desc).
 since | Timestamp | - | Timestamp to start from.
 until | Timestamp | - | Timestamp to return up until.
 
@@ -707,7 +922,8 @@ curl "https://api.wia.io/v1/commands/register"
 var wia = require('wia')(
 	'token'
 );
-wia.commands.register("commandName",
+wia.commands.register(
+	{ name: "commandName" },
 	function(data) {
    		// Function to run
 	}, function(err, registered) {
@@ -756,8 +972,9 @@ curl "https://api.wia.io/v1/commands/deregister"
 var wia = require('wia')(
 	'token'
 );
-wia.commands.deregister("commandName",
-	function(err, registered) {
+wia.commands.deregister(
+	{ name: "commandName" },
+	function(err, deregistered) {
 		if (err) // Error occurred
 		if (deregistered) // Deregistered successfully	
 	}
@@ -778,55 +995,18 @@ This endpoint deregisters a command for a device. Requires a Device token.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-name | Name of the command to be deregistered
-
-## Deregisters all commands
-> Example Request
-
-```shell
-curl "https://api.wia.io/v1/commands/deregisterAll"
-	-H "Authorization: Bearer token" \
-	-X PUT
-```
-
-```javascript
-var wia = require('wia')(
-	'token'
-);
-wia.commands.deregisterAll(
-	function(err, deregistered) {
-		if (err) // Error occurred
-		if (deregistered) // Deregistered successfully	
-	}
-);
-```
-
-> Example Response
-
-```json
-200 OK
-```
-
-This endpoint deregisters all commands for a device. Requires a Device token.
-
-### HTTP Request
-
-`PUT https://api.wia.io/v1/commands/deregisterAll`
-
-### URL Parameters
-
-No URL Parameters
+Parameter | Type | Description
+--------- | ---- | -----------
+name | String | Name of the command to be deregistered.
+all | Boolean | If set to true, deregisters all commands for a device.
 
 ## Run a command
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/devices/:deviceKey/commands/:commandName/run"
+curl "https://api.wia.io/v1/commands/run"
 	-H "Authorization: Bearer token" \
-	-H "Content-Type: application/json" \
-	-X POST
+	-H "Content-Type: application/json"
 ```
 
 ```javascript
@@ -852,14 +1032,14 @@ This endpoint runs a command on a device. Requires a User token.
 
 ### HTTP Request
 
-`POST https://api.wia.io/v1/devices/:deviceKey/commands/:commandName/run`
+`GET https://api.wia.io/v1/commands/run`
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-deviceKey | Unique key of the device.
-commandName | Name of the command to be run.
+Parameter | Type | Description
+--------- | ---- | -----------
+deviceKey | String | Unique key of the device.
+commandName | String | Name of the command to be run.
 
 ## List commands
 > Example Request
@@ -905,7 +1085,7 @@ wia.commands.list({
 ]
 ```
 
-This endpoint retrieves devices. Requires a User token.
+This endpoint retrieves a list of commands for a device. Requires a User token.
 
 ### HTTP Request
 
