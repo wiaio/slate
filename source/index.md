@@ -748,7 +748,6 @@ This endpoint publishes a log. Requires a Device token.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-deviceKey | String | Unique key for the device.
 level | String | Level of the log. Only 'fatal','error','warn','info','debug' or 'trace' allowed.
 message | String | Message of the log
 data | Any | Data associated with the log. A number, string or object can be passed into this.
