@@ -449,35 +449,6 @@ page | Number | 0 | First page is 0.
 order | String | name | Field to sort by. Valid values include name and lastUpdated.
 sort | String | asc | Either ascending (asc) or descending (desc).
 
-## Send a ping
-
-> Example Request
-
-```shell
-curl http://api.wia.io/v1/ping \
-	-H "Authorization: Bearer token"
-```
-
-```javascript
-var wia = require('wia')(
-	'token'
-);
-wia.sendPing(
-	function(err) {
-   		if (err) console.log(err);
-	}
-);
-```
-
-> The above command returns status 200 OK when a ping has been received.
-
-
-This endpoint allows a device to let the service know it is online. It is not required to use this method when using a stream enabled client. Requires a Device token.
-
-### HTTP Request
-
-`GET https://api.wia.io/v1/ping`
-
 # Events
 ## The event object
 
@@ -1232,12 +1203,10 @@ var wia = require('wia')(
 	'token',
 	'org-slug'
 );
-wia.users.me(
-	function(err, user) {
-    if (err) console.log(err);
-		// asynchronously called
-	}
-);
+wia.users.me(function(err, user) {
+	if (err) console.log(err);
+	if (user) console.log(user);
+});
 ```
 
 > Example Response
