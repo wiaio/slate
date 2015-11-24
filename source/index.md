@@ -139,6 +139,23 @@ If you are connecting using your own MQTT client, put your access token in the u
 `Username: "token"`  
 `Password: " " // Note the space`  
 
+# Stream
+## Connect to stream
+
+> To connect to the stream, use this code:
+
+```shell
+Not supported
+```
+
+```javascript
+var wia = require('wia')('token');
+wia.stream.connect();
+```
+
+We recommend sending all events and logs down the Wia stream (i.e. MQTT), instead of via REST. In order to do so, you must connect to the stream before publshing any data or you will get an error.
+
+
 # Devices
 ## The device object
 
