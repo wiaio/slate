@@ -751,7 +751,7 @@ Parameter | Type | Description
 level | String | Level of the log. Only 'fatal','error','warn','info','debug' or 'trace' allowed.
 message | String | Message of the log
 data | Any | Data associated with the log. A number, string or object can be passed into this.
-timestamp | Timestamp | Timestamp of the event in milliseconds.
+timestamp | Timestamp | Timestamp of the log in milliseconds.
 
 ## Subscribe to logs
 
