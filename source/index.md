@@ -51,7 +51,7 @@ curl https://api.wia.io/v1/auth/token \
 ```
 
 ```javascript
-var wia = require('wia');
+var wia = require('wia')('');
 var accessToken = wia.generateAccessToken({
 		username: "username",
 		password: "password",
@@ -74,8 +74,7 @@ curl https://<organisation-slug>.wia.io/v1/auth/token \
 ```
 
 ```javascript
-var wia = require('wia');
-wia.setOrganisationSlug('org-slug');
+var wia = require('wia')('','org-slug');
 var accessToken = wia.generateAccessToken({
 		username: "username",
 		password: "password",
@@ -287,7 +286,7 @@ wia.devices.retrieve("deviceKey", function(err, device) {
 }
 ```
 
-This endpoint retrieves a device. Requires a User token.
+This endpoint retrieves a device. Requires a User or Customer token.
 
 ### HTTP Request
 
@@ -452,7 +451,7 @@ wia.devices.list({
 ]
 ```
 
-This endpoint retrieves devices. Requires a User token.
+This endpoint retrieves devices. Requires a User or Customer token.
 
 ### HTTP Request
 
@@ -665,7 +664,7 @@ wia.events.list({
 ]
 ```
 
-This endpoint retrieves a list of events for a device. Requires a User token.
+This endpoint retrieves a list of events for a device. Requires a User or Customer token.
 
 ### HTTP Request
 
@@ -878,7 +877,7 @@ wia.logs.list({
 ]
 ```
 
-This endpoint retrieves a list of logs for a device. Requires a User token.
+This endpoint retrieves a list of logs for a device. Requires a User or Customer token.
 
 ### HTTP Request
 
@@ -1044,7 +1043,7 @@ wia.commands.run(
 200 OK
 ```
 
-This endpoint runs a command on a device. Requires a User token.
+This endpoint runs a command on a device. Requires a User or Customer token.
 
 ### HTTP Request
 
@@ -1225,6 +1224,45 @@ This endpoint retrieves a customer. Requires a User token.
 ### HTTP Request
 
 `GET https://api.wia.io/v1/customers/:customerKey`
+
+## Retrieve current customer
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/customers/me"
+	-H "Authorization: Bearer token"
+```
+
+```javascript
+var wia = require('wia')(
+	'token',
+	'org-slug'
+);
+wia.customers.me(function(err, customer) {
+	if (err) console.log(err);
+	if (customer) console.log(customer);
+});
+```
+
+> Example Response
+
+```json
+{
+	"customerKey": "cus_jhdfg8ndfglk",
+	"username": "elliot@fsociety.com",
+	"email": "elliot@fsociety.com",
+	"fullName": "Elliot Alderson",
+	"createdAt": 1435104000000,
+	"updatedAt": 1441152000000
+}
+```
+
+This endpoint retrieves the current customer. Requires a Customer token.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/customers/me`
 
 ## Update a customer
 
