@@ -4,9 +4,7 @@ title: Wia Documentation
 language_tabs:
   - shell: curl
   - javascript: Node.js
-  #- objective_c: iOS
-  #- java: Java
-  #- python: Python
+  - objective_c: iOS
 
 toc_footers:
   - <a href='https://www.wia.io/signup' target="_blank">Create a Wia account</a>
