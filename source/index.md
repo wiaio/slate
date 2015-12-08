@@ -4,7 +4,9 @@ title: Wia Documentation
 language_tabs:
   - shell: curl
   - javascript: Node.js
-#   - objective_c: iOS
+  #- objective_c: iOS
+  #- java: Java
+  #- python: Python
 
 toc_footers:
   - <a href='https://www.wia.io/signup' target="_blank">Create a Wia account</a>
@@ -32,7 +34,7 @@ mqtts://api.wia.io (port 8883)
 
 The Wia API is designed to be as intuitive as possible. We offer both a REST API and streaming over MQTT. If you have any questions, would like to see a new feature or find something is broken then <a href="mailto:support@wia.io">let us know</a>.
 
-We have official client libraries that can be found on our <a href="https://github.com/wiaio" target="_blank">GitHub page</a>. 
+We have official client libraries that can be found on our <a href="https://github.com/wiaio" target="_blank">GitHub page</a>.
 
 You can view code examples in the dark area to the right, and switch the programming language of the examples with the tabs in the top right.
 
@@ -60,7 +62,21 @@ var accessToken = wia.generateAccessToken({
 	}, function(err, accessToken) {
 		if (err) // Handle error
 		else if (accessToken) // Got token!
-	}); 
+	});
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] generateAccessToken:@"username"
+  password:@"password"
+  grantType:@"password"
+  scope:@"user"
+  success:^(WiaAccessToken *accessToken) {
+  // Got access token
+} failure:(void (^)(NSError *error))failure{
+  // Failed
+}];
 ```
 
 > To generate a customer access token, use this code:
@@ -83,7 +99,22 @@ var accessToken = wia.generateAccessToken({
 	}, function(err, accessToken) {
 		if (err) // Handle error
 		else if (accessToken) // Got token!
-	}); 
+	});
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] setOrganisationSlug:@"org-slug"];
+[[WiaClient sharedInstance] generateAccessToken:@"username"
+	password:@"password"
+	grantType:@"password"
+	scope:@"customer"
+	success:^(WiaAccessToken *accessToken) {
+	// Got access token
+  } failure:(void (^)(NSError *error))failure{
+ 	// Failed
+}];
 ```
 
 > Example of an access token
@@ -102,7 +133,7 @@ An access token may be generated for a user, customer or device.
 
 By default, access tokens expire after 24 hours unless specified using `expiresIn` parameter. For an access token that lives forever, set `expiresIn` to `0`.
 
-Access token request parameters: 
+Access token request parameters:
 
 Parameter | Type | Description
 --------- | ----------- | -----------
@@ -150,6 +181,17 @@ Not supported
 ```javascript
 var wia = require('wia')('token');
 wia.stream.connect();
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] connectToStream:^() {
+  // Connected to stream
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 We recommend sending all events and logs down the Wia stream (i.e. MQTT), instead of via REST. In order to do so, you must connect to the stream before publshing any data or you will get an error.
@@ -218,6 +260,19 @@ wia.devices.create({
 });
 ```
 
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] createDevice:@{
+  name: @"My first device"
+} success:^(WiaDevice *device) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
 > Example Response
 
 ```json
@@ -259,6 +314,18 @@ wia.devices.retrieve("deviceKey", function(err, device) {
 	if (err) console.log(err);
 	if (device) console.log(device);
 });
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] retrieveDevice:@"deviceKey"
+success:^(WiaDevice *device) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > Example Response
@@ -311,6 +378,17 @@ wia.devices.me(function(err, device) {
 });
 ```
 
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] retrieveCurrentDevice:^(WiaDevice *device) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
 > Example Response
 
 ```json
@@ -349,6 +427,21 @@ wia.devices.update("deviceKey", {
 		if (device) console.log(device);
 	}
 );
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] updateDevice:@"deviceKey"
+  fields:@{
+    @"name": @"New device name"
+  }
+  success:^(WiaDevice *device) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > Example Response
@@ -390,6 +483,18 @@ wia.devices.delete(
 );
 ```
 
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] deleteDevice:@"deviceKey"
+  success:^(BOOL confirmed) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
 > Example Response
 
 ```json
@@ -428,6 +533,20 @@ wia.devices.list({
  	if (err) console.log(err);
 	if (data) console.log(data);
 });
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] listDevices:@{
+  @"limit": @(20),
+  @"page": @(0)
+} success:^(NSArray *devices) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > Example Response
@@ -515,13 +634,26 @@ var wia = require('wia')(
 	'token'
 );
 wia.events.publish(
-	{ name: "temperature", 
+	{ name: "temperature",
 	  data: 21.5 },
 	function(err, published) {
 	    if (err) console.log(err);
 	    if (published) console.log("Event published.");
 	}
 );
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] publishEvent:@"temperature"
+  data:@(21.5)
+  success:^(WiaDevice *device) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > The above command returns status 200 OK when event has been created.
@@ -572,6 +704,29 @@ wia.events.subscribe(
 );
 ```
 
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+
+// For all events use:
+[[WiaClient sharedInstance] subscribeToEvents:@"deviceKey"
+  success:^(WiaDeviceEvent *event) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+
+// For a specific event use:
+[[WiaClient sharedInstance] subscribeToEvents:@"deviceKey"
+  name:@"eventName"
+  success:^(WiaDeviceEvent *event) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
 > The above command returns an Event object when one has been received.
 
 This endpoint subscribes to events. Requires a User token.
@@ -611,6 +766,29 @@ wia.events.unsubscribe(
 );
 ```
 
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+
+// For all events use:
+[[WiaClient sharedInstance] unsubscribeFromEvents:@"deviceKey"
+  success:^() {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+
+// For a specific event use:
+[[WiaClient sharedInstance] unsubscribeFromEvents:@"deviceKey"
+  name:@"eventName"
+  success:^() {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
 > The above command returns an Event object when one has been received.
 
 This endpoint unsubscribes from device events. Requires a User token.
@@ -640,6 +818,21 @@ wia.events.list({
 	if (err) console.log(err);
 	if (data) console.log(data);
 });
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] listEvents:@"deviceKey"
+  params: @{
+    @"limit": @(20)
+  }
+  success:^(NSArray *events) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > Example Response
@@ -726,13 +919,29 @@ var wia = require('wia')(
 	'token'
 );
 wia.logs.publish(
-	{ level: "info", 
+	{ level: "info",
 	  message: "message" },
 	function(err, published) {
 	    if (err) console.log(err);
 	    if (published) console.log("Log published.");
 	}
 );
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] publishLog:@"level"
+  message: @"My first log message"
+  data: @{
+    @"cpu": @"1.5"
+  }
+  success:^() {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > The above command returns status 200 OK when log has been created.
@@ -773,7 +982,7 @@ wia.logs.subscribe(
 	}
 );
 
-// For a specific log use:
+// For a specific log level use:
 wia.logs.subscribe(
 	{ deviceKey: "deviceKey",
 	  level: "level" },
@@ -782,6 +991,29 @@ wia.logs.subscribe(
 	    if (log) console.log(log);
 	}
 );
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+
+// For all logs use:
+[[WiaClient sharedInstance] subscribeToLogs:@"deviceKey"
+  success:^(WiaDeviceLog *log) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+
+// For a specific log level use:
+[[WiaClient sharedInstance] subscribeToLogs:@"deviceKey"
+  level:@"level"
+  success:^(WiaDeviceLog *log) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > The above command returns a log object when one has been received.
@@ -823,6 +1055,29 @@ wia.logs.unsubscribe(
 );
 ```
 
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+
+// For all logs use:
+[[WiaClient sharedInstance] unsubscribeFromLogs:@"deviceKey"
+  success:^() {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+
+// For a specific log level use:
+[[WiaClient sharedInstance] unsubscribeFromLogs:@"deviceKey"
+  level:@"level"
+  success:^() {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
 This endpoint unsubscribes from device logs. Requires a User token.
 
 ### HTTP Request
@@ -850,6 +1105,22 @@ wia.logs.list({
 	if (err) console.log(err);
 	if (data) console.log(data);
 });
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] listLogs:@"deviceKey"
+  params: @{
+    @"limit": @(20),
+    @"page": @(0)
+  }
+  success:^(NSArray *devices) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > Example Response
@@ -896,15 +1167,15 @@ sort | String | desc | Either ascending (asc) or descending (desc).
 since | Timestamp | - | Timestamp to start from.
 until | Timestamp | - | Timestamp to return up until.
 
-# Commands
-## The command object
+# Functions
+## The function object
 
-> Example of a Command object
+> Example of a Function object
 
 ```
 {
 	"deviceKey": "Jas8snj1msdf89k83jdf",
-	"name": "helloCommand",
+	"name": "helloFunction",
 	"isEnabled": true,
 	"enabledAt": 1445253805000,
 	"createdAt": 1444995244000,
@@ -912,47 +1183,51 @@ until | Timestamp | - | Timestamp to return up until.
 }
 ```
 
-All commands are made up of the same object structure.
+All functions are made up of the same object structure.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
 deviceKey | String | Unique key for the device.
-name | String | Name of the command.
-isEnabled | Boolean | If the command is currently enabled or not.
-enabledAt | Timestamp | Timestamp in milliseconds of when the command was last enabled.
-createdAt | Timestamp | Timestamp in milliseconds of when the command was initially created.
-updatedAt | Timestamp | Timestamp in milliseconds of when the command was last updated.
+name | String | Name of the function.
+isEnabled | Boolean | If the function is currently enabled or not.
+enabledAt | Timestamp | Timestamp in milliseconds of when the function was last enabled.
+createdAt | Timestamp | Timestamp in milliseconds of when the function was initially created.
+updatedAt | Timestamp | Timestamp in milliseconds of when the function was last updated.
 
-## Register a command
+## Register a function
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/commands/register"
+curl "https://api.wia.io/v1/functions/register"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
-	-X POST -d '{"name":"commandName"}'
+	-X POST -d '{"name":"functionName"}'
 ```
 
 ```javascript
 var wia = require('wia')(
 	'token'
 );
-wia.commands.register(
-	{ name: "commandName" },
+wia.functions.register(
+	{ name: "funcitonName" },
 	function(data) {
    		// Function to run
 	}, function(err, registered) {
 		if (err) // Error occurred
-		if (registered) // Registered successfully	
+		if (registered) // Registered successfully
 	}
 );
+```
+
+```objective_c
+Not available
 ```
 
 > Example Response
 
 ```json
 {
-	"name": "helloCommand",
+	"name": "helloFunction",
 	"isEnabled": true,
 	"enabledAt": 1444995277000,
 	"createdAt": 1444995244000,
@@ -960,40 +1235,43 @@ wia.commands.register(
 }
 ```
 
-This endpoint register a command for a device. Requires a Device token.
+This endpoint register a function for a device. Requires a Device token.
 
 ### HTTP Request
 
-`POST https://api.wia.io/v1/commands/register`
+`POST https://api.wia.io/v1/functions/register`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-name | Name of the command to be registered
+name | Name of the function to be registered
 
-
-## Deregister a command
+## Deregister a function
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/commands/deregister"
+curl "https://api.wia.io/v1/functions/deregister"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
-	-X PUT -d '{"name":"commandName"}'
+	-X PUT -d '{"name":"functionName"}'
 ```
 
 ```javascript
 var wia = require('wia')(
 	'token'
 );
-wia.commands.deregister(
-	{ name: "commandName" },
+wia.functions.deregister(
+	{ name: "functionName" },
 	function(err, deregistered) {
 		if (err) // Error occurred
-		if (deregistered) // Deregistered successfully	
+		if (deregistered) // Deregistered successfully
 	}
 );
+```
+
+```objective_c
+Not available
 ```
 
 > Example Response
@@ -1002,24 +1280,24 @@ wia.commands.deregister(
 200 OK
 ```
 
-This endpoint deregisters a command for a device. Requires a Device token.
+This endpoint deregisters a function for a device. Requires a Device token.
 
 ### HTTP Request
 
-`PUT https://api.wia.io/v1/commands/deregister`
+`PUT https://api.wia.io/v1/functions/deregister`
 
 ### URL Parameters
 
 Parameter | Type | Description
 --------- | ---- | -----------
-name | String | Name of the command to be deregistered.
-all | Boolean | If set to true, deregisters all commands for a device.
+name | String | Name of the function to be deregistered.
+all | Boolean | If set to true, deregisters all functions for a device.
 
-## Run a command
+## Run a function
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/commands/run"
+curl "https://api.wia.io/v1/functions/run"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json"
 ```
@@ -1028,13 +1306,26 @@ curl "https://api.wia.io/v1/commands/run"
 var wia = require('wia')(
 	'token'
 );
-wia.commands.run(
+wia.functions.run(
 	{ deviceKey: "deviceKey",
-	  commandName: "commandName" },
+	  name: "functionName" },
 	function(err) {
     	if (err) console.log(err);
 	}
 );
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] runFunction:@"deviceKey"
+	name: @"functionName"
+	success:^() {
+		// Success
+	} failure:^(NSError *error) {
+	  // An error occurred
+}];
 ```
 
 > Example Response
@@ -1043,38 +1334,54 @@ wia.commands.run(
 200 OK
 ```
 
-This endpoint runs a command on a device. Requires a User or Customer token.
+This endpoint runs a function on a device. Requires a User or Customer token.
 
 ### HTTP Request
 
-`GET https://api.wia.io/v1/commands/run`
+`GET https://api.wia.io/v1/functions/run`
 
 ### URL Parameters
 
 Parameter | Type | Description
 --------- | ---- | -----------
 deviceKey | String | Unique key of the device.
-commandName | String | Name of the command to be run.
+functionName | String | Name of the function to be run.
 
-## List commands
+## List functions
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/commands"
+curl "https://api.wia.io/v1/functions"
 	-H "Authorization: Bearer token"
 ```
 
 ```javascript
 var wia = require('wia')(
-	'token'	
+	'token'
 );
-wia.commands.list({
+wia.functions.list({
 	deviceKey: "deviceKey",
 	limit: 20
-}, function(err, commands) {
+}, function(err, functions) {
 	if (err) console.log(err);
-	if (commands) console.log(commands);
+	if (functions) console.log(functions);
 });
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] listFunctions:@"deviceKey"
+  params: @{
+    @"limit": @(20),
+    @"page": @(0)
+  }
+  success:^(NSArray *functions) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > Example Response
@@ -1083,7 +1390,7 @@ wia.commands.list({
 [
 	{   
 	    "deviceKey": "Jas8snj1msdf89k83jdf",
-  		"name":"helloCommand",
+  		"name":"helloFunction1",
   		"isEnabled":true,
   		"enabledAt":1445253805000,
   		"createdAt":1444995244000,
@@ -1091,7 +1398,7 @@ wia.commands.list({
   	},
   	{
 	    "deviceKey": "Jas8snj1msdf89k83jdf",
-  		"name":"testCommand16",
+  		"name":"helloFunction2",
   		"isEnabled":true,
   		"enabledAt":1445253805000,
   		"createdAt":1445253575000,
@@ -1100,18 +1407,18 @@ wia.commands.list({
 ]
 ```
 
-This endpoint retrieves a list of commands for a device. Requires a User token.
+This endpoint retrieves a list of functions for a device. Requires a User token.
 
 ### HTTP Request
 
-`GET https://api.wia.io/v1/commands`
+`GET https://api.wia.io/v1/functions`
 
 ### Query Parameters
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
 deviceKey | String | - | Unique key of the device. Required.
-limit | Number | 20 | Number of commands to return. Max value 200.
+limit | Number | 20 | Number of functions to return. Max value 200.
 page | Number | 0 | Page of results.
 
 # Customers
@@ -1147,22 +1454,36 @@ updatedAt | Timestamp | Timestamp of the when the customer was updated.
 curl https://<organisation-slug>.wia.io/v1/customers \
 	-H "Authorization: Bearer token" \
 	-d fullName="fullName" \
-	-d email="email"
+	-d email="email@address.com"
 ```
 
 ```javascript
 var wia = require('wia')(
-	'token', 
+	'token',
 	'org-slug'
 );
 wia.customers.create({
 		fullName: "fullName",
-		email: "email"
+		email: "email@address.com"
 	}, function(err, customer) {
 	    if (err) // Handle error
 		else if (customer) // Do something with customer.
 	}
 );
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] createCustomer:@{
+  @"fullName": "fullName",
+  @"email": @"email@address.com"
+} success:^(WiaCustomer *customer) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > Example Response
@@ -1198,12 +1519,24 @@ var wia = require('wia')(
 	'token',
 	'org-slug'
 );
-wia.customers.retrieve("customerKey", 
+wia.customers.retrieve("customerKey",
 	function(err, customer) {
 		if (err) console.log(err);
 		if (customer) console.log(customer);
 	}
 );
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] retrieveCustomer:@"customerKey"
+  success:^(WiaCustomer *customer) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > Example Response
@@ -1245,6 +1578,17 @@ wia.customers.me(function(err, customer) {
 });
 ```
 
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] retrieveCurrentCustomer:^(WiaCustomer *customer) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
 > Example Response
 
 ```json
@@ -1271,7 +1615,7 @@ This endpoint retrieves the current customer. Requires a Customer token.
 ```shell
 curl "https://api.wia.io/v1/customers/:customerKey"
 	-H "Authorization: Bearer token"
-	-X PUT -d '{"name":"commandName"}'
+	-X PUT -d '{"fullName":"New Customer Name"}'
 ```
 
 ```javascript
@@ -1360,6 +1704,20 @@ wia.customers.list({
 });
 ```
 
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] listCustomers:@{
+  @"limit": @(20),
+  @"page": @(0)
+} success:^(NSArray *customers) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
 > Example Response
 
 ```json
@@ -1443,6 +1801,17 @@ wia.users.me(function(err, user) {
 });
 ```
 
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] retrieveCurrentUser:^(WiaUser *user) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
 > Example Response
 
 ```json
@@ -1510,6 +1879,17 @@ wia.organisations.me(
    		if (org) console.log(org);
 	}
 );
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] retrieveCurrentOrganisation:^(WiaOrganisation *organisation) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
 ```
 
 > Example Response
