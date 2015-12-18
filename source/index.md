@@ -1225,7 +1225,7 @@ var wia = require('wia')(
 	'token'
 );
 wia.functions.register(
-	{ name: "funcitonName" },
+	{ name: "functionName" },
 	function(data) {
    		// Function to run
 	}, function(err, registered) {
@@ -1309,20 +1309,21 @@ Parameter | Type | Description
 name | String | Name of the function to be deregistered.
 all | Boolean | If set to true, deregisters all functions for a device.
 
-## Run a function
+## Call a function
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/functions/run"
+curl "https://api.wia.io/v1/functions/call"
 	-H "Authorization: Bearer token" \
-	-H "Content-Type: application/json"
+	-H "Content-Type: application/json" \
+	-X POST -d '{"deviceKey":"dev_kandfg981lodfg9", "name": "myFirstFunc"}'
 ```
 
 ```javascript
 var wia = require('wia')(
 	'token'
 );
-wia.functions.run(
+wia.functions.call(
 	{ deviceKey: "deviceKey",
 	  name: "functionName" },
 	function(err) {
@@ -1335,8 +1336,10 @@ wia.functions.run(
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] runFunction:@"deviceKey"
-	name: @"functionName"
+[[WiaClient sharedInstance] callFunction:@{
+		@"deviceKey": @"dev_deviceKey",
+		@"name": @"functionName"
+	}
 	success:^() {
 		// Success
 	} failure:^(NSError *error) {
@@ -1354,14 +1357,15 @@ This endpoint runs a function on a device. Requires a User or Customer token.
 
 ### HTTP Request
 
-`GET https://api.wia.io/v1/functions/run`
+`POST https://api.wia.io/v1/functions/call`
 
 ### URL Parameters
 
 Parameter | Type | Description
 --------- | ---- | -----------
 deviceKey | String | Unique key of the device.
-functionName | String | Name of the function to be run.
+name | String | Name of the function to be run.
+data | Any | Data to send to the function.
 
 ## List functions
 > Example Request
