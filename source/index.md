@@ -185,15 +185,32 @@ wia.stream.connect();
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] connectToStream:^() {
-  // Connected to stream
-} failure:^(NSError *error) {
-  // An error occurred
-}];
+[[WiaClient sharedInstance] connectToStream];
 ```
 
-We recommend sending all events and logs down the Wia stream (i.e. MQTT), instead of via REST. In order to do so, you must connect to the stream before publshing any data or you will get an error.
+We recommend sending all events and logs down the Wia stream (i.e. MQTT), instead of via REST. In order to do so, you must connect to the stream before publishing any data or you will get an error.
 
+## Disconnect from stream
+
+> To disconnect from the stream, use this code:
+
+```shell
+Not supported
+```
+
+```javascript
+var wia = require('wia')('token');
+wia.stream.disconnect();
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] disconnectFromStream];
+```
+
+To close an MQTT connection you must disconnect from the stream.
 
 # Devices
 ## The device object
