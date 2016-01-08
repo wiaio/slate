@@ -685,7 +685,7 @@ Parameter | Type | Description
 --------- | ----------- | -----------
 name | String | Name of the event.
 data | Any | Data associated with the event. A number, string or object can be passed into this.
-image | Buffer | Image to be associated with the event.
+file | Buffer | File to be associated with the event.
 timestamp | Timestamp | Timestamp of the event in milliseconds.
 
 ## Subscribe to events
