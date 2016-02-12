@@ -77,57 +77,19 @@ var accessToken = wia.generateAccessToken({
 }];
 ```
 
-> To generate a customer access token, use this code:
-
-```shell
-curl https://<organisation-slug>.wia.io/v1/auth/token \
-	-d username=<username> \
-	-d password=<password> \
-	-d grantType=password \
-	-d scope=customer
-```
-
-```javascript
-var wia = require('wia')('','org-slug');
-var accessToken = wia.generateAccessToken({
-		username: "username",
-		password: "password",
-		grantType: "password",
-		scope: "customer"
-	}, function(err, accessToken) {
-		if (err) // Handle error
-		else if (accessToken) // Got token!
-	});
-```
-
-```objective_c
-#import "Wia.h"
-
-[[WiaClient sharedInstance] setOrganisationSlug:@"org-slug"];
-[[WiaClient sharedInstance] generateAccessToken:@"username"
-	password:@"password"
-	grantType:@"password"
-	scope:@"customer"
-	success:^(WiaAccessToken *accessToken) {
-	// Got access token
-  } failure:(void (^)(NSError *error))failure{
- 	// Failed
-}];
-```
-
 > Example of an access token
 
 ```
 {
 	"accessToken": "u_kna8MAsd92ksdf00ksla0k2mhndf",
+	"refreshToken": "u_mdfg8MMAS8msd912kasdf89mj",
 	"tokenType": "bearer",
 	"expiresIn": "0",
-	"refreshToken": "u_mdfg8MMAS8msd912kasdf89mj",
 	"scope": "user"
 }
 ```
 
-An access token may be generated for a user, customer or device.
+An access token may be generated for a user.
 
 By default, access tokens expire after 24 hours unless specified using `expiresIn` parameter. For an access token that lives forever, set `expiresIn` to `0`.
 
@@ -219,7 +181,7 @@ To close an MQTT connection you must disconnect from the stream.
 
 ```
 {
-	"deviceKey": "sdf892mdfgj238kdfg",
+	"id": "dev_sdf892mdfgj238kdfg",
 	"name": "Device One",
 	"events": {
 	    "temperature": {
@@ -245,7 +207,7 @@ All devices are made up of the same object structure.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-deviceKey | String | Unique key of the device.
+id | String | Unique identifier of the device.
 name | String | Name of the device.
 events | Object | List of most recent events.
 isOnline | Boolean | Online status of the device.
@@ -292,7 +254,7 @@ wia.devices.create({
 
 ```json
 {
-	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"id": "dev_1msdf89k83jdf",
 	"name": "Device One",
 	"isOnline": false,
 	"createdAt": 1444062135000,
@@ -317,7 +279,7 @@ name | Name of the device to be created
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/devices/:deviceKey"
+curl "https://api.wia.io/v1/devices/:id"
 	-H "Authorization: Bearer token"
 ```
 
@@ -325,7 +287,7 @@ curl "https://api.wia.io/v1/devices/:deviceKey"
 var wia = require('wia')(
 	'token'
 );
-wia.devices.retrieve("deviceKey", function(err, device) {
+wia.devices.retrieve("dev_23idgk0smd", function(err, device) {
 	if (err) console.log(err);
 	if (device) console.log(device);
 });
@@ -335,7 +297,7 @@ wia.devices.retrieve("deviceKey", function(err, device) {
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] retrieveDevice:@"deviceKey"
+[[WiaClient sharedInstance] retrieveDevice:@"dev_23idgk0smd"
 success:^(WiaDevice *device) {
   // Success
 } failure:^(NSError *error) {
@@ -347,7 +309,7 @@ success:^(WiaDevice *device) {
 
 ```json
 {
-	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"id": "dev_23idgk0smd",
 	"name": "Device One",
 	"isOnline": true,
 	"events": {
@@ -368,11 +330,11 @@ success:^(WiaDevice *device) {
 }
 ```
 
-This endpoint retrieves a device. Requires a User or Customer token.
+This endpoint retrieves a device. Requires a User token.
 
 ### HTTP Request
 
-`GET https://api.wia.io/v1/devices/:deviceKey`
+`GET https://api.wia.io/v1/devices/:id`
 
 ## Retrieve current device
 
@@ -408,7 +370,7 @@ wia.devices.me(function(err, device) {
 
 ```json
 {
-	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"id": "dev_msdf89k83jdf",
 	"name": "Device One",
 	"isOnline": true,
 	"createdAt": 1445199652859,
@@ -435,7 +397,7 @@ curl "https://api.wia.io/v1/devices/me"
 var wia = require('wia')(
 	'token'
 );
-wia.devices.update("deviceKey", {
+wia.devices.update("dev_23idgk0smd", {
 		name: "newName"
 	}, function(err, device) {
 		if (err) console.log(err);
@@ -448,7 +410,7 @@ wia.devices.update("deviceKey", {
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] updateDevice:@"deviceKey"
+[[WiaClient sharedInstance] updateDevice:@"dev_23idgk0smd"
   fields:@{
     @"name": @"New device name"
   }
@@ -463,7 +425,7 @@ wia.devices.update("deviceKey", {
 
 ```json
 {
-	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"id": "dev_23idgk0smd",
 	"name": "Device One",
 	"createdAt": 1445199652859,
 	"updatedAt": 1445199652234
@@ -474,14 +436,14 @@ This endpoint updates a device's details. Requires a User token.
 
 ### HTTP Request
 
-`PUT https://api.wia.io/v1/devices/:deviceKey`
+`PUT https://api.wia.io/v1/devices/:id`
 
 ## Delete a device
 
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/devices/me"
+curl "https://api.wia.io/v1/devices/:id"
 	-H "Authorization: Bearer token"
 ```
 
@@ -490,10 +452,10 @@ var wia = require('wia')(
 	'token'
 );
 wia.devices.delete(
-	"deviceKey",
-	function(err, confirmed) {
+	"dev_23idgk0smd",
+	function(err, deleted) {
 	  if (err) console.log(err);
-	  if (confirmed) console.log(confirmed);
+	  if (deleted) console.log(deleted);
 	}
 );
 ```
@@ -502,8 +464,8 @@ wia.devices.delete(
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] deleteDevice:@"deviceKey"
-  success:^(BOOL confirmed) {
+[[WiaClient sharedInstance] deleteDevice:@"dev_23idgksdf0smd"
+  success:^(BOOL deleted) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
@@ -514,9 +476,8 @@ wia.devices.delete(
 
 ```json
 {
-	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"id": "dev_23idgksdf0smd",
 	"name": "Device One",
-	"isOnline": true,
 	"createdAt": 1445199652859,
 	"updatedAt": 1445199652234
 }
@@ -526,7 +487,7 @@ This endpoint deletes a device. Requires a User token.
 
 ### HTTP Request
 
-`DELETE https://api.wia.io/v1/devices/:deviceKey`
+`DELETE https://api.wia.io/v1/devices/:id`
 
 ## List devices
 > Example Request
@@ -569,14 +530,14 @@ wia.devices.list({
 ```json
 [
   {
-    "deviceKey": "Jas8snj1msdf89k83jdf",
+    "id": "dev_23idgksdf0smd",
     "name": "Device One",
     "isOnline": true,
     "createdAt": 1445199652859,
     "updatedAt": 1445199652234
   },
   {
-    "deviceKey": "Jas8snj1msdf89k83jdf",
+    "id": "dev_823nmdfgoshISj",
     "name": "Device Two",
     "isOnline": false,
     "createdAt": 1445199652859,
@@ -702,7 +663,7 @@ var wia = require('wia')(
 );
 // For all events use:
 wia.events.subscribe(
-	{ deviceKey: "deviceKey" },
+	{ device: "dev_23idgksdf0smd" },
 	function(err, event) {
 	    if (err) console.log(err);
 	    if (event) console.log(event);
@@ -711,8 +672,8 @@ wia.events.subscribe(
 
 // For a specific event use:
 wia.events.subscribe(
-	{ deviceKey: "deviceKey",
-	  name: "eventName" },
+	{ device: "dev_23idgksdf0smd",
+	  name: "temperature" },
 	function(err, event) {
 	    if (err) console.log(err);
 	    if (event) console.log(event);
@@ -726,7 +687,7 @@ wia.events.subscribe(
 [[WiaClient sharedInstance] initWithToken:@"token"];
 
 // For all events use:
-[[WiaClient sharedInstance] subscribeToEvents:@"deviceKey"
+[[WiaClient sharedInstance] subscribeToEvents:@"dev_23idgksdf0smd"
   success:^(WiaDeviceEvent *event) {
   // Success
 } failure:^(NSError *error) {
@@ -734,8 +695,8 @@ wia.events.subscribe(
 }];
 
 // For a specific event use:
-[[WiaClient sharedInstance] subscribeToEvents:@"deviceKey"
-  name:@"eventName"
+[[WiaClient sharedInstance] subscribeToEvents:@"dev_23idgksdf0smd"
+  name:@"temperature"
   success:^(WiaDeviceEvent *event) {
   // Success
 } failure:^(NSError *error) {
@@ -766,7 +727,7 @@ var wia = require('wia')(
 
 // For all device events use:
 wia.events.unsubscribe(
-	{ deviceKey: "deviceKey" },
+	{ device: "dev_23idgksdf0smd" },
 	function(err) {
  	   if (err) console.log(err);
 	}
@@ -774,8 +735,8 @@ wia.events.unsubscribe(
 
 // For a specific device event use:
 wia.events.unsubscribe(
-	{ deviceKey: "deviceKey",
-	  name: "eventName" },
+	{ device: "dev_23idgksdf0smd",
+	  name: "temperature" },
 	function(err) {
  	   if (err) console.log(err);
 	}
@@ -788,7 +749,7 @@ wia.events.unsubscribe(
 [[WiaClient sharedInstance] initWithToken:@"token"];
 
 // For all events use:
-[[WiaClient sharedInstance] unsubscribeFromEvents:@"deviceKey"
+[[WiaClient sharedInstance] unsubscribeFromEvents:@"dev_23idgksdf0smd"
   success:^() {
   // Success
 } failure:^(NSError *error) {
@@ -796,8 +757,8 @@ wia.events.unsubscribe(
 }];
 
 // For a specific event use:
-[[WiaClient sharedInstance] unsubscribeFromEvents:@"deviceKey"
-  name:@"eventName"
+[[WiaClient sharedInstance] unsubscribeFromEvents:@"dev_23idgksdf0smd"
+  name:@"temperature"
   success:^() {
   // Success
 } failure:^(NSError *error) {
@@ -827,7 +788,7 @@ var wia = require('wia')(
 	'token'
 );
 wia.events.list({
-	deviceKey: "deviceKey",
+	device: "dev_23idgksdf0smd",
 	limit: 20,
 	page: 0
 }, function(err, data) {
@@ -840,7 +801,7 @@ wia.events.list({
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] listEvents:@"deviceKey"
+[[WiaClient sharedInstance] listEvents:@"dev_23idgksdf0smd"
   params: @{
     @"limit": @(20)
   }
@@ -856,13 +817,13 @@ wia.events.list({
 ```json
 [
   {
-	"deviceKey": "dev_ms8dfgknLA9k",
+	"id": "dev_ms8dfgknLA9k",
     "name": "temperature",
     "data": 25.4,
   	"timestamp": 1440683447764
   },
   {
-	"deviceKey": "dev_bijgwe29nNlop",	 
+	"id": "dev_bijgwe29nNlop",	 
     "name": "location",
     "data": {
   		"latitude": 54.60247,
@@ -883,7 +844,7 @@ This endpoint retrieves a list of events for a device. Requires a User or Custom
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
-deviceKey | String | - | Key of device to get events for. Required.
+id | String | - | Unique identifier of device to get events for. Required.
 name | String | - | Name of the event to return.
 limit | Number | 20 | Number of devices to return. Max value 200.
 page | Number | 0 | First page is 0.
@@ -899,7 +860,7 @@ until | Timestamp | - | Timestamp to return up until.
 
 ```
 {
-	"deviceKey": "dev_ksd892MN9k12l",
+	"id": "dev_ksd892MN9k12l",
 	"level": "warning",
 	"message": "Memory usage too high.",
 	"data": {
@@ -913,7 +874,7 @@ All logs are made up of the same object structure.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-deviceKey | String | Unique key for the device.
+id | String | Unique identifier for the device.
 level | String | Level of the log. Only 'fatal','error','warn','info','debug' or 'trace' allowed.
 message | String | Message of the log
 data | Any | Data associated with the log. A number, string or object can be passed into this.
@@ -991,7 +952,7 @@ var wia = require('wia')(
 );
 // For all logs use:
 wia.logs.subscribe(
-	{ deviceKey: "deviceKey" },
+	{ id: "id" },
 	function(err, log) {
 	    if (err) console.log(err);
 	    if (log) console.log(log);
@@ -1000,7 +961,7 @@ wia.logs.subscribe(
 
 // For a specific log level use:
 wia.logs.subscribe(
-	{ deviceKey: "deviceKey",
+	{ id: "id",
 	  level: "level" },
 	function(err, log) {
 	    if (err) console.log(err);
@@ -1015,7 +976,7 @@ wia.logs.subscribe(
 [[WiaClient sharedInstance] initWithToken:@"token"];
 
 // For all logs use:
-[[WiaClient sharedInstance] subscribeToLogs:@"deviceKey"
+[[WiaClient sharedInstance] subscribeToLogs:@"id"
   success:^(WiaDeviceLog *log) {
   // Success
 } failure:^(NSError *error) {
@@ -1023,7 +984,7 @@ wia.logs.subscribe(
 }];
 
 // For a specific log level use:
-[[WiaClient sharedInstance] subscribeToLogs:@"deviceKey"
+[[WiaClient sharedInstance] subscribeToLogs:@"id"
   level:@"level"
   success:^(WiaDeviceLog *log) {
   // Success
@@ -1055,7 +1016,7 @@ var wia = require('wia')(
 
 // For all device events use:
 wia.logs.unsubscribe(
-	{ deviceKey: "deviceKey" },
+	{ id: "id" },
 	function(err) {
  	   if (err) console.log(err);
 	}
@@ -1063,7 +1024,7 @@ wia.logs.unsubscribe(
 
 // For a specific device event use:
 wia.logs.unsubscribe(
-	{ deviceKey: "deviceKey",
+	{ id: "id",
 	  level: "level" },
 	function(err) {
  	   if (err) console.log(err);
@@ -1077,7 +1038,7 @@ wia.logs.unsubscribe(
 [[WiaClient sharedInstance] initWithToken:@"token"];
 
 // For all logs use:
-[[WiaClient sharedInstance] unsubscribeFromLogs:@"deviceKey"
+[[WiaClient sharedInstance] unsubscribeFromLogs:@"id"
   success:^() {
   // Success
 } failure:^(NSError *error) {
@@ -1085,7 +1046,7 @@ wia.logs.unsubscribe(
 }];
 
 // For a specific log level use:
-[[WiaClient sharedInstance] unsubscribeFromLogs:@"deviceKey"
+[[WiaClient sharedInstance] unsubscribeFromLogs:@"id"
   level:@"level"
   success:^() {
   // Success
@@ -1114,7 +1075,7 @@ var wia = require('wia')(
 	'token'
 );
 wia.logs.list({
-	deviceKey: "deviceKey",
+	id: "id",
 	limit: 20,
 	page: 0
 }, function(err, data) {
@@ -1127,7 +1088,7 @@ wia.logs.list({
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] listLogs:@"deviceKey"
+[[WiaClient sharedInstance] listLogs:@"id"
   params: @{
     @"limit": @(20),
     @"page": @(0)
@@ -1144,7 +1105,7 @@ wia.logs.list({
 ```json
 [
   {
-	"deviceKey": "dev_ksd892MN9k12l",
+	"id": "dev_ksd892MN9k12l",
 	"level": "warning",
 	"message": "Memory usage too high.",
 	"data": {
@@ -1153,7 +1114,7 @@ wia.logs.list({
 	"timestamp": 1440597871365
   },
   {
-	"deviceKey": "dev_ksd892MN9k12l",
+	"id": "dev_ksd892MN9k12l",
 	"level": "warning",
 	"message": "Memory usage too high.",
 	"data": {
@@ -1174,7 +1135,7 @@ This endpoint retrieves a list of logs for a device. Requires a User or Customer
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
-deviceKey | String | - | Key of device to get events for. Required.
+id | String | - | Unique identifier of device to get events for. Required.
 level | String | - | Level of the log to return.
 limit | Number | 20 | Number of logs to return. Max value 200.
 page | Number | 0 | First page is 0.
@@ -1190,7 +1151,7 @@ until | Timestamp | - | Timestamp to return up until.
 
 ```
 {
-	"deviceKey": "Jas8snj1msdf89k83jdf",
+	"id": "Jas8snj1msdf89k83jdf",
 	"name": "helloFunction",
 	"isEnabled": true,
 	"enabledAt": 1445253805000,
@@ -1203,7 +1164,7 @@ All functions are made up of the same object structure.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-deviceKey | String | Unique key for the device.
+id | String | Unique identifier for the device.
 name | String | Name of the function.
 isEnabled | Boolean | If the function is currently enabled or not.
 enabledAt | Timestamp | Timestamp in milliseconds of when the function was last enabled.
@@ -1316,7 +1277,7 @@ all | Boolean | If set to true, deregisters all functions for a device.
 curl "https://api.wia.io/v1/functions/call"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
-	-X POST -d '{"deviceKey":"dev_kandfg981lodfg9", "name": "myFirstFunc"}'
+	-X POST -d '{"id":"dev_kandfg981lodfg9", "name": "myFirstFunc"}'
 ```
 
 ```javascript
@@ -1324,7 +1285,7 @@ var wia = require('wia')(
 	'token'
 );
 wia.functions.call(
-	{ deviceKey: "deviceKey",
+	{ id: "id",
 	  name: "functionName" },
 	function(err) {
     	if (err) console.log(err);
@@ -1337,7 +1298,7 @@ wia.functions.call(
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
 [[WiaClient sharedInstance] callFunction:@{
-		@"deviceKey": @"dev_deviceKey",
+		@"id": @"dev_id",
 		@"name": @"functionName"
 	}
 	success:^() {
@@ -1363,7 +1324,7 @@ This endpoint runs a function on a device. Requires a User or Customer token.
 
 Parameter | Type | Description
 --------- | ---- | -----------
-deviceKey | String | Unique key of the device.
+id | String | Unique identifier of the device.
 name | String | Name of the function to be run.
 data | Any | Data to send to the function.
 
@@ -1380,7 +1341,7 @@ var wia = require('wia')(
 	'token'
 );
 wia.functions.list({
-	deviceKey: "deviceKey",
+	device: "id",
 	limit: 20
 }, function(err, functions) {
 	if (err) console.log(err);
@@ -1392,7 +1353,7 @@ wia.functions.list({
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] listFunctions:@"deviceKey"
+[[WiaClient sharedInstance] listFunctions:@"id"
   params: @{
     @"limit": @(20),
     @"page": @(0)
@@ -1409,7 +1370,7 @@ wia.functions.list({
 ```json
 [
 	{   
-	    "deviceKey": "Jas8snj1msdf89k83jdf",
+	    "id": "func_nj1msdf89k83jdf",
   		"name":"helloFunction1",
   		"isEnabled":true,
   		"enabledAt":1445253805000,
@@ -1417,7 +1378,7 @@ wia.functions.list({
   		"updatedAt":1445253805000
   	},
   	{
-	    "deviceKey": "Jas8snj1msdf89k83jdf",
+	    "id": "func_8912jdfg9MSADh9",
   		"name":"helloFunction2",
   		"isEnabled":true,
   		"enabledAt":1445253805000,
@@ -1437,344 +1398,9 @@ This endpoint retrieves a list of functions for a device. Requires a User token.
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
-deviceKey | String | - | Unique key of the device. Required.
+id | String | - | Unique identifier for the device. Required.
 limit | Number | 20 | Number of functions to return. Max value 200.
 page | Number | 0 | Page of results.
-
-# Customers
-## The customer object
-
-> Example of a Customer object
-
-```
-{
-	"customerKey": "cus_asdjfunmdf002imfg",
-	"username": "elliot@alderson.com",
-	"fullName": "Elliot Alderson",
-	"email": "elliot@alderson.com",
-	"createdAt": 1440597871546,
-	"updatedAt": 1440597871154
-}
-```
-
-Parameter | Type | Description
---------- | ----------- | -----------
-customerKey | String | Unique key for the customer.
-username | String | Username of the customer.
-fullName | String | Full name of the customer.
-email | String | Email address of the customer.
-createdAt | Timestamp | Timestamp of the when the customer was created.
-updatedAt | Timestamp | Timestamp of the when the customer was updated.
-
-## Create a customer
-
-> Example Request
-
-```shell
-curl https://<organisation-slug>.wia.io/v1/customers \
-	-H "Authorization: Bearer token" \
-	-d fullName="fullName" \
-	-d email="email@address.com"
-```
-
-```javascript
-var wia = require('wia')(
-	'token',
-	'org-slug'
-);
-wia.customers.create({
-		fullName: "fullName",
-		email: "email@address.com"
-	}, function(err, customer) {
-	    if (err) // Handle error
-		else if (customer) // Do something with customer.
-	}
-);
-```
-
-```objective_c
-#import "Wia.h"
-
-[[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] createCustomer:@{
-  @"fullName": "fullName",
-  @"email": @"email@address.com"
-} success:^(WiaCustomer *customer) {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
-}];
-```
-
-> Example Response
-
-```json
-{
-	"customerKey": "cus_jhdfg8ndfglk",
-	"username": "elliot@fsociety.com",
-	"email": "elliot@fsociety.com",
-	"fullName": "Elliot Alderson",
-	"createdAt": 1435104000000,
-	"updatedAt": 1441152000000
-}
-```
-
-This endpoint creates a new customer. Requires a User token.
-
-### HTTP Request
-
-`POST https://api.wia.io/v1/customers`
-
-## Retrieve a customer
-
-> Example Request
-
-```shell
-curl "https://api.wia.io/v1/customers/:customerKey"
-	-H "Authorization: Bearer token"
-```
-
-```javascript
-var wia = require('wia')(
-	'token',
-	'org-slug'
-);
-wia.customers.retrieve("customerKey",
-	function(err, customer) {
-		if (err) console.log(err);
-		if (customer) console.log(customer);
-	}
-);
-```
-
-```objective_c
-#import "Wia.h"
-
-[[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] retrieveCustomer:@"customerKey"
-  success:^(WiaCustomer *customer) {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
-}];
-```
-
-> Example Response
-
-```json
-{
-	"customerKey": "cus_jhdfg8ndfglk",
-	"username": "elliot@fsociety.com",
-	"email": "elliot@fsociety.com",
-	"fullName": "Elliot Alderson",
-	"createdAt": 1435104000000,
-	"updatedAt": 1441152000000
-}
-```
-
-This endpoint retrieves a customer. Requires a User token.
-
-### HTTP Request
-
-`GET https://api.wia.io/v1/customers/:customerKey`
-
-## Retrieve current customer
-
-> Example Request
-
-```shell
-curl "https://api.wia.io/v1/customers/me"
-	-H "Authorization: Bearer token"
-```
-
-```javascript
-var wia = require('wia')(
-	'token',
-	'org-slug'
-);
-wia.customers.me(function(err, customer) {
-	if (err) console.log(err);
-	if (customer) console.log(customer);
-});
-```
-
-```objective_c
-#import "Wia.h"
-
-[[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] retrieveCurrentCustomer:^(WiaCustomer *customer) {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
-}];
-```
-
-> Example Response
-
-```json
-{
-	"customerKey": "cus_jhdfg8ndfglk",
-	"username": "elliot@fsociety.com",
-	"email": "elliot@fsociety.com",
-	"fullName": "Elliot Alderson",
-	"createdAt": 1435104000000,
-	"updatedAt": 1441152000000
-}
-```
-
-This endpoint retrieves the current customer. Requires a Customer token.
-
-### HTTP Request
-
-`GET https://api.wia.io/v1/customers/me`
-
-## Update a customer
-
-> Example Request
-
-```shell
-curl "https://api.wia.io/v1/customers/:customerKey"
-	-H "Authorization: Bearer token"
-	-X PUT -d '{"fullName":"New Customer Name"}'
-```
-
-```javascript
-var wia = require('wia')(
-	'token',
-	'org-slug'
-);
-wia.customers.update("customerKey", {
-		fullName: "New Name"
-	}, function(err, customer) {
-	if (err) console.log(err);
-	if (customer) console.log(customer);
-});
-```
-
-> Example Response
-
-```json
-{
-	"customerKey": "cus_jhdfg8ndfglk",
-	"username": "elliot@fsociety.com",
-	"email": "elliot@fsociety.com",
-	"fullName": "Elliot Alderson",
-	"createdAt": 1435104000000,
-	"updatedAt": 1441152000000
-}
-```
-
-This endpoint retrieves a customer. Requires a User token.
-
-### HTTP Request
-
-`PUT https://api.wia.io/v1/customers/:customerKey`
-
-## Delete a customer
-
-> Example Request
-
-```shell
-curl "https://api.wia.io/v1/customers/:customerKey"
-	-H "Authorization: Bearer token"
-	-X DELETE'
-```
-
-```javascript
-var wia = require('wia')(
-	'token',
-	'org-slug'
-);
-wia.customers.delete("customerKey", function(err, deleted) {
-	if (err) console.log(err);
-	if (deleted) console.log(deleted);
-});
-```
-
-> Example Response
-
-```
-200 OK
-```
-
-This endpoint deletes a customer. Requires a User token.
-
-### HTTP Request
-
-`DELETE https://api.wia.io/v1/customers/:customerKey`
-
-## List customers
-> Example Request
-
-```shell
-curl "https://api.wia.io/v1/customers"
-	-H "Authorization: Bearer token"
-```
-
-```javascript
-var wia = require('wia')(
-	'token',
-	'org-slug'
-);
-wia.customers.list({
-	limit: 20
-}, function(err, data) {
- 	if (err) console.log(err);
-	if (data) console.log(data);
-});
-```
-
-```objective_c
-#import "Wia.h"
-
-[[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] listCustomers:@{
-  @"limit": @(20),
-  @"page": @(0)
-} success:^(NSArray *customers) {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
-}];
-```
-
-> Example Response
-
-```json
-[
-  {
-	"customerKey": "cus_jhdfg8ndfglk",
-	"username": "elliot@fsociety.com",
-	"email": "elliot@fsociety.com",
-	"fullName": "Elliot Alderson",
-	"createdAt": 1435104000000,
-	"updatedAt": 1441152000000
-  },
-  {
-	"customerKey": "cus_20kdfgj9kfo",
-	"username": "a.moss@allsafe.com",
-	"email": "a.moss@allsafe.com",
-	"fullName":  "Angela Moss",
-	"createdAt": 1435104000000,
-	"updatedAt": 1441152000000
-  }
-]
-```
-
-This endpoint retrieves devices. Requires a User token.
-
-### HTTP Request
-
-`GET https://api.wia.io/v1/customers`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-limit | 20 | Number of devices to return. Max value 200.
-page | 0 | First page is 0.
-order | name | Field to sort by. Valid values include name and lastUpdated.
-sort | asc | Either ascending (asc) or descending (desc).
 
 # Users
 ## The user object
@@ -1783,7 +1409,7 @@ sort | asc | Either ascending (asc) or descending (desc).
 
 ```
 {
-	"userKey": "user_asdjfunmdf002imfg",
+	"id": "user_asdjfunmdf002imfg",
 	"username": "elliot@alderson.com",
 	"fullName": "Elliot Alderson",
 	"email": "elliot@alderson.com",
@@ -1794,7 +1420,7 @@ sort | asc | Either ascending (asc) or descending (desc).
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-userKey | String | Unique identifier for the user.
+id | String | Unique identifier for the user.
 username | String | Username of the user.
 fullName | String | Full name of the user.
 email | String | Email address of the user.
@@ -1836,7 +1462,7 @@ wia.users.me(function(err, user) {
 
 ```json
 {
-	"userKey": "user_jhdfg8ndfglk",
+	"id": "user_jhdfg8ndfglk",
 	"username": "elliot@fsociety.com",
 	"firstName": "Elliot",
 	"lastName": "Alderson",
@@ -1858,7 +1484,7 @@ This endpoint retrieves the currently authenticated user. Requires a User token.
 
 ```
 {
-	"organisationKey": "org_asdjfunmdf002imfg",
+	"id": "org_asdjfunmdf002imfg",
 	"name": "ACME Inc",
 	"slug": "acme-inc",
 	"avatar": {
@@ -1872,7 +1498,7 @@ This endpoint retrieves the currently authenticated user. Requires a User token.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-organisationKey | String | Unique identifier for the organisation.
+id | String | Unique identifier for the organisation.
 name | String | Name of the organisation.
 slug | String | Slug of the organisation. Used as the organisations URL.
 avatar | String | Avatar of the organisation
@@ -1916,7 +1542,7 @@ wia.organisations.me(
 
 ```json
 {
-	"organisationKey": "org_asdjfunmdf002imfg",
+	"id": "org_asdjfunmdf002imfg",
 	"name": "ACME Inc",
 	"slug": "acme-inc",
 	"avatar": {
