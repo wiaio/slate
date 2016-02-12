@@ -856,11 +856,10 @@ until | Timestamp | - | Timestamp to return up until.
 # Logs
 ## The log object
 
-> Example of an Event object with single data value
+> Example of an Log object
 
 ```
 {
-	"id": "dev_ksd892MN9k12l",
 	"level": "warning",
 	"message": "Memory usage too high.",
 	"data": {
@@ -874,7 +873,6 @@ All logs are made up of the same object structure.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-id | String | Unique identifier for the device.
 level | String | Level of the log. Only 'fatal','error','warn','info','debug' or 'trace' allowed.
 message | String | Message of the log
 data | Any | Data associated with the log. A number, string or object can be passed into this.
@@ -1151,9 +1149,12 @@ until | Timestamp | - | Timestamp to return up until.
 
 ```
 {
-	"id": "Jas8snj1msdf89k83jdf",
+	"id": "func_aba7812nsdfk",
 	"name": "helloFunction",
 	"isEnabled": true,
+	"device": {
+		"id": "dev_gh8jfg9MASDu"	
+	},
 	"enabledAt": 1445253805000,
 	"createdAt": 1444995244000,
 	"updatedAt": 1445253805000
@@ -1164,9 +1165,10 @@ All functions are made up of the same object structure.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-id | String | Unique identifier for the device.
+id | String | Unique identifier for the function.
 name | String | Name of the function.
 isEnabled | Boolean | If the function is currently enabled or not.
+device | Device | Device function is assigned to.
 enabledAt | Timestamp | Timestamp in milliseconds of when the function was last enabled.
 createdAt | Timestamp | Timestamp in milliseconds of when the function was initially created.
 updatedAt | Timestamp | Timestamp in milliseconds of when the function was last updated.
@@ -1175,7 +1177,7 @@ updatedAt | Timestamp | Timestamp in milliseconds of when the function was last 
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/functions/register"
+curl "https://api.wia.io/v1/functions"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
 	-X POST -d '{"name":"functionName"}'
@@ -1185,10 +1187,11 @@ curl "https://api.wia.io/v1/functions/register"
 var wia = require('wia')(
 	'token'
 );
-wia.functions.register(
-	{ name: "functionName" },
+wia.functions.create(
+	{ name: "helloWorld" },
 	function(data) {
    		// Function to run
+   		console.log("Hello world!");
 	}, function(err, registered) {
 		if (err) // Error occurred
 		if (registered) // Registered successfully
@@ -1216,7 +1219,7 @@ This endpoint register a function for a device. Requires a Device token.
 
 ### HTTP Request
 
-`POST https://api.wia.io/v1/functions/register`
+`POST https://api.wia.io/v1/functions`
 
 ### URL Parameters
 
@@ -1228,18 +1231,18 @@ name | Name of the function to be registered
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/functions/deregister"
+curl "https://api.wia.io/v1/functions/func_aba7812nsdfk"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
-	-X PUT -d '{"name":"functionName"}'
+	-X DELETE -d '{"name":"functionName"}'
 ```
 
 ```javascript
 var wia = require('wia')(
 	'token'
 );
-wia.functions.deregister(
-	{ name: "functionName" },
+wia.functions.delete(
+	"func_aba7812nsdfk",
 	function(err, deregistered) {
 		if (err) // Error occurred
 		if (deregistered) // Deregistered successfully
@@ -1261,23 +1264,23 @@ This endpoint deregisters a function for a device. Requires a Device token.
 
 ### HTTP Request
 
-`PUT https://api.wia.io/v1/functions/deregister`
+`DELETE https://api.wia.io/v1/functions/:id`
 
 ### URL Parameters
 
 Parameter | Type | Description
 --------- | ---- | -----------
-name | String | Name of the function to be deregistered.
-all | Boolean | If set to true, deregisters all functions for a device.
+id | String | Unique ID of function.
+name | String | Name of the function to be deleted.
 
 ## Call a function
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/functions/call"
+curl "https://api.wia.io/v1/functions/:id/call"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
-	-X POST -d '{"id":"dev_kandfg981lodfg9", "name": "myFirstFunc"}'
+	-X DELETE
 ```
 
 ```javascript
@@ -1285,8 +1288,8 @@ var wia = require('wia')(
 	'token'
 );
 wia.functions.call(
-	{ id: "id",
-	  name: "functionName" },
+	{ id: "func_9thkLKKf9jsdfm",
+	  device: "dev_knsd9k1n2dfg" },
 	function(err) {
     	if (err) console.log(err);
 	}
@@ -1318,7 +1321,7 @@ This endpoint runs a function on a device. Requires a User or Customer token.
 
 ### HTTP Request
 
-`POST https://api.wia.io/v1/functions/call`
+`POST https://api.wia.io/v1/functions/:id/call`
 
 ### URL Parameters
 
@@ -1341,7 +1344,7 @@ var wia = require('wia')(
 	'token'
 );
 wia.functions.list({
-	device: "id",
+	device: "dev_jndg81bdfngl",
 	limit: 20
 }, function(err, functions) {
 	if (err) console.log(err);
@@ -1409,7 +1412,7 @@ page | Number | 0 | Page of results.
 
 ```
 {
-	"id": "user_asdjfunmdf002imfg",
+	"id": "user_BDjfkdsd8Jasd1fg",
 	"username": "elliot@alderson.com",
 	"fullName": "Elliot Alderson",
 	"email": "elliot@alderson.com",
