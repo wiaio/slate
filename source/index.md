@@ -1700,7 +1700,7 @@ This endpoint retrieves a user.
 
 ### HTTP Request
 
-`GET https://api.wia.io/v1/users/user_jhdfg8ndfglk`
+`GET https://api.wia.io/v1/users/:id`
 
 ### Authorization
 Access Type | Permitted
@@ -1820,7 +1820,7 @@ This endpoint updates a user.
 
 ### HTTP Request
 
-`PUT https://api.wia.io/v1/users/user_jhdfg8ndfglk`
+`PUT https://api.wia.io/v1/users/:id`
 
 ### Authorization
 Access Type | Permitted
@@ -1877,7 +1877,7 @@ This endpoint deletes a user.
 
 ### HTTP Request
 
-`DELETE https://api.wia.io/v1/users/user_jhdfg8ndfglk`
+`DELETE https://api.wia.io/v1/users/:id`
 
 ### Authorization
 Access Type | Permitted
@@ -2011,7 +2011,7 @@ This endpoint adds a device to a user.
 
 ### HTTP Request
 
-`POST https://api.wia.io/v1/users/user_jhdfg8ndfglk/devices`
+`POST https://api.wia.io/v1/users/:id/devices`
 
 ### Authorization
 Access Type | Permitted
@@ -2067,7 +2067,7 @@ This endpoint removes a device from a user.
 
 ### HTTP Request
 
-`DELETE https://api.wia.io/v1/users/user_jhdfg8ndfglk/devices/dev_ms8dfgknLA9k`
+`DELETE https://api.wia.io/v1/users/:userId/devices/:deviceId`
 
 ### Authorization
 Access Type | Permitted
