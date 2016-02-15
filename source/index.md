@@ -1970,3 +1970,109 @@ limit | Number | 20 | Number of users to return. Max value 200.
 page | Number | 0 | First page is 0.
 order | String | 'createdAt' | Field to sort by. Valid values include 'createdAt', 'updatedAt' and 'name'.
 sort | String | 'desc' | Either ascending 'asc' or descending 'desc'.
+
+## Add device to user
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/users/user_jhdfg8ndfglk/devices" \
+	-H "Authorization: Bearer token" \
+	-X POST -d '{"device":"dev_ms8dfgknLA9k"}'
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+wia.users.addDevice("user_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, added) {
+ 	if (err) console.log(err);
+	if (added) console.log(added);
+});
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] addDevice:@"" toUser@"" 
+	success:^(BOOL added) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> Example Response
+
+```json
+200 OK
+```
+
+This endpoint adds a device to a user.
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/users/user_jhdfg8ndfglk/devices`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | x
+Organisation | ✓
+Organisation User | x
+
+### Query Parameters
+
+Parameter | Type | Default | Description
+--------- | ---- | ------- | -----------
+device | String | - | Unique identifier of device to be added to user.
+
+## Remove device from user
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/users/user_jhdfg8ndfglk/devices/dev_ms8dfgknLA9k" \
+	-H "Authorization: Bearer token" \
+	-X DELETE
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+wia.users.removeDevice("user_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, removed) {
+ 	if (err) console.log(err);
+	if (removed) console.log(removed);
+});
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] removeDevice:@"" fromUser@"" 
+	success:^(BOOL removed) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> Example Response
+
+```json
+200 OK
+```
+
+This endpoint removes a device from a user.
+
+### HTTP Request
+
+`DELETE https://api.wia.io/v1/users/user_jhdfg8ndfglk/devices/dev_ms8dfgknLA9k`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | x
+Organisation | ✓
+Organisation User | x
