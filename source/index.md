@@ -7,7 +7,7 @@ language_tabs:
   - objective_c: iOS
 
 toc_footers:
-  - <a href='https://www.wia.io/signup' target="_blank">Create a Wia account</a>
+  - <a href='https://www.wia.io/signup' target="_blank">Create a free Wia account</a>
   - <a href='http://twitter.com/wiaio' target="_blank">Follow us on Twitter @wiaio</a>
 
 includes:
@@ -249,9 +249,8 @@ curl "https://api.wia.io/v1/devices"
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.devices.create({
 	name: "My first device"
 }, function(err, device) {
@@ -285,11 +284,19 @@ wia.devices.create({
 }
 ```
 
-This endpoint creates a device. Requires a User token.
+This endpoint creates a device. 
 
 ### HTTP Request
 
 `POST https://api.wia.io/v1/devices`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | x
 
 ### URL Parameters
 
@@ -307,9 +314,8 @@ curl "https://api.wia.io/v1/devices/:id"
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.devices.retrieve("dev_23idgk0smd", function(err, device) {
 	if (err) console.log(err);
 	if (device) console.log(device);
@@ -353,11 +359,19 @@ success:^(WiaDevice *device) {
 }
 ```
 
-This endpoint retrieves a device. Requires a User token.
+This endpoint retrieves a device.
 
 ### HTTP Request
 
 `GET https://api.wia.io/v1/devices/:id`
+
+### Authorization
+Access Type | Permitted | Notes
+-------------- | -------------- | --------------
+Device | ✓ | Can only retrieve information about itself.
+User | ✓ | Can retrieve all devices.
+Organisation | ✓ | Can retrieve all devices.
+Organisation User | ✓ | Can only retrieve devices linked to their account.
 
 ## Retrieve current device
 
@@ -369,10 +383,9 @@ curl "https://api.wia.io/v1/devices/me"
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
-wia.devices.me(function(err, device) {
+var wia = require('wia')('secret key or token');
+
+wia.devices.retrieve("me", function(err, device) {
 	if (err) console.log(err);
 	if (device) console.log(device);
 });
@@ -401,27 +414,36 @@ wia.devices.me(function(err, device) {
 }
 ```
 
-This endpoint retrieves the current device. Requires a Device token.
+This endpoint retrieves the current device.
 
 ### HTTP Request
 
 `GET https://api.wia.io/v1/devices/me`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | ✓
+User | x
+Organisation | x
+Organisation User | x
 
 ## Update a device
 
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/devices/me"
-	-H "Authorization: Bearer token"
+curl "https://api.wia.io/v1/devices/dev_23idgk0smd" \
+	-H "Authorization: Bearer token" \
+	-H "Content-Type: application/json" \
+	-X PUT -d '{"name":"New Device Name"}'
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.devices.update("dev_23idgk0smd", {
-		name: "newName"
+		name: "New Device Name"
 	}, function(err, device) {
 		if (err) console.log(err);
 		if (device) console.log(device);
@@ -455,25 +477,33 @@ wia.devices.update("dev_23idgk0smd", {
 }
 ```
 
-This endpoint updates a device's details. Requires a User token.
+This endpoint updates a device's details.
 
 ### HTTP Request
 
 `PUT https://api.wia.io/v1/devices/:id`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | x
 
 ## Delete a device
 
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/devices/:id"
-	-H "Authorization: Bearer token"
+curl "https://api.wia.io/v1/devices/:id" \
+	-H "Authorization: Bearer token" \
+	-X DELETE
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.devices.delete(
 	"dev_23idgk0smd",
 	function(err, deleted) {
@@ -506,11 +536,19 @@ wia.devices.delete(
 }
 ```
 
-This endpoint deletes a device. Requires a User token.
+This endpoint deletes a device.
 
 ### HTTP Request
 
 `DELETE https://api.wia.io/v1/devices/:id`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | x
 
 ## List devices
 > Example Request
@@ -522,9 +560,8 @@ curl "https://api.wia.io/v1/devices?limit=20" \
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.devices.list({
 	limit: 20,
 	page: 0
@@ -552,7 +589,7 @@ wia.devices.list({
 
 ```json
 [
-  {
+  devices: [{
     "id": "dev_23idgksdf0smd",
     "name": "Device One",
     "isOnline": true,
@@ -565,15 +602,24 @@ wia.devices.list({
     "isOnline": false,
     "createdAt": 1445199652859,
     "updatedAt": 1445199652234
-  }
+  }], 
+  count: 2
 ]
 ```
 
-This endpoint retrieves devices. Requires a User or Customer token.
+This endpoint retrieves devices and a total count.
 
 ### HTTP Request
 
 `GET https://api.wia.io/v1/devices`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | ✓
 
 ### Query Parameters
 
@@ -629,9 +675,8 @@ curl https://api.wia.io/v1/events \
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.events.publish(
 	{ name: "temperature",
 	  data: 21.5 },
@@ -657,11 +702,19 @@ wia.events.publish(
 
 > The above command returns status 200 OK when event has been created.
 
-This endpoint publishes an event. Requires a Device token.
+This endpoint publishes an event.
 
 ### HTTP Request
 
 `POST https://api.wia.io/v1/events`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | ✓
+User | x
+Organisation | x
+Organisation User | x
 
 ### Attributes
 
@@ -681,9 +734,8 @@ Not supported
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 // For all events use:
 wia.events.subscribe(
 	{ device: "dev_23idgksdf0smd" },
@@ -729,11 +781,19 @@ wia.events.subscribe(
 
 > The above command returns an Event object when one has been received.
 
-This endpoint subscribes to events. Requires a User token.
+This endpoint subscribes to events.
 
 ### HTTP Request
 
 `Not supported.`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | ✓
 
 ## Unsubscribe from events
 
@@ -744,9 +804,7 @@ Not supported
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
 
 // For all device events use:
 wia.events.unsubscribe(
@@ -791,11 +849,19 @@ wia.events.unsubscribe(
 
 > The above command returns an Event object when one has been received.
 
-This endpoint unsubscribes from device events. Requires a User token.
+This endpoint unsubscribes from device events.
 
 ### HTTP Request
 
 `Not supported.`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | ✓
 
 ## List events
 
@@ -807,9 +873,8 @@ curl "https://api.wia.io/v1/events"
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.events.list({
 	device: "dev_23idgksdf0smd",
 	limit: 20,
@@ -857,17 +922,25 @@ wia.events.list({
 ]
 ```
 
-This endpoint retrieves a list of events for a device. Requires a User or Customer token.
+This endpoint retrieves a list of events for a device.
 
 ### HTTP Request
 
 `GET https://api.wia.io/v1/events`
 
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | ✓
+
 ### Query Parameters
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
-id | String | - | Unique identifier of device to get events for. Required.
+device | String | - | Unique identifier of device to get events for. Required.
 name | String | - | Name of the event to return.
 limit | Number | 20 | Number of devices to return. Max value 200.
 page | Number | 0 | First page is 0.
@@ -913,9 +986,8 @@ curl https://api.wia.io/v1/logs \
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.logs.publish(
 	{ level: "info",
 	  message: "message" },
@@ -950,6 +1022,14 @@ This endpoint publishes a log. Requires a Device token.
 
 `POST https://api.wia.io/v1/logs`
 
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | ✓
+User | x
+Organisation | x
+Organisation User | x
+
 ### Attributes
 
 Parameter | Type | Description
@@ -968,12 +1048,11 @@ Not supported
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 // For all logs use:
 wia.logs.subscribe(
-	{ id: "id" },
+	{ device: "dev_kndjg832hjdfg" },
 	function(err, log) {
 	    if (err) console.log(err);
 	    if (log) console.log(log);
@@ -982,7 +1061,7 @@ wia.logs.subscribe(
 
 // For a specific log level use:
 wia.logs.subscribe(
-	{ id: "id",
+	{ device: "dev_kndjg832hjdfg",
 	  level: "level" },
 	function(err, log) {
 	    if (err) console.log(err);
@@ -1016,11 +1095,19 @@ wia.logs.subscribe(
 
 > The above command returns a log object when one has been received.
 
-This endpoint subscribes to logs. Requires a User token.
+This endpoint subscribes to logs.
 
 ### HTTP Request
 
 `Not supported.`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | ✓
 
 ## Unsubscribe from logs
 
@@ -1031,13 +1118,11 @@ Not supported
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
 
 // For all device events use:
 wia.logs.unsubscribe(
-	{ id: "id" },
+	{ device: "id" },
 	function(err) {
  	   if (err) console.log(err);
 	}
@@ -1045,7 +1130,7 @@ wia.logs.unsubscribe(
 
 // For a specific device event use:
 wia.logs.unsubscribe(
-	{ id: "id",
+	{ device: "id",
 	  level: "level" },
 	function(err) {
  	   if (err) console.log(err);
@@ -1076,11 +1161,19 @@ wia.logs.unsubscribe(
 }];
 ```
 
-This endpoint unsubscribes from device logs. Requires a User token.
+This endpoint unsubscribes from device logs.
 
 ### HTTP Request
 
 `Not supported.`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | ✓
 
 ## List logs
 
@@ -1092,11 +1185,10 @@ curl "https://api.wia.io/v1/logs"
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.logs.list({
-	id: "id",
+	device: "dev_ksdnf28bndfg",
 	limit: 20,
 	page: 0
 }, function(err, data) {
@@ -1146,17 +1238,25 @@ wia.logs.list({
 ]
 ```
 
-This endpoint retrieves a list of logs for a device. Requires a User or Customer token.
+This endpoint retrieves a list of logs for a device.
 
 ### HTTP Request
 
 `GET https://api.wia.io/v1/logs`
 
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | x
+
 ### Query Parameters
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
-id | String | - | Unique identifier of device to get events for. Required.
+device | String | - | Unique identifier of device to get events for. Required.
 level | String | - | Level of the log to return.
 limit | Number | 20 | Number of logs to return. Max value 200.
 page | Number | 0 | First page is 0.
@@ -1188,7 +1288,7 @@ All functions are made up of the same object structure.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-id | String | Unique identifier for the function.
+device | String | Unique identifier for the function.
 name | String | Name of the function.
 isEnabled | Boolean | If the function is currently enabled or not.
 device | Device | Device function is assigned to.
@@ -1196,7 +1296,7 @@ enabledAt | Timestamp | Timestamp in milliseconds of when the function was last 
 createdAt | Timestamp | Timestamp in milliseconds of when the function was initially created.
 updatedAt | Timestamp | Timestamp in milliseconds of when the function was last updated.
 
-## Register a function
+## Create a function
 > Example Request
 
 ```shell
@@ -1207,9 +1307,8 @@ curl "https://api.wia.io/v1/functions"
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.functions.create(
 	{ name: "helloWorld" },
 	function(data) {
@@ -1238,11 +1337,19 @@ Not available
 }
 ```
 
-This endpoint register a function for a device. Requires a Device token.
+This endpoint register a function for a device.
 
 ### HTTP Request
 
 `POST https://api.wia.io/v1/functions`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | ✓
+User | x
+Organisation | x
+Organisation User | x
 
 ### URL Parameters
 
@@ -1250,7 +1357,7 @@ Parameter | Description
 --------- | -----------
 name | Name of the function to be registered
 
-## Deregister a function
+## Delete a function
 > Example Request
 
 ```shell
@@ -1261,9 +1368,8 @@ curl "https://api.wia.io/v1/functions/func_aba7812nsdfk"
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.functions.delete(
 	"func_aba7812nsdfk",
 	function(err, deregistered) {
@@ -1283,11 +1389,19 @@ Not available
 200 OK
 ```
 
-This endpoint deregisters a function for a device. Requires a Device token.
+This endpoint deregisters a function for a device.
 
 ### HTTP Request
 
 `DELETE https://api.wia.io/v1/functions/:id`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | ✓
+User | x
+Organisation | x
+Organisation User | x
 
 ### URL Parameters
 
@@ -1307,9 +1421,8 @@ curl "https://api.wia.io/v1/functions/:id/call"
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.functions.call(
 	{ id: "func_9thkLKKf9jsdfm",
 	  device: "dev_knsd9k1n2dfg" },
@@ -1340,11 +1453,19 @@ wia.functions.call(
 200 OK
 ```
 
-This endpoint runs a function on a device. Requires a User or Customer token.
+This endpoint runs a function on a device.
 
 ### HTTP Request
 
 `POST https://api.wia.io/v1/functions/:id/call`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | ✓
 
 ### URL Parameters
 
@@ -1363,9 +1484,8 @@ curl "https://api.wia.io/v1/functions"
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token'
-);
+var wia = require('wia')('secret key or token');
+
 wia.functions.list({
 	device: "dev_jndg81bdfngl",
 	limit: 20
@@ -1414,17 +1534,25 @@ wia.functions.list({
 ]
 ```
 
-This endpoint retrieves a list of functions for a device. Requires a User token.
+This endpoint retrieves a list of functions for a device.
 
 ### HTTP Request
 
 `GET https://api.wia.io/v1/functions`
 
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Organisation User | ✓
+
 ### Query Parameters
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
-id | String | - | Unique identifier for the device. Required.
+device | String | - | Unique identifier for the device. Required.
 limit | Number | 20 | Number of functions to return. Max value 200.
 page | Number | 0 | Page of results.
 
@@ -1463,11 +1591,9 @@ curl "https://api.wia.io/v1/users/me"
 ```
 
 ```javascript
-var wia = require('wia')(
-	'token',
-	'org-slug'
-);
-wia.users.me(function(err, user) {
+var wia = require('wia')('secret key or token');
+
+wia.users.retrieve("me", function(err, user) {
 	if (err) console.log(err);
 	if (user) console.log(user);
 });
@@ -1497,87 +1623,16 @@ wia.users.me(function(err, user) {
 }
 ```
 
-This endpoint retrieves the currently authenticated user. Requires a User token.
+This endpoint retrieves the currently authenticated user.
 
 ### HTTP Request
 
 `GET https://api.wia.io/v1/users/me`
 
-# Organisations
-## The organisation object
-
-> Example of a organisation object
-
-```
-{
-	"id": "org_asdjfunmdf002imfg",
-	"name": "ACME Inc",
-	"slug": "acme-inc",
-	"avatar": {
-		"default": "https://cdn.wia.io/images/acme-org-avatar.png",
-		"thumbnail": "https://cdn.wia.io/images/acme-org-avatar_thumb.png"
-	},
-	"createdAt": 1440597871546,
-	"updatedAt": 1440597871154
-}
-```
-
-Parameter | Type | Description
---------- | ----------- | -----------
-id | String | Unique identifier for the organisation.
-name | String | Name of the organisation.
-slug | String | Slug of the organisation. Used as the organisations URL.
-avatar | String | Avatar of the organisation
-createdAt | Timestamp | Timestamp of the when the organisation was created.
-updatedAt | Timestamp | Timestamp of the when the organisation was updated.
-
-## Retrieve current organisation
-
-> Example Request
-
-```shell
-curl "https://api.wia.io/v1/organisations/me"
-	-H "Authorization: Bearer token"
-```
-
-```javascript
-var wia = require('wia')(
-	'token',
-	'org-slug'
-);
-wia.organisations.me(
-	function(err, org) {
-   		if (err) console.log(err);
-   		if (org) console.log(org);
-	}
-);
-```
-
-```objective_c
-#import "Wia.h"
-
-[[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] retrieveCurrentOrganisation:^(WiaOrganisation *organisation) {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
-}];
-```
-
-> Example Response
-
-```json
-{
-	"id": "org_asdjfunmdf002imfg",
-	"name": "ACME Inc",
-	"slug": "acme-inc",
-	"avatar": {
-		"default": "https://cdn.wia.io/images/acme-org-avatar.png",
-		"thumbnail": "https://cdn.wia.io/images/acme-org-avatar_thumb.png"
-	},
-	"createdAt": 1440597871546,
-	"updatedAt": 1440597871154
-}
-```
-
-This endpoint retrieves the current organisation in use. Requires a User token.
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | x
+Organisation User | ✓
