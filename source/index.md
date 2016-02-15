@@ -20,14 +20,14 @@ search: false
 > REST Endpoint
 
 ```
-https://api.wia.io (port 443)
+https://api.wia.io (port 443) - Secure
 ```
 
 > MQTT Endpoint
 
 ```
-mqtt://api.wia.io (port 1883)
-mqtts://api.wia.io (port 8883)
+mqtts://api.wia.io (port 8883) - Secure
+mqtt://api.wia.io (port 1883) - Non-secure
 ```
 
 The Wia API is designed to be as intuitive as possible. We offer both a REST API and streaming over MQTT. If you have any questions, would like to see a new feature or find something is broken then <a href="mailto:support@wia.io">let us know</a>.
@@ -39,6 +39,43 @@ You can view code examples in the dark area to the right, and switch the program
 <aside class="warning">The Wia API is currently under development and breaking changes may be introduced.</aside>
 
 # Authentication
+## Authenticating requests
+
+The Wia API expects the secret key or access token be included in all API requests to the server in a header that looks like the following:
+
+`Authorization: Bearer token`
+
+It can also be added to a request as a query parameter, for example:
+
+`GET https://api.wia.io/v1/devices?access_token=u_asd81nksdf9191jKASU2k`
+
+<aside class="warning">If you are not using the correct type of token, you will get a 401 Unauthorized response.</aside>
+
+```shell
+curl https://api.wia.io/v1 \
+	-H "Authorization: Bearer token"
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+// With access token in constructor object
+var wia = require('wia')({
+	accessToken: 'token'
+});
+
+// With secret key in constructor object
+var wia = require('wia')({
+	secretKey: 'secretKey'
+});
+```
+
+If you are connecting using your own MQTT client, put your access token in the username field and blank space for the password.
+
+`Endpoint: mqtt://api.wia.io:1883 or mqtts://api.wia.io:8883`  
+`Username: "token"`  
+`Password: " " // Note the space`  
+
 ## Generate an access token
 > To generate a user access token, use this code:
 
@@ -110,24 +147,10 @@ The Access Token object
 Parameter | Type | Description
 --------- | ----------- | -----------
 accessToken | String | Unique access token that is used for all requests.
+refreshToken | String | Unique refresh token that is used to generate a new access token.
 tokenType | String | The type of access token.
 expiresIn | Number | Number of seconds this token is valid for. 0 means forever.
-refreshToken | String | Unique refresh token that is used to generate a new access token.
 scope | String | Scope of the access token.
-
-## Authenticating requests
-
-The Wia API expects the access token to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: Bearer token`
-
-<aside class="warning">If you are not using the correct type of token, you will get a 401 Unauthorized response.</aside>
-
-If you are connecting using your own MQTT client, put your access token in the username field and blank space for the password.
-
-`Endpoint: mqtt://api.wia.io:1883 or mqtts://api.wia.io:8883`  
-`Username: "token"`  
-`Password: " " // Note the space`  
 
 # Stream
 ## Connect to stream
