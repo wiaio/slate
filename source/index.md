@@ -298,7 +298,7 @@ User | ✓
 Organisation | ✓
 Organisation User | x
 
-### URL Parameters
+### Parameters
 
 Parameter | Description
 --------- | -----------
@@ -627,8 +627,9 @@ Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
 limit | Number | 20 | Number of devices to return. Max value 200.
 page | Number | 0 | First page is 0.
-order | String | name | Field to sort by. Valid values include name and lastUpdated.
-sort | String | asc | Either ascending (asc) or descending (desc).
+order | String | 'createdAt' | Field to sort by. Valid values include name and lastUpdated.
+sort | String | 'desc' | Either ascending (asc) or descending (desc).
+user | String | - | ID of user to get devices for.
 
 # Events
 ## The event object
@@ -944,8 +945,8 @@ device | String | - | Unique identifier of device to get events for. Required.
 name | String | - | Name of the event to return.
 limit | Number | 20 | Number of devices to return. Max value 200.
 page | Number | 0 | First page is 0.
-order | String | name | Field to sort by. Valid values include name and lastUpdated.
-sort | String | asc | Either ascending (asc) or descending (desc).
+order | String | 'timestamp' | Field to sort by. Valid values include name and lastUpdated.
+sort | String | 'desc' | Either ascending (asc) or descending (desc).
 since | Timestamp | - | Timestamp to start from.
 until | Timestamp | - | Timestamp to return up until.
 
@@ -1260,8 +1261,8 @@ device | String | - | Unique identifier of device to get events for. Required.
 level | String | - | Level of the log to return.
 limit | Number | 20 | Number of logs to return. Max value 200.
 page | Number | 0 | First page is 0.
-order | String | timestamp | Field to sort by.
-sort | String | desc | Either ascending (asc) or descending (desc).
+order | String | 'timestamp' | Field to sort by.
+sort | String | 'desc' | Either ascending (asc) or descending (desc).
 since | Timestamp | - | Timestamp to start from.
 until | Timestamp | - | Timestamp to return up until.
 
@@ -1581,6 +1582,134 @@ email | String | Email address of the user.
 createdAt | Timestamp | Timestamp of the when the user was created.
 updatedAt | Timestamp | Timestamp of the when the user was updated.
 
+## Create a user
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/users"
+	-H "Authorization: Bearer token" \
+	-H "Content-Type: application/json" \
+	-X POST -d '{"fullName":"Elliot Andereson", "email":"elliot@fsociety.com"}'
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+wia.users.create({
+	fullName: "Elliot Anderson",
+	email: "elliot@fsociety.com"
+}, function(err, user) {
+	if (err) console.log(err);
+	if (user) console.log(user);
+});
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"secret key or token"];
+[[WiaClient sharedInstance] createUser:@{
+	fullName: @"Elliot Anderson",
+	email: @"elliot@fsociety.com"
+} success:^(WiaUser *user) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> Example Response
+
+```json
+{
+	"id": "user_kndfg82mM90fdgm1",
+	"fullName": "Elliot Anderson",
+	"email": "elliot@fsociety.com",
+	"createdAt": 1444062135000,
+	"updatedAt": 1444062135000
+}
+```
+
+This endpoint creates a user. 
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/users`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | x
+Organisation | ✓
+Organisation User | x
+
+### Parameters
+
+Parameter | Type | Description
+--------- | ---- | -----------
+fullName | String | Full name of the user to be created. Required.
+email | String | Email address of user to be created. Required.
+
+## Retrieve a user
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/users/user_kndfg82mM90fdgm1"
+	-H "Authorization: Bearer token"
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+wia.users.retrieve("user_kndfg82mM90fdgm1", function(err, user) {
+	if (err) console.log(err);
+	if (user) console.log(user);
+});
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] retrieveUser:@"user_kndfg82mM90fdgm1" 
+  success:^(WiaUser *user) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> Example Response
+
+```json
+{
+	"id": "user_jhdfg8ndfglk",
+	"username": "elliot@fsociety.com",
+	"firstName": "Elliot",
+	"lastName": "Alderson",
+	"fullName": "Elliot Alderson",
+	"createdAt": 1444063382000,
+	"updatedAt": 1444063382000
+}
+```
+
+This endpoint retrieves a user.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/users/user_jhdfg8ndfglk`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | x
+Organisation | ✓
+Organisation User | x
+
 ## Retrieve current user
 
 > Example Request
@@ -1603,7 +1732,7 @@ wia.users.retrieve("me", function(err, user) {
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] retrieveCurrentUser:^(WiaUser *user) {
+[[WiaClient sharedInstance] retrieveUser:@"me", 
   // Success
 } failure:^(NSError *error) {
   // An error occurred
@@ -1636,3 +1765,208 @@ Device | x
 User | ✓
 Organisation | x
 Organisation User | ✓
+
+## Update a user
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/users/user_kndfg82mM90fdgm1"
+	-H "Authorization: Bearer token" \
+	-H "Content-Type: application/json" \
+	-X PUT -d '{"fullName":"Tyrell Wellick"}'
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+wia.users.update("user_kndfg82mM90fdgm1", 
+	{"fullName":"Tyrell Wellick"}, function(err, user) {
+	if (err) console.log(err);
+	if (user) console.log(user);
+});
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] updateUser:@"user_kndfg82mM90fdgm1" 
+  fields:@{
+    @"fullName": @"Tyrell Wellick"
+  } 
+  success:^(WiaUser *user) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> Example Response
+
+```json
+{
+	"id": "user_jhdfg8ndfglk",
+	"username": "elliot@fsociety.com",
+	"firstName": "Tyrell",
+	"lastName": "Wellick",
+	"fullName": "Tyrell Wellick",
+	"createdAt": 1444063382000,
+	"updatedAt": 1444063382000
+}
+```
+
+This endpoint updates a user.
+
+### HTTP Request
+
+`PUT https://api.wia.io/v1/users/user_jhdfg8ndfglk`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | x
+Organisation | ✓
+Organisation User | x
+
+### Parameters
+
+Parameter | Type | Description
+--------- | ---- | -----------
+fullName | String | Full name of the user to be created.
+email | String | Email address of user to be created.
+
+## Delete a user
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/users/user_kndfg82mM90fdgm1"
+	-X DELETE
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+wia.users.delete("user_kndfg82mM90fdgm1", function(err, user) {
+	if (err) console.log(err);
+	if (user) console.log(user);
+});
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] deleteUser:@"user_kndfg82mM90fdgm1" 
+  success:^(BOOL deleted) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> Example Response
+
+```json
+200 OK
+```
+
+This endpoint deletes a user.
+
+### HTTP Request
+
+`DELETE https://api.wia.io/v1/users/user_jhdfg8ndfglk`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | x
+Organisation | ✓
+Organisation User | x
+
+## List users
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/users?limit=20" \
+	-H "Authorization: Bearer token" \
+	-X GET
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+wia.users.list({
+	limit: 20,
+	page: 0
+}, function(err, data) {
+ 	if (err) console.log(err);
+	if (data) console.log(data);
+});
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] listUsers:@{
+  @"limit": @(20),
+  @"page": @(0)
+} success:^(NSDictionary *result) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> Example Response
+
+```json
+[
+  users: [{
+	"id": "user_jhdfg8ndfglk",
+	"username": "elliot@fsociety.com",
+	"firstName": "Elliot",
+	"lastName": "Anderson",
+	"fullName": "Elliot Anderson",
+	"createdAt": 1444063382000,
+	"updatedAt": 1444063382000
+  },
+  {
+	"id": "user_mkn324875gBasdu",
+	"username": "tyrell@ecorp.com",
+	"firstName": "Tyrell",
+	"lastName": "Wellick",
+	"fullName": "Tyrell Wellick",
+	"createdAt": 1444063382000,
+	"updatedAt": 1444063382000
+  }], 
+  count: 2
+]
+```
+
+This endpoint retrieves users and a total count.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/users`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | x
+Organisation | ✓
+Organisation User | x
+
+### Query Parameters
+
+Parameter | Type | Default | Description
+--------- | ---- | ------- | -----------
+limit | Number | 20 | Number of users to return. Max value 200.
+page | Number | 0 | First page is 0.
+order | String | 'createdAt' | Field to sort by. Valid values include 'createdAt', 'updatedAt' and 'name'.
+sort | String | 'desc' | Either ascending 'asc' or descending 'desc'.
