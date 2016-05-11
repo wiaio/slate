@@ -7,8 +7,13 @@ language_tabs:
   - objective_c: iOS
 
 toc_footers:
+<<<<<<< HEAD:source/index.md
   - <a href='https://www.wia.io/signup' target="_blank">Create a free Wia account</a>
   - <a href='http://twitter.com/wiaio' target="_blank">Follow us on Twitter @wiaio</a>
+=======
+  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
+>>>>>>> tripit/master:source/index.html.md
 
 includes:
   - errors
@@ -1484,8 +1489,12 @@ wia.logs.list({
 });
 ```
 
+<<<<<<< HEAD:source/index.md
 ```objective_c
 #import "Wia.h"
+=======
+This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+>>>>>>> tripit/master:source/index.html.md
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
 [[WiaClient sharedInstance] listLogs:@"id"
@@ -1802,6 +1811,7 @@ wia.functions.list({
 
 ```json
 [
+<<<<<<< HEAD:source/index.md
 	{   
 	    "id": "func_nj1msdf89k83jdf",
   		"name":"helloFunction1",
@@ -1818,6 +1828,22 @@ wia.functions.list({
   		"createdAt":1445253575000,
   		"updatedAt":1445253805000
   	}
+=======
+  {
+    "id": 1,
+    "name": "Fluffums",
+    "breed": "calico",
+    "fluffiness": 6,
+    "cuteness": 7
+  },
+  {
+    "id": 2,
+    "name": "Max",
+    "breed": "unknown",
+    "fluffiness": 5,
+    "cuteness": 10
+  }
+>>>>>>> tripit/master:source/index.html.md
 ]
 ```
 
@@ -2096,6 +2122,7 @@ wia.users.update("user_kndfg82mM90fdgm1",
 
 ```json
 {
+<<<<<<< HEAD:source/index.md
 	"id": "user_jhdfg8ndfglk",
 	"username": "elliot@fsociety.com",
 	"firstName": "Tyrell",
@@ -2103,6 +2130,13 @@ wia.users.update("user_kndfg82mM90fdgm1",
 	"fullName": "Tyrell Wellick",
 	"createdAt": 1444063382000,
 	"updatedAt": 1444063382000
+=======
+  "id": 2,
+  "name": "Max",
+  "breed": "unknown",
+  "fluffiness": 5,
+  "cuteness": 10
+>>>>>>> tripit/master:source/index.html.md
 }
 ```
 
@@ -2163,7 +2197,11 @@ wia.users.delete("user_kndfg82mM90fdgm1", function(err, user) {
 200 OK
 ```
 
+<<<<<<< HEAD:source/index.md
 This endpoint deletes a user.
+=======
+<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+>>>>>>> tripit/master:source/index.html.md
 
 ### HTTP Request
 
