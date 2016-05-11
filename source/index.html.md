@@ -7,13 +7,8 @@ language_tabs:
   - objective_c: iOS
 
 toc_footers:
-<<<<<<< HEAD:source/index.md
   - <a href='https://www.wia.io/signup' target="_blank">Create a free Wia account</a>
   - <a href='http://twitter.com/wiaio' target="_blank">Follow us on Twitter @wiaio</a>
-=======
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
->>>>>>> tripit/master:source/index.html.md
 
 includes:
   - errors
@@ -1489,12 +1484,8 @@ wia.logs.list({
 });
 ```
 
-<<<<<<< HEAD:source/index.md
 ```objective_c
 #import "Wia.h"
-=======
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
->>>>>>> tripit/master:source/index.html.md
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
 [[WiaClient sharedInstance] listLogs:@"id"
@@ -2197,11 +2188,7 @@ wia.users.delete("user_kndfg82mM90fdgm1", function(err, user) {
 200 OK
 ```
 
-<<<<<<< HEAD:source/index.md
 This endpoint deletes a user.
-=======
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
->>>>>>> tripit/master:source/index.html.md
 
 ### HTTP Request
 
