@@ -296,7 +296,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | x
+Customer | x
 
 ### Parameters
 
@@ -371,7 +371,7 @@ Access Type | Permitted | Notes
 Device | ✓ | Can only retrieve information about itself.
 User | ✓ | Can retrieve all devices.
 Organisation | ✓ | Can retrieve all devices.
-Organisation User | ✓ | Can only retrieve devices linked to their account.
+Customer | ✓ | Can only retrieve devices linked to their account.
 
 ## Retrieve current device
 
@@ -426,7 +426,7 @@ Access Type | Permitted
 Device | ✓
 User | x
 Organisation | x
-Organisation User | x
+Customer | x
 
 ## Update a device
 
@@ -489,7 +489,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | x
+Customer | x
 
 ## Delete a device
 
@@ -548,7 +548,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | x
+Customer | x
 
 ## List devices
 > Example Request
@@ -619,7 +619,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | ✓
+Customer | ✓
 
 ### Query Parameters
 
@@ -629,7 +629,7 @@ limit | Number | 20 | Number of devices to return. Max value 200.
 page | Number | 0 | First page is 0.
 order | String | 'createdAt' | Field to sort by. Valid values include name and lastUpdated.
 sort | String | 'desc' | Either ascending (asc) or descending (desc).
-user | String | - | ID of user to get devices for.
+customer | String | - | ID of customer to get devices for.
 
 # Events
 ## The event object
@@ -715,7 +715,7 @@ Access Type | Permitted
 Device | ✓
 User | x
 Organisation | x
-Organisation User | x
+Customer | x
 
 ### Attributes
 
@@ -794,7 +794,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | ✓
+Customer | ✓
 
 ## Unsubscribe from events
 
@@ -862,7 +862,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | ✓
+Customer | ✓
 
 ## List events
 
@@ -935,7 +935,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | ✓
+Customer | ✓
 
 ### Query Parameters
 
@@ -943,6 +943,292 @@ Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
 device | String | - | Unique identifier of device to get events for. Required.
 name | String | - | Name of the event to return.
+limit | Number | 20 | Number of devices to return. Max value 200.
+page | Number | 0 | First page is 0.
+order | String | 'timestamp' | Field to sort by. Valid values include name and lastUpdated.
+sort | String | 'desc' | Either ascending (asc) or descending (desc).
+since | Timestamp | - | Timestamp to start from.
+until | Timestamp | - | Timestamp to return up until.
+
+# Locations
+## The location object
+
+> Example of an Event object
+
+```
+{
+	"id": "B7EB5EAA-9166-422E-8482-DC41EFD076B2",
+	"latitude": 53.349805,
+	"longitude": -6.260310,
+	"altitude": 0,
+	"timestamp": 1440597871365,
+	"receivedTimestamp": 1440597871365
+}
+```
+
+All events are made up of the same object structure.
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+id | String | Unique identifier for the location object.
+latitude | Number | Latitude of the location.
+longitude | Number | Longitude of the location.
+altitude | Number | Altitude of the location.
+timestamp | Timestamp | Timestamp of the location in milliseconds.
+receivedTimestamp | Timestamp | Received timestamp of the location in milliseconds.
+
+## Publish an event
+
+> Example Request
+
+```shell
+curl https://api.wia.io/v1/locations \
+	-H "Authorization: Bearer token" \
+	-H "Content-Type: application/json" \
+	-X POST -d '{"latitude":53.349805,"longitude":-6.260310}'
+```
+
+```javascript
+var wia = require('wia')('secret key');
+
+wia.locations.publish(
+	{ "latitude": 53.349805,
+	  "longitude": -6.260310 },
+	function(err, published) {
+	    if (err) console.log(err);
+	    if (published) console.log("Location published.");
+	}
+);
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] publishLocation: @{
+    @"latitude": @(53.349805),
+    @"longitude": @(-6.260310)
+  }
+  success:^(WiaLocation *location) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> The above command returns status 200 OK when location has been published.
+
+This endpoint publishes a location.
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/location`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | ✓
+User | x
+Organisation | x
+Customer | x
+
+### Attributes
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+latitude | Number | Latitude of the location.
+longitude | Number | Longitude of the location.
+altitude | Number | Altitude of the location.
+
+## Subscribe to locations
+
+> Example
+
+```shell
+Not supported
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+wia.locations.subscribe(
+	{ device: "dev_23idgksdf0smd" },
+	function(err, location) {
+	    if (err) console.log(err);
+	    if (location) console.log(location);
+	}
+);
+
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+
+// For all events use:
+[[WiaClient sharedInstance] subscribeToLocations:@"dev_23idgksdf0smd"
+  success:^(WiaLocation *location) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+
+```
+
+> The above command returns a Location object when one has been received.
+
+This endpoint subscribes to locations.
+
+### HTTP Request
+
+`Not supported.`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Customer | ✓
+
+## Unsubscribe from locations
+
+> Example
+
+```shell
+Not supported
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+wia.locations.unsubscribe(
+	{ device: "dev_23idgksdf0smd" },
+	function(err) {
+ 	   if (err) console.log(err);
+	}
+);
+
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+
+[[WiaClient sharedInstance] unsubscribeFromLocations:@"dev_23idgksdf0smd"
+  success:^() {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+
+```
+
+> The above command unsubscribe from devices locations.
+
+This endpoint unsubscribes from device locations.
+
+### HTTP Request
+
+`Not supported.`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Customer | ✓
+
+## List locations
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/locations"
+	-H "Authorization: Bearer token"
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+wia.locations.list({
+	device: "dev_23idgksdf0smd",
+	limit: 20,
+	page: 0
+}, function(err, data) {
+	if (err) console.log(err);
+	if (data) console.log(data);
+});
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] listLocations:@"dev_23idgksdf0smd"
+  params: @{
+    @"limit": @(20)
+  }
+  success:^(NSArray *locations) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> Example Response
+
+```json
+[
+  {
+	"id": "B7EB5EAA-9166-422E-8482-DC41EFD076B2",
+	"latitude": 53.349805,
+	"longitude": -6.260310,
+	"altitude": 0,
+	"timestamp": 1440597871365,
+	"receivedTimestamp": 1440597871365
+  },
+  {
+	"id": "F8F4184D-4374-41D3-B6A1-7291B522642D",
+	"latitude": 53.349805,
+	"longitude": -6.260310,
+	"altitude": 0,
+	"timestamp": 1440597871365,
+	"receivedTimestamp": 1440597871365
+  },
+  {
+	"id": "F6F9E75B-209B-4633-9FD2-71C006E37F7D",
+	"latitude": 53.349805,
+	"longitude": -6.260310,
+	"altitude": 0,
+	"timestamp": 1440597871365,
+	"receivedTimestamp": 1440597871365
+  }
+]
+```
+
+This endpoint retrieves a list of locations for a device.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/locations`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Customer | ✓
+
+### Query Parameters
+
+Parameter | Type | Default | Description
+--------- | ---- | ------- | -----------
+device | String | - | Unique identifier of device to get locations for. Required.
 limit | Number | 20 | Number of devices to return. Max value 200.
 page | Number | 0 | First page is 0.
 order | String | 'timestamp' | Field to sort by. Valid values include name and lastUpdated.
@@ -1029,7 +1315,7 @@ Access Type | Permitted
 Device | ✓
 User | x
 Organisation | x
-Organisation User | x
+Customer | x
 
 ### Attributes
 
@@ -1108,7 +1394,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | ✓
+Customer | ✓
 
 ## Unsubscribe from logs
 
@@ -1174,7 +1460,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | ✓
+Customer | ✓
 
 ## List logs
 
@@ -1251,7 +1537,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | x
+Customer | x
 
 ### Query Parameters
 
@@ -1350,7 +1636,7 @@ Access Type | Permitted
 Device | ✓
 User | x
 Organisation | x
-Organisation User | x
+Customer | x
 
 ### URL Parameters
 
@@ -1402,7 +1688,7 @@ Access Type | Permitted
 Device | ✓
 User | x
 Organisation | x
-Organisation User | x
+Customer | x
 
 ### URL Parameters
 
@@ -1466,7 +1752,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | ✓
+Customer | ✓
 
 ### URL Parameters
 
@@ -1547,7 +1833,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | ✓
-Organisation User | ✓
+Customer | ✓
 
 ### Query Parameters
 
@@ -1557,17 +1843,18 @@ device | String | - | Unique identifier for the device. Required.
 limit | Number | 20 | Number of functions to return. Max value 200.
 page | Number | 0 | Page of results.
 
-# Users
-## The user object
+# Customers
+## The customer object
 
 > Example of a User object
 
 ```
 {
-	"id": "user_BDjfkdsd8Jasd1fg",
+	"id": "cus_BDjfkdsd8Jasd1fg",
 	"username": "elliot@alderson.com",
-	"fullName": "Elliot Alderson",
 	"email": "elliot@alderson.com",
+	"fullName": "Elliot Alderson",
+	"avatar": "http://images.wia.io/avatars/A97F0394-D03A-479A-87B8-FDC85079F4A5",
 	"createdAt": 1440597871546,
 	"updatedAt": 1440597871154
 }
@@ -1575,28 +1862,29 @@ page | Number | 0 | Page of results.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
-id | String | Unique identifier for the user.
-username | String | Username of the user.
-fullName | String | Full name of the user.
-email | String | Email address of the user.
-createdAt | Timestamp | Timestamp of the when the user was created.
-updatedAt | Timestamp | Timestamp of the when the user was updated.
+id | String | Unique identifier for the customer.
+username | String | Username of the customer.
+email | String | Email address of the customer.
+fullName | String | Full name of the customer.
+avatar | String | URL to the customers avatar.
+createdAt | Timestamp | Timestamp of the when the customer was created.
+updatedAt | Timestamp | Timestamp of the when the customer was updated.
 
-## Create a user
+## Create a customer
 
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/users"
+curl "https://api.wia.io/v1/customers"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
 	-X POST -d '{"fullName":"Elliot Andereson", "email":"elliot@fsociety.com"}'
 ```
 
 ```javascript
-var wia = require('wia')('secret key or token');
+var wia = require('wia')('secret key');
 
-wia.users.create({
+wia.customers.create({
 	fullName: "Elliot Anderson",
 	email: "elliot@fsociety.com"
 }, function(err, user) {
@@ -1608,7 +1896,7 @@ wia.users.create({
 ```objective_c
 #import "Wia.h"
 
-[[WiaClient sharedInstance] initWithToken:@"secret key or token"];
+[[WiaClient sharedInstance] initWithToken:@"secret key"];
 [[WiaClient sharedInstance] createUser:@{
 	fullName: @"Elliot Anderson",
 	email: @"elliot@fsociety.com"
@@ -1623,19 +1911,21 @@ wia.users.create({
 
 ```json
 {
-	"id": "user_kndfg82mM90fdgm1",
-	"fullName": "Elliot Anderson",
-	"email": "elliot@fsociety.com",
-	"createdAt": 1444062135000,
-	"updatedAt": 1444062135000
+	"id": "cus_BDjfkdsd8Jasd1fg",
+	"username": "elliot@alderson.com",
+	"email": "elliot@alderson.com",
+	"fullName": "Elliot Alderson",
+	"avatar": "http://images.wia.io/avatars/A97F0394-D03A-479A-87B8-FDC85079F4A5",
+	"createdAt": 1440597871546,
+	"updatedAt": 1440597871154
 }
 ```
 
-This endpoint creates a user. 
+This endpoint creates a customer. 
 
 ### HTTP Request
 
-`POST https://api.wia.io/v1/users`
+`POST https://api.wia.io/v1/customers`
 
 ### Authorization
 Access Type | Permitted
@@ -1643,7 +1933,7 @@ Access Type | Permitted
 Device | x
 User | x
 Organisation | ✓
-Organisation User | x
+Customer | x
 
 ### Parameters
 
@@ -1708,7 +1998,7 @@ Access Type | Permitted
 Device | x
 User | x
 Organisation | ✓
-Organisation User | x
+Customer | x
 
 ## Retrieve current user
 
@@ -1764,7 +2054,7 @@ Access Type | Permitted
 Device | x
 User | ✓
 Organisation | x
-Organisation User | ✓
+Customer | ✓
 
 ## Update a user
 
@@ -1828,7 +2118,7 @@ Access Type | Permitted
 Device | x
 User | x
 Organisation | ✓
-Organisation User | x
+Customer | x
 
 ### Parameters
 
@@ -1885,7 +2175,7 @@ Access Type | Permitted
 Device | x
 User | x
 Organisation | ✓
-Organisation User | x
+Customer | x
 
 ## List users
 > Example Request
@@ -1960,7 +2250,7 @@ Access Type | Permitted
 Device | x
 User | x
 Organisation | ✓
-Organisation User | x
+Customer | x
 
 ### Query Parameters
 
@@ -2019,7 +2309,7 @@ Access Type | Permitted
 Device | x
 User | x
 Organisation | ✓
-Organisation User | x
+Customer | x
 
 ### Query Parameters
 
@@ -2075,4 +2365,4 @@ Access Type | Permitted
 Device | x
 User | x
 Organisation | ✓
-Organisation User | x
+Customer | x
