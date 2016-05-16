@@ -950,6 +950,321 @@ sort | String | 'desc' | Either ascending (asc) or descending (desc).
 since | Timestamp | - | Timestamp to start from.
 until | Timestamp | - | Timestamp to return up until.
 
+# Sensors
+## The sensor object
+
+> Example of an Sensor object with single data value
+
+```
+{
+	"name": "sensorName",
+	"data": "value",
+	"timestamp": 1440597871365
+}
+```
+
+> Example of an Sensor object with object in data
+
+```
+{
+	"name": "sensorName",
+	"data": {
+		"key": "value"
+	},
+	"timestamp": 1440597871654
+}
+```
+
+All sensors are made up of the same object structure.
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+name | String | Name of the sensor. Alphanumeric characters only.
+data | Any | Data associated with the sensor. A number, string or object can be passed into this.
+timestamp | Timestamp | Timestamp of the sensor in milliseconds.
+
+## Publish an sensor
+
+> Example Request
+
+```shell
+curl https://api.wia.io/v1/sensors \
+	-H "Authorization: Bearer token" \
+	-H "Content-Type: application/json" \
+	-X POST -d '{"name":"temperature","data":21.5}'
+```
+
+```javascript
+var wia = require('wia')('secret key');
+
+wia.sensors.publish(
+	{ name: "temperature",
+	  data: 21.5 },
+	function(err, published) {
+	    if (err) console.log(err);
+	    if (published) console.log("Sensor published.");
+	}
+);
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] publishSensor:@"temperature"
+  data:@(21.5)
+  success:^(WiaSensorEvent *sensorEvent) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> The above command returns status 200 OK when sensor has been created.
+
+This endpoint publishes a sensor event.
+
+### HTTP Request
+
+`POST https://api.wia.io/v1/sensors`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | ✓
+User | x
+Organisation | x
+Customer | x
+
+### Attributes
+
+Parameter | Type | Description
+--------- | ----------- | -----------
+name | String | Name of the sensor.
+data | Any | Data associated with the sensor. A number, string or object can be passed into this.
+timestamp | Timestamp | Timestamp of the sensor in milliseconds.
+
+## Subscribe to sensors
+
+> Example
+
+```shell
+Not supported
+```
+
+```javascript
+var wia = require('wia')('secret key or token');
+
+// For all sensors use:
+wia.sensors.subscribe(
+	{ device: "dev_23idgksdf0smd" },
+	function(err, sensor) {
+	    if (err) console.log(err);
+	    if (sensor) console.log(sensor);
+	}
+);
+
+// For a specific sensor use:
+wia.sensors.subscribe(
+	{ device: "dev_23idgksdf0smd",
+	  name: "temperature" },
+	function(err, sensor) {
+	    if (err) console.log(err);
+	    if (sensor) console.log(sensor);
+	}
+);
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+
+// For all sensors use:
+[[WiaClient sharedInstance] subscribeToSensors:@"dev_23idgksdf0smd"
+  success:^(WiaSensorEvent *sensorEvent) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+
+// For a specific sensor use:
+[[WiaClient sharedInstance] subscribeToSensors:@"dev_23idgksdf0smd"
+  name:@"temperature"
+  success:^(WiaSensorEvent *sensorEvent) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> The above command returns an Sensor object when one has been received.
+
+This endpoint subscribes to sensor events.
+
+### HTTP Request
+
+`Not supported.`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Customer | ✓
+
+## Unsubscribe from sensors
+
+> Example
+
+```shell
+Not supported
+```
+
+```javascript
+var wia = require('wia')('secret key');
+
+// For all device sensors use:
+wia.sensors.unsubscribe(
+	{ device: "dev_23idgksdf0smd" },
+	function(err) {
+ 	   if (err) console.log(err);
+	}
+);
+
+// For a specific device sensor use:
+wia.sensors.unsubscribe(
+	{ device: "dev_23idgksdf0smd",
+	  name: "temperature" },
+	function(err) {
+ 	   if (err) console.log(err);
+	}
+);
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+
+// For all sensors use:
+[[WiaClient sharedInstance] unsubscribeFromSensors:@"dev_23idgksdf0smd"
+  success:^() {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+
+// For a specific sensor use:
+[[WiaClient sharedInstance] unsubscribeFromSensors:@"dev_23idgksdf0smd"
+  name:@"temperature"
+  success:^() {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> The above command returns an Sensor object when one has been received.
+
+This endpoint unsubscribes from device sensors.
+
+### HTTP Request
+
+`Not supported.`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Customer | ✓
+
+## List sensors
+
+> Example Request
+
+```shell
+curl "https://api.wia.io/v1/sensors"
+	-H "Authorization: Bearer token"
+```
+
+```javascript
+var wia = require('wia')('secret key');
+
+wia.sensors.list({
+	device: "dev_23idgksdf0smd",
+	limit: 20,
+	page: 0
+}, function(err, data) {
+	if (err) console.log(err);
+	if (data) console.log(data);
+});
+```
+
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] initWithToken:@"token"];
+[[WiaClient sharedInstance] listSensors:@"dev_23idgksdf0smd"
+  params: @{
+    @"limit": @(20)
+  }
+  success:^(NSArray *sensors) {
+  // Success
+} failure:^(NSError *error) {
+  // An error occurred
+}];
+```
+
+> Example Response
+
+```json
+[
+  {
+	"id": "dev_ms8dfgknLA9k",
+    "name": "temperature",
+    "data": 25.4,
+  	"timestamp": 1440683447764
+  },
+  {
+	"id": "dev_bijgwe29nNlop",	 
+    "name": "humidity",
+    "data": 12.5,
+  	"timestamp": 1440683234546
+  }
+]
+```
+
+This endpoint retrieves a list of sensor events for a device.
+
+### HTTP Request
+
+`GET https://api.wia.io/v1/sensors`
+
+### Authorization
+Access Type | Permitted
+-------------- | --------------
+Device | x
+User | ✓
+Organisation | ✓
+Customer | ✓
+
+### Query Parameters
+
+Parameter | Type | Default | Description
+--------- | ---- | ------- | -----------
+device | String | - | Unique identifier of device to get sensors for. Required.
+name | String | - | Name of the sensor to return events for.
+limit | Number | 20 | Number of devices to return. Max value 200.
+page | Number | 0 | First page is 0.
+order | String | 'timestamp' | Field to sort by. Valid values include name and lastUpdated.
+sort | String | 'desc' | Either ascending (asc) or descending (desc).
+since | Timestamp | - | Timestamp to start from.
+until | Timestamp | - | Timestamp to return up until.
+
 # Locations
 ## The location object
 
