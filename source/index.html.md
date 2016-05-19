@@ -2117,7 +2117,6 @@ wia.functions.list({
 
 ```json
 [
-<<<<<<< HEAD:source/index.md
 	{   
 	    "id": "func_nj1msdf89k83jdf",
   		"name":"helloFunction1",
@@ -2134,22 +2133,6 @@ wia.functions.list({
   		"createdAt":1445253575000,
   		"updatedAt":1445253805000
   	}
-=======
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
->>>>>>> tripit/master:source/index.html.md
 ]
 ```
 
@@ -2428,7 +2411,6 @@ wia.users.update("user_kndfg82mM90fdgm1",
 
 ```json
 {
-<<<<<<< HEAD:source/index.md
 	"id": "user_jhdfg8ndfglk",
 	"username": "elliot@fsociety.com",
 	"firstName": "Tyrell",
@@ -2436,13 +2418,6 @@ wia.users.update("user_kndfg82mM90fdgm1",
 	"fullName": "Tyrell Wellick",
 	"createdAt": 1444063382000,
 	"updatedAt": 1444063382000
-=======
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
->>>>>>> tripit/master:source/index.html.md
 }
 ```
 
