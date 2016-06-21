@@ -68,6 +68,11 @@ var wia = require('wia')({
 var wia = require('wia')({
 	secretKey: 'secretKey'
 });
+
+// With public key in constructor object
+var wia = require('wia')({
+	publicKey: 'publicKey'
+});
 ```
 
 If you are connecting using your own MQTT client, put your access token in the username field and blank space for the password.
@@ -95,8 +100,8 @@ var accessToken = wia.generateAccessToken({
 		grantType: "password",
 		scope: "user"
 	}, function(err, accessToken) {
-		if (err) // Handle error
-		else if (accessToken) // Got token!
+		if (err) console.log(err);
+		else if (accessToken) console.log(accessToken);
 	});
 ```
 
@@ -525,16 +530,7 @@ wia.devices.delete(
 }];
 ```
 
-> Example Response
-
-```json
-{
-	"id": "dev_23idgksdf0smd",
-	"name": "Device One",
-	"createdAt": 1445199652859,
-	"updatedAt": 1445199652234
-}
-```
+> The above command returns status 200 OK when a device has been deleted.
 
 This endpoint deletes a device.
 
@@ -589,7 +585,7 @@ wia.devices.list({
 
 ```json
 [
-  devices: [{
+  "devices": [{
     "id": "dev_23idgksdf0smd",
     "name": "Device One",
     "isOnline": true,
@@ -603,7 +599,7 @@ wia.devices.list({
     "createdAt": 1445199652859,
     "updatedAt": 1445199652234
   }], 
-  count: 2
+  "count": 2
 ]
 ```
 
@@ -2531,7 +2527,7 @@ wia.users.list({
 
 ```json
 [
-  users: [{
+  "users": [{
 	"id": "user_jhdfg8ndfglk",
 	"username": "elliot@fsociety.com",
 	"firstName": "Elliot",
@@ -2549,7 +2545,7 @@ wia.users.list({
 	"createdAt": 1444063382000,
 	"updatedAt": 1444063382000
   }], 
-  count: 2
+  "count": 2
 ]
 ```
 
