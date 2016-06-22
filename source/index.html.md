@@ -202,6 +202,109 @@ wia.stream.disconnect();
 
 To close an MQTT connection you must disconnect from the stream.
 
+## Stream handlers
+
+> Connect
+
+```shell
+Not supported
+```
+
+```javascript
+wia.stream.on('connect', function() {
+	console.log('Stream connected!');
+});
+```
+
+```objective_c
+	[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamConnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+		NSLog(@"Stream connected");
+	});
+```
+
+> Reconnect
+
+```shell
+Not supported
+```
+
+```javascript
+wia.stream.on('reconnect', function() {
+	console.log('Stream reconnecting!');
+});
+```
+
+```objective_c
+	[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamReconnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+		NSLog(@"Stream connected");
+	});
+```
+
+> Disconnect
+
+```shell
+Not supported
+```
+
+```javascript
+wia.stream.on('disconnect', function() {
+	console.log('Stream disconnected!');
+});
+```
+
+```objective_c
+	[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamDisconnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+		NSLog(@"Stream connected");
+	});
+```
+
+> Offline
+
+```shell
+Not supported
+```
+
+```javascript
+wia.stream.on('offline', function() {
+	console.log('Stream offline!');
+});
+```
+
+```objective_c
+	[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamOffline" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+		NSLog(@"Stream connected");
+	});
+```
+
+> Error
+
+```shell
+Not supported
+```
+
+```javascript
+wia.stream.on('error', function(error) {
+	console.log('Stream error!');
+	console.log(error);
+});
+```
+
+```objective_c
+	[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamError" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+		NSLog(@"Stream connected");
+	});
+```
+
+When communicating with the stream, a number of notifications are emitted.
+
+Name | Description
+--------- | -----------
+Connect | Emitted on successful connection.
+Reconnect | Emitted when a reconnect starts.
+Disconnect | Emitted after a disconnection.
+Offline | Emitted when the client goes offline.
+Error | Emitted when a client cannot connect or a parsing error occurs.
+
 # Devices
 ## The device object
 
@@ -378,60 +481,7 @@ User | ✓ | Can retrieve all devices.
 Organisation | ✓ | Can retrieve all devices.
 Customer | ✓ | Can only retrieve devices linked to their account.
 
-## Retrieve current device
-
-> Example Request
-
-```shell
-curl "https://api.wia.io/v1/devices/me"
-	-H "Authorization: Bearer token"
-```
-
-```javascript
-var wia = require('wia')('secret key or token');
-
-wia.devices.retrieve("me", function(err, device) {
-	if (err) console.log(err);
-	if (device) console.log(device);
-});
-```
-
-```objective_c
-#import "Wia.h"
-
-[[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] retrieveCurrentDevice:^(WiaDevice *device) {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
-}];
-```
-
-> Example Response
-
-```json
-{
-	"id": "dev_msdf89k83jdf",
-	"name": "Device One",
-	"isOnline": true,
-	"createdAt": 1445199652859,
-	"updatedAt": 1445199652234
-}
-```
-
-This endpoint retrieves the current device.
-
-### HTTP Request
-
-`GET https://api.wia.io/v1/devices/me`
-
-### Authorization
-Access Type | Permitted
--------------- | --------------
-Device | ✓
-User | x
-Organisation | x
-Customer | x
+To retrieve the current authenticated device, pass the "me" as the ID.
 
 ## Update a device
 
@@ -688,9 +738,10 @@ wia.events.publish(
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] publishEvent:@"temperature"
-  data:@(21.5)
-  success:^(WiaDevice *device) {
+[[WiaClient sharedInstance] publishEvent:@{
+	@"name": @"testEvent",
+	@"data": @(12.5)
+} success:^(WiaEvent *event) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
@@ -760,7 +811,7 @@ wia.events.subscribe(
 
 // For all events use:
 [[WiaClient sharedInstance] subscribeToEvents:@"dev_23idgksdf0smd"
-  success:^(WiaDeviceEvent *event) {
+  success:^(WiaEvent *event) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
@@ -769,7 +820,7 @@ wia.events.subscribe(
 // For a specific event use:
 [[WiaClient sharedInstance] subscribeToEvents:@"dev_23idgksdf0smd"
   name:@"temperature"
-  success:^(WiaDeviceEvent *event) {
+  success:^(WiaEvent *event) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
