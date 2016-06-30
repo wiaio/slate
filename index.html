@@ -862,7 +862,7 @@ mqtt://api.wia.io (port 1883) - Non-secure
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">listDevices</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
   <span class="s">@"limit"</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
   <span class="s">@"page"</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="p">}</span> <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">devices</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span> <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">devices</span><span class="p">,</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// Success
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
@@ -1151,21 +1151,15 @@ mqtt://api.wia.io (port 1883) - Non-secure
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 
 <span class="c1">// For all events use:
-</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">subscribeToEvents</span><span class="p">:</span><span class="s">@"dev_23idgksdf0smd"</span>
-  <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">WiaEvent</span> <span class="o">*</span><span class="n">event</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// Success
-</span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// An error occurred
-</span><span class="p">}];</span>
+</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">subscribeToEvents</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
+  <span class="s">@"device"</span><span class="o">:</span> <span class="s">@"dev_23idgksdf0smd"</span>
+<span class="p">}];</span>
 
 <span class="c1">// For a specific event use:
-</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">subscribeToEvents</span><span class="p">:</span><span class="s">@"dev_23idgksdf0smd"</span>
-  <span class="nf">name</span><span class="p">:</span><span class="s">@"temperature"</span>
-  <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">WiaEvent</span> <span class="o">*</span><span class="n">event</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// Success
-</span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// An error occurred
-</span><span class="p">}];</span>
+</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">subscribeToEvents</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
+  <span class="s">@"device"</span><span class="o">:</span> <span class="s">@"dev_23idgksdf0smd"</span><span class="p">,</span>
+  <span class="s">@"name"</span><span class="o">:</span> <span class="s">@"temperature"</span>
+<span class="p">}];</span>
 </code></pre>
 
 <blockquote>
@@ -1235,21 +1229,15 @@ mqtt://api.wia.io (port 1883) - Non-secure
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 
 <span class="c1">// For all events use:
-</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">unsubscribeFromEvents</span><span class="p">:</span><span class="s">@"dev_23idgksdf0smd"</span>
-  <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// Success
-</span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// An error occurred
-</span><span class="p">}];</span>
+</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">unsubscribeFromEvents</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
+  <span class="s">@"device"</span><span class="o">:</span> <span class="s">@"dev_23idgksdf0smd"</span>
+<span class="p">}];</span>
 
 <span class="c1">// For a specific event use:
-</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">unsubscribeFromEvents</span><span class="p">:</span><span class="s">@"dev_23idgksdf0smd"</span>
-  <span class="nf">name</span><span class="p">:</span><span class="s">@"temperature"</span>
-  <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// Success
-</span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// An error occurred
-</span><span class="p">}];</span>
+</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">unsubscribeFromEvents</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
+  <span class="s">@"device"</span><span class="o">:</span> <span class="s">@"dev_23idgksdf0smd"</span><span class="p">,</span>
+  <span class="s">@"name"</span><span class="o">:</span> <span class="s">@"temperature"</span>
+<span class="p">}];</span>
 </code></pre>
 
 <blockquote>
@@ -1310,11 +1298,11 @@ mqtt://api.wia.io (port 1883) - Non-secure
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
-<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">listEvents</span><span class="p">:</span><span class="s">@"dev_23idgksdf0smd"</span>
-  <span class="nf">params</span><span class="p">:</span> <span class="err">@</span><span class="p">{</span>
-    <span class="s">@"limit"</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-  <span class="p">}</span>
-  <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">events</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">listEvents</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
+    <span class="s">@"device"</span><span class="o">:</span> <span class="s">@"dev_23idgksdf0smd"</span><span class="p">,</span>
+    <span class="s">@"limit"</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+    <span class="s">@"page"</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">}</span> <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">events</span><span class="p">,</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// Success
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
@@ -1325,7 +1313,7 @@ mqtt://api.wia.io (port 1883) - Non-secure
 <p>Example Response</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"events"</span><span class="err">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
     </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dev_ms8dfgknLA9k"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"temperature"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="mf">25.4</span><span class="p">,</span><span class="w">
@@ -1339,7 +1327,8 @@ mqtt://api.wia.io (port 1883) - Non-secure
         </span><span class="nt">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-5.92717</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1440683234546</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+  </span><span class="p">}],</span><span class="w">
+  </span><span class="s2">"count"</span><span class="err">:</span><span class="w"> </span><span class="mi">45</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 
@@ -1511,9 +1500,10 @@ mqtt://api.wia.io (port 1883) - Non-secure
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
-<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">publishSensor</span><span class="p">:</span><span class="s">@"temperature"</span>
-  <span class="nf">data</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="mi">21</span><span class="p">.</span><span class="mi">5</span><span class="p">)</span>
-  <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">WiaSensorEvent</span> <span class="o">*</span><span class="n">sensorEvent</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">publishSensor</span><span class="p">:</span><span class="o">:</span><span class="err">@</span><span class="p">{</span>
+    <span class="s">@"name"</span><span class="o">:</span> <span class="s">@"temperature"</span><span class="p">,</span>
+    <span class="s">@"data"</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="mi">21</span><span class="p">.</span><span class="mi">5</span><span class="p">)</span>
+<span class="p">}</span> <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">WiaSensor</span> <span class="o">*</span><span class="n">sensor</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// Success
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
@@ -1615,65 +1605,38 @@ mqtt://api.wia.io (port 1883) - Non-secure
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 
 <span class="c1">// For all sensors use:
-</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">subscribeToSensors</span><span class="p">:</span><span class="s">@"dev_23idgksdf0smd"</span>
-  <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">WiaSensorEvent</span> <span class="o">*</span><span class="n">sensorEvent</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// Success
-</span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// An error occurred
-</span><span class="p">}];</span>
+</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">subscribeToSensors</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
+    <span class="s">@"device"</span><span class="o">:</span> <span class="s">@"dev_23idgksdf0smd"</span>
+<span class="p">}];</span>
 
 <span class="c1">// For a specific sensor use:
-</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">subscribeToSensors</span><span class="p">:</span><span class="s">@"dev_23idgksdf0smd"</span>
-  <span class="nf">name</span><span class="p">:</span><span class="s">@"temperature"</span>
-  <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">WiaSensorEvent</span> <span class="o">*</span><span class="n">sensorEvent</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// Success
-</span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// An error occurred
-</span><span class="p">}];</span>
-</code></pre>
+</span><span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">subscribeToSensors</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
+    <span class="s">@"device"</span><span class="o">:</span> <span class="s">@"dev_23idgksdf0smd"</span><span class="p">,</span>
+    <span class="s">@"name"</span><span class="o">:</span> <span class="s">@"temperature"</span>
+<span class="p">}];</span>
 
-<blockquote>
-<p>The above command returns an Sensor object when one has been received.</p>
-</blockquote>
+<span class="o">&gt;</span> <span class="n">The</span> <span class="n">above</span> <span class="n">command</span> <span class="n">returns</span> <span class="n">an</span> <span class="n">Sensor</span> <span class="n">object</span> <span class="n">when</span> <span class="n">one</span> <span class="n">has</span> <span class="n">been</span> <span class="n">received</span><span class="p">.</span>
 
-<p>This endpoint subscribes to sensor events.</p>
+<span class="n">This</span> <span class="n">endpoint</span> <span class="n">subscribes</span> <span class="n">to</span> <span class="n">sensor</span> <span class="n">events</span><span class="p">.</span>
 
-<h3 id="http-request">HTTP Request</h3>
+<span class="cp">### HTTP Request
+</span>
+<span class="err">`</span><span class="n">Not</span> <span class="n">supported</span><span class="p">.</span><span class="err">`</span>
 
-<p><code class="prettyprint">Not supported.</code></p>
+<span class="cp">### Authorization
+</span><span class="n">Access</span> <span class="n">Type</span> <span class="o">|</span> <span class="n">Permitted</span>
+<span class="o">--------------</span> <span class="o">|</span> <span class="o">--------------</span>
+<span class="n">Device</span> <span class="o">|</span> <span class="n">x</span>
+<span class="n">User</span> <span class="o">|</span> <span class="err">✓</span>
+<span class="n">Organisation</span> <span class="o">|</span> <span class="err">✓</span>
+<span class="n">Customer</span> <span class="o">|</span> <span class="err">✓</span>
 
-<h3 id="authorization">Authorization</h3>
+<span class="cp">## Unsubscribe from sensors
+</span>
+<span class="o">&gt;</span> <span class="n">Example</span>
 
-<table><thead>
-<tr>
-<th>Access Type</th>
-<th>Permitted</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Device</td>
-<td>x</td>
-</tr>
-<tr>
-<td>User</td>
-<td>✓</td>
-</tr>
-<tr>
-<td>Organisation</td>
-<td>✓</td>
-</tr>
-<tr>
-<td>Customer</td>
-<td>✓</td>
-</tr>
-</tbody></table>
-
-<h2 id="unsubscribe-from-sensors">Unsubscribe from sensors</h2>
-
-<blockquote>
-<p>Example</p>
-</blockquote>
-<pre class="highlight shell"><code>Not supported
+<span class="err">```</span><span class="n">shell</span>
+<span class="n">Not</span> <span class="n">supported</span>
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key'</span><span class="p">);</span>
 
@@ -1954,7 +1917,7 @@ mqtt://api.wia.io (port 1883) - Non-secure
 </tr>
 </tbody></table>
 
-<h2 id="publish-an-event">Publish an event</h2>
+<h2 id="publish-a-location">Publish a location</h2>
 
 <blockquote>
 <p>Example Request</p>
@@ -1997,7 +1960,7 @@ mqtt://api.wia.io (port 1883) - Non-secure
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://api.wia.io/v1/location</code></p>
+<p><code class="prettyprint">POST https://api.wia.io/v1/locations</code></p>
 
 <h3 id="authorization">Authorization</h3>
 
