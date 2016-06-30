@@ -624,7 +624,7 @@ wia.devices.list({
 [[WiaClient sharedInstance] listDevices:@{
   @"limit": @(20),
   @"page": @(0)
-} success:^(NSArray *devices) {
+} success:^(NSArray *devices, NSNumber *count) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
@@ -810,20 +810,14 @@ wia.events.subscribe(
 [[WiaClient sharedInstance] initWithToken:@"token"];
 
 // For all events use:
-[[WiaClient sharedInstance] subscribeToEvents:@"dev_23idgksdf0smd"
-  success:^(WiaEvent *event) {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
+[[WiaClient sharedInstance] subscribeToEvents:@{
+  @"device": @"dev_23idgksdf0smd"
 }];
 
 // For a specific event use:
-[[WiaClient sharedInstance] subscribeToEvents:@"dev_23idgksdf0smd"
-  name:@"temperature"
-  success:^(WiaEvent *event) {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
+[[WiaClient sharedInstance] subscribeToEvents:@{
+  @"device": @"dev_23idgksdf0smd",
+  @"name": @"temperature"
 }];
 ```
 
@@ -878,20 +872,14 @@ wia.events.unsubscribe(
 [[WiaClient sharedInstance] initWithToken:@"token"];
 
 // For all events use:
-[[WiaClient sharedInstance] unsubscribeFromEvents:@"dev_23idgksdf0smd"
-  success:^() {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
+[[WiaClient sharedInstance] unsubscribeFromEvents:@{
+  @"device": @"dev_23idgksdf0smd"
 }];
 
 // For a specific event use:
-[[WiaClient sharedInstance] unsubscribeFromEvents:@"dev_23idgksdf0smd"
-  name:@"temperature"
-  success:^() {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
+[[WiaClient sharedInstance] unsubscribeFromEvents:@{
+  @"device": @"dev_23idgksdf0smd",
+  @"name": @"temperature"
 }];
 ```
 
@@ -937,11 +925,11 @@ wia.events.list({
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] listEvents:@"dev_23idgksdf0smd"
-  params: @{
-    @"limit": @(20)
-  }
-  success:^(NSArray *events) {
+[[WiaClient sharedInstance] listEvents:@{
+	@"device": @"dev_23idgksdf0smd",
+	@"limit": @(20),
+	@"page": @(0)
+} success:^(NSArray *events, NSNumber *count) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
@@ -952,7 +940,7 @@ wia.events.list({
 
 ```json
 [
-  {
+  "events": [{
 	"id": "dev_ms8dfgknLA9k",
     "name": "temperature",
     "data": 25.4,
@@ -966,7 +954,8 @@ wia.events.list({
   		"longitude": -5.92717
   	},
   	"timestamp": 1440683234546
-  }
+  }],
+  "count": 45
 ]
 ```
 
@@ -1058,9 +1047,10 @@ wia.sensors.publish(
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] publishSensor:@"temperature"
-  data:@(21.5)
-  success:^(WiaSensorEvent *sensorEvent) {
+[[WiaClient sharedInstance] publishSensor::@{
+	@"name": @"temperature",
+	@"data": @(21.5)
+} success:^(WiaSensor *sensor) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
@@ -1128,22 +1118,15 @@ wia.sensors.subscribe(
 [[WiaClient sharedInstance] initWithToken:@"token"];
 
 // For all sensors use:
-[[WiaClient sharedInstance] subscribeToSensors:@"dev_23idgksdf0smd"
-  success:^(WiaSensorEvent *sensorEvent) {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
+[[WiaClient sharedInstance] subscribeToSensors:@{
+	@"device": @"dev_23idgksdf0smd"
 }];
 
 // For a specific sensor use:
-[[WiaClient sharedInstance] subscribeToSensors:@"dev_23idgksdf0smd"
-  name:@"temperature"
-  success:^(WiaSensorEvent *sensorEvent) {
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
+[[WiaClient sharedInstance] subscribeToSensors:@{
+	@"device": @"dev_23idgksdf0smd",
+	@"name": @"temperature"
 }];
-```
 
 > The above command returns an Sensor object when one has been received.
 
@@ -1339,7 +1322,7 @@ altitude | Number | Altitude of the location.
 timestamp | Timestamp | Timestamp of the location in milliseconds.
 receivedTimestamp | Timestamp | Received timestamp of the location in milliseconds.
 
-## Publish an event
+## Publish a location
 
 > Example Request
 
@@ -1384,7 +1367,7 @@ This endpoint publishes a location.
 
 ### HTTP Request
 
-`POST https://api.wia.io/v1/location`
+`POST https://api.wia.io/v1/locations`
 
 ### Authorization
 Access Type | Permitted
