@@ -180,6 +180,10 @@ wss://api.wia.io (port 3001) - Secure
     <span class="na">publicKey</span><span class="p">:</span> <span class="s1">'publicKey'</span>
 <span class="p">});</span>
 </code></pre>
+<pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
+</span>
+<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">setSecretKey</span><span class="p">:</span><span class="s">"secret_key"</span><span class="p">];</span>
+</code></pre>
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
 <span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
