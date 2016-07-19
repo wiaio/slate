@@ -84,6 +84,12 @@ var wia = require('wia')({
 });
 ```
 
+```objective_c
+#import "Wia.h"
+
+[[WiaClient sharedInstance] setSecretKey:"secret_key"];
+```
+
 ```java
 import io.wia.Wia;
 
