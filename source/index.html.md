@@ -5,6 +5,8 @@ language_tabs:
   - shell: curl
   - javascript: Node.js
   - objective_c: iOS
+  - java: Java
+  - python: Python  
 
 toc_footers:
   - <a href='https://www.wia.io/signup' target="_blank">Create a free Wia account</a>
@@ -26,8 +28,15 @@ https://api.wia.io (port 443) - Secure
 > MQTT Endpoint
 
 ```
-mqtts://api.wia.io (port 8883) - Secure
 mqtt://api.wia.io (port 1883) - Non-secure
+mqtts://api.wia.io (port 8883) - Secure
+```
+
+> Websockets Endpoint
+
+```
+ws://api.wia.io (port 3000) - Non-secure
+wss://api.wia.io (port 3001) - Secure
 ```
 
 The Wia API is designed to be as intuitive as possible. We offer both a REST API and streaming over MQTT. If you have any questions, would like to see a new feature or find something is broken then <a href="mailto:support@wia.io">let us know</a>.
@@ -73,6 +82,18 @@ var wia = require('wia')({
 var wia = require('wia')({
 	publicKey: 'publicKey'
 });
+```
+
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey("secret_key");
+```
+
+```python
+import wia
+
+wia.secret_key = "secret_key"
 ```
 
 If you are connecting using your own MQTT client, put your access token in the username field and blank space for the password.
@@ -178,6 +199,20 @@ wia.stream.connect();
 [[WiaClient sharedInstance] connectToStream];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey("secret_key");
+Wia.connectToStream();
+```
+
+```python
+import wia
+
+wia.secret_key = "secret_key"
+wia.Stream.connect()
+```
+
 We recommend sending all events and logs down the Wia stream (i.e. MQTT), instead of via REST. In order to do so, you must connect to the stream before publishing any data or you will get an error.
 
 ## Disconnect from stream
@@ -200,6 +235,19 @@ wia.stream.disconnect();
 [[WiaClient sharedInstance] disconnectFromStream];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.disconnectFromStream();
+```
+
+```python
+import wia
+
+wia.secret_key = "secret_key"
+wia.Stream.disconnect()
+```
+
 To close an MQTT connection you must disconnect from the stream.
 
 ## Stream handlers
@@ -217,9 +265,17 @@ wia.stream.on('connect', function() {
 ```
 
 ```objective_c
-	[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamConnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-		NSLog(@"Stream connected");
-	});
+[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamConnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+	NSLog(@"Stream connected");
+});
+```
+
+```java
+Not supported
+```
+
+```python
+Not supported
 ```
 
 > Reconnect
@@ -235,9 +291,17 @@ wia.stream.on('reconnect', function() {
 ```
 
 ```objective_c
-	[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamReconnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-		NSLog(@"Stream connected");
-	});
+[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamReconnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+	NSLog(@"Stream connected");
+});
+```
+
+```java
+Not supported
+```
+
+```python
+Not supported
 ```
 
 > Disconnect
@@ -253,9 +317,17 @@ wia.stream.on('disconnect', function() {
 ```
 
 ```objective_c
-	[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamDisconnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-		NSLog(@"Stream connected");
-	});
+[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamDisconnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+	NSLog(@"Stream connected");
+});
+```
+
+```java
+Not supported
+```
+
+```python
+Not supported
 ```
 
 > Offline
@@ -271,9 +343,17 @@ wia.stream.on('offline', function() {
 ```
 
 ```objective_c
-	[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamOffline" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-		NSLog(@"Stream connected");
-	});
+[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamOffline" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+	NSLog(@"Stream connected");
+});
+```
+
+```java
+Not supported
+```
+
+```python
+Not supported
 ```
 
 > Error
@@ -290,9 +370,17 @@ wia.stream.on('error', function(error) {
 ```
 
 ```objective_c
-	[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamError" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-		NSLog(@"Stream connected");
-	});
+[[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamError" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+	NSLog(@"Stream connected");
+});
+```
+
+```java
+Not supported
+```
+
+```python
+Not supported
 ```
 
 When communicating with the stream, a number of notifications are emitted.
@@ -380,6 +468,27 @@ wia.devices.create({
 }];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey("secret_key");
+
+Map<String, Object> deviceParams = new HashMap<String, Object>();
+deviceParams.put("name", "myFirstDevice");
+
+Device device = Device.create(deviceParams);
+```
+
+```python
+import wia
+
+wia.secret_key = "secret_key"
+
+device = wia.Device.create(
+    name="My first device"
+)
+```
+
 > Example Response
 
 ```json
@@ -440,6 +549,22 @@ success:^(WiaDevice *device) {
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey("secret_key");
+
+Device device = Device.retrieve("dev_kj28hfgno19");
+```
+
+```python
+import wia
+
+wia.secret_key = "secret_key"
+
+device = wia.Device.retrieve("dev_kj28hfgno19")
 ```
 
 > Example Response
@@ -521,6 +646,30 @@ wia.devices.update("dev_23idgk0smd", {
 }];
 ```
 
+```java
+import io.wia.Wia;
+import io.wia.models.Device;
+
+Wia.setSecretKey(getSecretKey());
+
+Device retrievedDevice = Device.retrieve("dev_kn18herg9");
+
+Map<String, Object> updateParams = new HashMap<String, Object>();
+updateParams.put("name", "New device name");
+
+retrievedDevice.update(updateParams);
+```
+
+```python
+import wia
+
+wia.secret_key = "sk_asdgf23uNsdfu23jnfdgJKHG"
+ 
+device = wia.Device.retrieve("dev_kw8bnfimsngubdfg23")
+device.name = "New device name"
+device.save()
+```
+
 > Example Response
 
 ```json
@@ -580,6 +729,24 @@ wia.devices.delete(
 }];
 ```
 
+```java
+import io.wia.Wia;
+import io.wia.models.Device;
+
+Device device = Device.retrieve("dev_1j12k2erhgjng89l");
+
+WiaDeletedObject deletedDevice = device.delete();
+```
+
+```python
+import wia
+
+wia.secret_key = "sk_asdgf23uNsdfu23jnfdgJKHG"
+ 
+device = wia.Device.retrieve("dev_kw8bnfimsngubdfg23")
+device.delete()
+```
+
 > The above command returns status 200 OK when a device has been deleted.
 
 This endpoint deletes a device.
@@ -629,6 +796,26 @@ wia.devices.list({
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+import io.wia.Wia;
+import io.wia.models.DeviceCollection;
+
+Wia.setSecretKey("secret_key");
+
+Map<String, Object> params = new HashMap<String, Object>();
+params.put("limit", 10);
+
+DeviceCollection devicesCollection = Device.list(params);
+```
+
+```python
+import wia
+
+wia.secret_key = "secret_key"
+ 
+result = wia.Device.list(limit=40)
 ```
 
 > Example Response
@@ -2242,7 +2429,7 @@ wia.customers.create({
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"secret key"];
-[[WiaClient sharedInstance] createUser:@{
+[[WiaClient sharedInstance] createCustomer:@{
 	fullName: @"Elliot Anderson",
 	email: @"elliot@fsociety.com"
 } success:^(WiaUser *user) {
@@ -2284,22 +2471,22 @@ Customer | x
 
 Parameter | Type | Description
 --------- | ---- | -----------
-fullName | String | Full name of the user to be created. Required.
-email | String | Email address of user to be created. Required.
+fullName | String | Full name of the customer to be created. Required.
+email | String | Email address of customer to be created. Required.
 
-## Retrieve a user
+## Retrieve a customer
 
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/users/user_kndfg82mM90fdgm1"
+curl "https://api.wia.io/v1/customers/cus_kndfg82mM90fdgm1"
 	-H "Authorization: Bearer token"
 ```
 
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.users.retrieve("user_kndfg82mM90fdgm1", function(err, user) {
+wia.users.retrieve("cus_kndfg82mM90fdgm1", function(err, user) {
 	if (err) console.log(err);
 	if (user) console.log(user);
 });
@@ -2309,8 +2496,8 @@ wia.users.retrieve("user_kndfg82mM90fdgm1", function(err, user) {
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] retrieveUser:@"user_kndfg82mM90fdgm1" 
-  success:^(WiaUser *user) {
+[[WiaClient sharedInstance] retrieveCustomer:@"cus_kndfg82mM90fdgm1" 
+  success:^(WiaCustomer *customer) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
@@ -2321,7 +2508,7 @@ wia.users.retrieve("user_kndfg82mM90fdgm1", function(err, user) {
 
 ```json
 {
-	"id": "user_jhdfg8ndfglk",
+	"id": "cus_jhdfg8ndfglk",
 	"username": "elliot@fsociety.com",
 	"firstName": "Elliot",
 	"lastName": "Alderson",
@@ -2331,11 +2518,11 @@ wia.users.retrieve("user_kndfg82mM90fdgm1", function(err, user) {
 }
 ```
 
-This endpoint retrieves a user.
+This endpoint retrieves a customer.
 
 ### HTTP Request
 
-`GET https://api.wia.io/v1/users/:id`
+`GET https://api.wia.io/v1/customers/:id`
 
 ### Authorization
 Access Type | Permitted
@@ -2345,68 +2532,12 @@ User | x
 Organisation | ✓
 Customer | x
 
-## Retrieve current user
+## Update a customer
 
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/users/me"
-	-H "Authorization: Bearer token"
-```
-
-```javascript
-var wia = require('wia')('secret key or token');
-
-wia.users.retrieve("me", function(err, user) {
-	if (err) console.log(err);
-	if (user) console.log(user);
-});
-```
-
-```objective_c
-#import "Wia.h"
-
-[[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] retrieveUser:@"me", 
-  // Success
-} failure:^(NSError *error) {
-  // An error occurred
-}];
-```
-
-> Example Response
-
-```json
-{
-	"id": "user_jhdfg8ndfglk",
-	"username": "elliot@fsociety.com",
-	"firstName": "Elliot",
-	"lastName": "Alderson",
-	"fullName": "Elliot Alderson",
-	"createdAt": 1444063382000
-}
-```
-
-This endpoint retrieves the currently authenticated user.
-
-### HTTP Request
-
-`GET https://api.wia.io/v1/users/me`
-
-### Authorization
-Access Type | Permitted
--------------- | --------------
-Device | x
-User | ✓
-Organisation | x
-Customer | ✓
-
-## Update a user
-
-> Example Request
-
-```shell
-curl "https://api.wia.io/v1/users/user_kndfg82mM90fdgm1"
+curl "https://api.wia.io/v1/customers/cus_kndfg82mM90fdgm1"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
 	-X PUT -d '{"fullName":"Tyrell Wellick"}'
@@ -2415,10 +2546,10 @@ curl "https://api.wia.io/v1/users/user_kndfg82mM90fdgm1"
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.users.update("user_kndfg82mM90fdgm1", 
-	{"fullName":"Tyrell Wellick"}, function(err, user) {
+wia.customers.update("cus_kndfg82mM90fdgm1", 
+	{"fullName":"Tyrell Wellick"}, function(err, customer) {
 	if (err) console.log(err);
-	if (user) console.log(user);
+	if (customer) console.log(customer);
 });
 ```
 
@@ -2426,11 +2557,11 @@ wia.users.update("user_kndfg82mM90fdgm1",
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] updateUser:@"user_kndfg82mM90fdgm1" 
+[[WiaClient sharedInstance] updateCustomer:@"cus_kndfg82mM90fdgm1" 
   fields:@{
     @"fullName": @"Tyrell Wellick"
   } 
-  success:^(WiaUser *user) {
+  success:^(WiaCustomer *customer) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
@@ -2451,11 +2582,11 @@ wia.users.update("user_kndfg82mM90fdgm1",
 }
 ```
 
-This endpoint updates a user.
+This endpoint updates a customer.
 
 ### HTTP Request
 
-`PUT https://api.wia.io/v1/users/:id`
+`PUT https://api.wia.io/v1/customers/:id`
 
 ### Authorization
 Access Type | Permitted
@@ -2469,24 +2600,24 @@ Customer | x
 
 Parameter | Type | Description
 --------- | ---- | -----------
-fullName | String | Full name of the user to be created.
-email | String | Email address of user to be created.
+fullName | String | Full name of the customer to be created.
+email | String | Email address of customer to be created.
 
 ## Delete a user
 
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/users/user_kndfg82mM90fdgm1"
+curl "https://api.wia.io/v1/customers/cus_kndfg82mM90fdgm1"
 	-X DELETE
 ```
 
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.users.delete("user_kndfg82mM90fdgm1", function(err, user) {
+wia.customers.delete("cus_kndfg82mM90fdgm1", function(err, customer) {
 	if (err) console.log(err);
-	if (user) console.log(user);
+	if (customer) console.log(customer);
 });
 ```
 
@@ -2494,7 +2625,7 @@ wia.users.delete("user_kndfg82mM90fdgm1", function(err, user) {
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] deleteUser:@"user_kndfg82mM90fdgm1" 
+[[WiaClient sharedInstance] deleteCustomer:@"cus_kndfg82mM90fdgm1" 
   success:^(BOOL deleted) {
   // Success
 } failure:^(NSError *error) {
@@ -2508,11 +2639,11 @@ wia.users.delete("user_kndfg82mM90fdgm1", function(err, user) {
 200 OK
 ```
 
-This endpoint deletes a user.
+This endpoint deletes a customer.
 
 ### HTTP Request
 
-`DELETE https://api.wia.io/v1/users/:id`
+`DELETE https://api.wia.io/v1/customers/:id`
 
 ### Authorization
 Access Type | Permitted
@@ -2522,11 +2653,11 @@ User | x
 Organisation | ✓
 Customer | x
 
-## List users
+## List customers
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/users?limit=20" \
+curl "https://api.wia.io/v1/customers?limit=20" \
 	-H "Authorization: Bearer token" \
 	-X GET
 ```
@@ -2534,7 +2665,7 @@ curl "https://api.wia.io/v1/users?limit=20" \
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.users.list({
+wia.customers.list({
 	limit: 20,
 	page: 0
 }, function(err, data) {
@@ -2547,7 +2678,7 @@ wia.users.list({
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] listUsers:@{
+[[WiaClient sharedInstance] listCustomers:@{
   @"limit": @(20),
   @"page": @(0)
 } success:^(NSDictionary *result) {
@@ -2562,7 +2693,7 @@ wia.users.list({
 ```json
 [
   "users": [{
-	"id": "user_jhdfg8ndfglk",
+	"id": "cus_jhdfg8ndfglk",
 	"username": "elliot@fsociety.com",
 	"firstName": "Elliot",
 	"lastName": "Anderson",
@@ -2571,7 +2702,7 @@ wia.users.list({
 	"updatedAt": 1444063382000
   },
   {
-	"id": "user_mkn324875gBasdu",
+	"id": "cus_mkn324875gBasdu",
 	"username": "tyrell@ecorp.com",
 	"firstName": "Tyrell",
 	"lastName": "Wellick",
@@ -2587,7 +2718,7 @@ This endpoint retrieves users and a total count.
 
 ### HTTP Request
 
-`GET https://api.wia.io/v1/users`
+`GET https://api.wia.io/v1/customers`
 
 ### Authorization
 Access Type | Permitted
@@ -2601,16 +2732,16 @@ Customer | x
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
-limit | Number | 20 | Number of users to return. Max value 200.
+limit | Number | 20 | Number of customers to return. Max value 200.
 page | Number | 0 | First page is 0.
 order | String | 'createdAt' | Field to sort by. Valid values include 'createdAt', 'updatedAt' and 'name'.
 sort | String | 'desc' | Either ascending 'asc' or descending 'desc'.
 
-## Add device to user
+## Add device to customer
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/users/user_jhdfg8ndfglk/devices" \
+curl "https://api.wia.io/v1/customers/cus_jhdfg8ndfglk/devices" \
 	-H "Authorization: Bearer token" \
 	-X POST -d '{"device":"dev_ms8dfgknLA9k"}'
 ```
@@ -2618,7 +2749,7 @@ curl "https://api.wia.io/v1/users/user_jhdfg8ndfglk/devices" \
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.users.addDevice("user_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, added) {
+wia.customers.addDevice("cus_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, added) {
  	if (err) console.log(err);
 	if (added) console.log(added);
 });
@@ -2642,11 +2773,11 @@ wia.users.addDevice("user_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, added
 200 OK
 ```
 
-This endpoint adds a device to a user.
+This endpoint adds a device to a customer.
 
 ### HTTP Request
 
-`POST https://api.wia.io/v1/users/:id/devices`
+`POST https://api.wia.io/v1/customers/:id/devices`
 
 ### Authorization
 Access Type | Permitted
@@ -2660,13 +2791,13 @@ Customer | x
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
-device | String | - | Unique identifier of device to be added to user.
+device | String | - | Unique identifier of device to be added to customer.
 
-## Remove device from user
+## Remove device from customer
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/users/user_jhdfg8ndfglk/devices/dev_ms8dfgknLA9k" \
+curl "https://api.wia.io/v1/customers/cus_jhdfg8ndfglk/devices/dev_ms8dfgknLA9k" \
 	-H "Authorization: Bearer token" \
 	-X DELETE
 ```
@@ -2674,7 +2805,7 @@ curl "https://api.wia.io/v1/users/user_jhdfg8ndfglk/devices/dev_ms8dfgknLA9k" \
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.users.removeDevice("user_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, removed) {
+wia.users.removeDevice("cus_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, removed) {
  	if (err) console.log(err);
 	if (removed) console.log(removed);
 });
@@ -2684,7 +2815,7 @@ wia.users.removeDevice("user_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, re
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] removeDevice:@"" fromUser@"" 
+[[WiaClient sharedInstance] removeDevice:@"" fromCustomer@"" 
 	success:^(BOOL removed) {
   // Success
 } failure:^(NSError *error) {
@@ -2698,11 +2829,11 @@ wia.users.removeDevice("user_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, re
 200 OK
 ```
 
-This endpoint removes a device from a user.
+This endpoint removes a device from a customer.
 
 ### HTTP Request
 
-`DELETE https://api.wia.io/v1/users/:userId/devices/:deviceId`
+`DELETE https://api.wia.io/v1/customers/:customerId/devices/:deviceId`
 
 ### Authorization
 Access Type | Permitted
