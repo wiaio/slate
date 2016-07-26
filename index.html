@@ -233,6 +233,10 @@ wss://api.wia.io (port 3001) - Secure
   <span class="c1">// Failed
 </span><span class="p">}];</span>
 </code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
 
 <blockquote>
 <p>Example of an access token</p>
@@ -635,7 +639,7 @@ wss://api.wia.io (port 3001) - Secure
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>This endpoint creates a device. </p>
+<p>This endpoint creates a device.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -1025,7 +1029,7 @@ wss://api.wia.io (port 3001) - Secure
     </span><span class="nt">"isOnline"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nt">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1445199652859</span><span class="p">,</span><span class="w">
     </span><span class="nt">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1445199652234</span><span class="w">
-  </span><span class="p">}],</span><span class="w"> 
+  </span><span class="p">}],</span><span class="w">
   </span><span class="s2">"count"</span><span class="err">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -1189,6 +1193,24 @@ wss://api.wia.io (port 3001) - Secure
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
 </code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="s">"testEvent"</span><span class="o">);</span>
+
+<span class="n">Event</span> <span class="n">event</span> <span class="o">=</span> <span class="n">Event</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s">"event_name"</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="mi">100</span>
+            <span class="p">)</span>
+</code></pre>
 
 <blockquote>
 <p>The above command returns status 200 OK when event has been created.</p>
@@ -1300,6 +1322,52 @@ wss://api.wia.io (port 3001) - Secure
   <span class="s">@"name"</span><span class="o">:</span> <span class="s">@"temperature"</span>
 <span class="p">}];</span>
 </code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getSecretKey</span><span class="o">());</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">connectToStream</span><span class="o">();</span>
+
+<span class="c1">//for specific events:</span>
+<span class="kd">final</span> <span class="n">String</span> <span class="n">eventName</span> <span class="o">=</span> <span class="s">"myFirstEvent"</span><span class="o">;</span>
+<span class="n">Event</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">,</span> <span class="n">eventName</span><span class="o">,</span> <span class="k">new</span> <span class="n">WiaEventSubscribeCallback</span><span class="o">(){</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">received</span><span class="o">(</span><span class="n">Event</span> <span class="n">event</span><span class="o">){</span>
+    <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Got event, Timestamp: "</span> <span class="o">+</span> <span class="n">event</span><span class="o">.</span><span class="na">getTimestamp</span><span class="o">());</span>
+    <span class="o">}</span>
+  <span class="o">});</span>
+
+<span class="c1">//for all events:</span>
+<span class="n">Event</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">,</span> <span class="k">new</span> <span class="n">WiaEventSubscribeCallback</span><span class="o">(){</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">received</span><span class="o">(</span><span class="n">Event</span> <span class="n">event</span><span class="o">){</span>
+      <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Got event, Timestamp: "</span> <span class="o">+</span> <span class="n">event</span><span class="o">.</span><span class="na">getTimestamp</span><span class="o">());</span>
+    <span class="o">}</span>
+  <span class="o">});</span>
+</code></pre>
+<pre class="highlight python"><code>
+<span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">Stream</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">example_func</span><span class="p">(</span><span class="n">payload</span><span class="p">):</span>
+  <span class="c">#payload contains event messages</span>
+  <span class="k">pass</span>
+
+<span class="c">#for all events use:</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">example_func</span>
+  <span class="p">)</span>
+
+<span class="c">#for specific events use:</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">"event_name"</span><span class="p">,</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">example_func</span>
+  <span class="p">)</span>
+
+</code></pre>
 
 <blockquote>
 <p>The above command returns an Event object when one has been received.</p>
@@ -1378,6 +1446,32 @@ wss://api.wia.io (port 3001) - Secure
   <span class="s">@"name"</span><span class="o">:</span> <span class="s">@"temperature"</span>
 <span class="p">}];</span>
 </code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+
+<span class="c1">//for specific events:</span>
+<span class="kd">final</span> <span class="n">String</span> <span class="n">eventName</span> <span class="o">=</span> <span class="s">"someEvent"</span><span class="o">;</span>
+<span class="n">Event</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">,</span> <span class="n">eventName</span><span class="o">);</span>
+
+<span class="c1">//for all events:</span>
+<span class="n">Event</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">);</span>
+
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="c">#for all events use</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+  <span class="p">)</span>
+
+<span class="c">#for specific events use:</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">"event_name"</span>
+  <span class="p">)</span>
+
+</code></pre>
 
 <blockquote>
 <p>The above command returns an Event object when one has been received.</p>
@@ -1446,6 +1540,25 @@ wss://api.wia.io (port 3001) - Secure
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.wia.models.EventCollection</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"limit"</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
+
+<span class="n">EventCollection</span> <span class="n">EventCollection</span> <span class="o">=</span> <span class="n">Event</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="nb">list</span><span class="p">(</span>
+        <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+        <span class="n">page</span><span class="o">=</span><span class="mi">0</span>
+        <span class="p">)</span>
+
 </code></pre>
 
 <blockquote>
@@ -1648,6 +1761,24 @@ wss://api.wia.io (port 3001) - Secure
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
 </code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="s">"temperature"</span><span class="o">);</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"data"</span><span class="o">,</span> <span class="mf">21.453</span><span class="o">);</span>
+
+<span class="n">Sensor</span> <span class="n">sensor</span> <span class="o">=</span> <span class="n">Sensor</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Sensor</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">"sensor_name"</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="mi">100</span>
+  <span class="p">)</span>
+
+</code></pre>
 
 <blockquote>
 <p>The above command returns status 200 OK when sensor has been created.</p>
@@ -1753,29 +1884,92 @@ wss://api.wia.io (port 3001) - Secure
     <span class="s">@"device"</span><span class="o">:</span> <span class="s">@"dev_23idgksdf0smd"</span><span class="p">,</span>
     <span class="s">@"name"</span><span class="o">:</span> <span class="s">@"temperature"</span>
 <span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
-<span class="o">&gt;</span> <span class="n">The</span> <span class="n">above</span> <span class="n">command</span> <span class="n">returns</span> <span class="n">an</span> <span class="n">Sensor</span> <span class="n">object</span> <span class="n">when</span> <span class="n">one</span> <span class="n">has</span> <span class="n">been</span> <span class="n">received</span><span class="p">.</span>
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getSecretKey</span><span class="o">());</span>
 
-<span class="n">This</span> <span class="n">endpoint</span> <span class="n">subscribes</span> <span class="n">to</span> <span class="n">sensor</span> <span class="n">events</span><span class="p">.</span>
+<span class="n">Wia</span><span class="o">.</span><span class="na">connectToStream</span><span class="o">();</span>
 
-<span class="cp">### HTTP Request
-</span>
-<span class="err">`</span><span class="n">Not</span> <span class="n">supported</span><span class="p">.</span><span class="err">`</span>
+<span class="c1">//for specific sensors:</span>
+<span class="kd">final</span> <span class="n">String</span> <span class="n">sensorName</span> <span class="o">=</span> <span class="s">"temperature"</span><span class="o">;</span>
+<span class="n">Sensor</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">,</span> <span class="n">sensorName</span><span class="o">,</span> <span class="k">new</span> <span class="n">WiaSensorSubscribeCallback</span><span class="o">(){</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">received</span><span class="o">(</span><span class="n">Sensor</span> <span class="n">sensor</span><span class="o">){</span>
+    <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Got sensor, Timestamp: "</span> <span class="o">+</span> <span class="n">sensor</span><span class="o">.</span><span class="na">getTimestamp</span><span class="o">());</span>
+    <span class="o">}</span>
+  <span class="o">});</span>
 
-<span class="cp">### Authorization
-</span><span class="n">Access</span> <span class="n">Type</span> <span class="o">|</span> <span class="n">Permitted</span>
-<span class="o">--------------</span> <span class="o">|</span> <span class="o">--------------</span>
-<span class="n">Device</span> <span class="o">|</span> <span class="n">x</span>
-<span class="n">User</span> <span class="o">|</span> <span class="err">✓</span>
-<span class="n">Organisation</span> <span class="o">|</span> <span class="err">✓</span>
-<span class="n">Customer</span> <span class="o">|</span> <span class="err">✓</span>
+<span class="c1">//for all sensors:</span>
+<span class="n">Sensor</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">,</span> <span class="k">new</span> <span class="n">WiaSensorSubscribeCallback</span><span class="o">(){</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">received</span><span class="o">(</span><span class="n">Sensor</span> <span class="n">sensor</span><span class="o">){</span>
+      <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Got sensor, Timestamp: "</span> <span class="o">+</span> <span class="n">sensor</span><span class="o">.</span><span class="na">getTimestamp</span><span class="o">());</span>
+    <span class="o">}</span>
+  <span class="o">});</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
 
-<span class="cp">## Unsubscribe from sensors
-</span>
-<span class="o">&gt;</span> <span class="n">Example</span>
+<span class="k">def</span> <span class="nf">example_func</span><span class="p">(</span><span class="n">payload</span><span class="p">):</span>
+  <span class="c">#payload will have sensor messages</span>
+  <span class="k">pass</span>
 
-<span class="err">```</span><span class="n">shell</span>
-<span class="n">Not</span> <span class="n">supported</span>
+<span class="c">#for all sensors use:</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Sensor</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">example_func</span>
+  <span class="p">)</span>
+
+<span class="c">#for specific sensors use:</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Sensor</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">"sensor_name"</span><span class="p">,</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">example_func</span>
+  <span class="p">)</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns an Sensor object when one has been received.</p>
+</blockquote>
+
+<p>This endpoint subscribes to sensor events.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">Not supported.</code></p>
+
+<h3 id="authorization">Authorization</h3>
+
+<table><thead>
+<tr>
+<th>Access Type</th>
+<th>Permitted</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Device</td>
+<td>x</td>
+</tr>
+<tr>
+<td>User</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Organisation</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Customer</td>
+<td>✓</td>
+</tr>
+</tbody></table>
+
+<h2 id="unsubscribe-from-sensors">Unsubscribe from sensors</h2>
+
+<blockquote>
+<p>Example</p>
+</blockquote>
+<pre class="highlight shell"><code>Not supported
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key'</span><span class="p">);</span>
 
@@ -1816,6 +2010,30 @@ wss://api.wia.io (port 3001) - Secure
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+
+<span class="c1">//for specific sensors:</span>
+<span class="kd">final</span> <span class="n">String</span> <span class="n">sensorName</span> <span class="o">=</span> <span class="s">"temperature"</span><span class="o">;</span>
+<span class="n">Sensor</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">,</span> <span class="n">sensorName</span><span class="o">);</span>
+
+<span class="c1">//for all sensors:</span>
+<span class="n">Sensor</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">);</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="c">#for all sensors use:</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Sensor</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span>
+  <span class="p">)</span>
+
+<span class="c">#for a specific sensor use:</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Sensor</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">"sensor_name"</span>
+  <span class="p">)</span>
 </code></pre>
 
 <blockquote>
@@ -1885,6 +2103,25 @@ wss://api.wia.io (port 3001) - Secure
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.wia.models.SensorCollection</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"device"</span><span class="o">,</span> <span class="s">"device_id"</span><span class="o">);</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"limit"</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
+
+<span class="n">SensorCollection</span> <span class="n">SensorCollection</span> <span class="o">=</span> <span class="n">Sensor</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Sensor</span><span class="o">.</span><span class="nb">list</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">page</span><span class="o">=</span><span class="mi">0</span>
+  <span class="p">)</span>
 </code></pre>
 
 <blockquote>
@@ -2090,6 +2327,23 @@ wss://api.wia.io (port 3001) - Secure
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
 </code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"longitude"</span><span class="o">,</span> <span class="o">-</span><span class="mf">6.260310</span><span class="o">);</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"latitude"</span><span class="o">,</span> <span class="mf">53.349805</span><span class="o">);</span>
+
+<span class="n">Location</span> <span class="n">location</span> <span class="o">=</span> <span class="n">Location</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Location</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
+    <span class="n">longitude</span><span class="o">=-</span><span class="mf">6.260310</span><span class="p">,</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="mf">53.349805</span>
+  <span class="p">)</span>
+</code></pre>
 
 <blockquote>
 <p>The above command returns status 200 OK when location has been published.</p>
@@ -2182,7 +2436,30 @@ wss://api.wia.io (port 3001) - Secure
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getSecretKey</span><span class="o">());</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">connectToStream</span><span class="o">();</span>
+
+<span class="n">Location</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">,</span> <span class="k">new</span> <span class="n">WiaLocationSubscribeCallback</span><span class="o">(){</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">received</span><span class="o">(</span><span class="n">Location</span> <span class="n">location</span><span class="o">){</span>
+      <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Got location, Timestamp: "</span> <span class="o">+</span> <span class="n">location</span><span class="o">.</span><span class="na">getTimestamp</span><span class="o">());</span>
+    <span class="o">}</span>
+  <span class="o">});</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="k">def</span> <span class="nf">example_func</span><span class="p">(</span><span class="n">payload</span><span class="p">):</span>
+  <span class="c">#payload will contain location messages</span>
+  <span class="k">pass</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">Location</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">example_func</span>
+  <span class="p">)</span>
 </code></pre>
 
 <blockquote>
@@ -2248,7 +2525,18 @@ wss://api.wia.io (port 3001) - Secure
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+
+<span class="n">Location</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">);</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">Location</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span>
+  <span class="p">)</span>
 </code></pre>
 
 <blockquote>
@@ -2318,6 +2606,25 @@ wss://api.wia.io (port 3001) - Secure
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.wia.models.LocationCollection</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"device"</span><span class="o">,</span> <span class="s">"device_id"</span><span class="o">);</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"limit"</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
+
+<span class="n">LocationCollection</span> <span class="n">LocationsCollection</span> <span class="o">=</span> <span class="n">Location</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">Location</span><span class="o">.</span><span class="nb">list</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_name"</span>
+    <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">page</span><span class="o">=</span><span class="mi">0</span>
+  <span class="p">)</span>
 </code></pre>
 
 <blockquote>
@@ -2520,6 +2827,23 @@ wss://api.wia.io (port 3001) - Secure
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
 </code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"level"</span><span class="o">,</span> <span class="s">"info"</span><span class="o">);</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="s">"test"</span><span class="o">);</span>
+
+<span class="n">Log</span> <span class="n">log</span> <span class="o">=</span> <span class="n">Log</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
+          <span class="n">level</span><span class="o">=</span><span class="s">"info"</span><span class="p">,</span>
+          <span class="n">message</span><span class="o">=</span><span class="s">"example message"</span>
+          <span class="p">)</span>
+</code></pre>
 
 <blockquote>
 <p>The above command returns status 200 OK when log has been created.</p>
@@ -2637,6 +2961,48 @@ wss://api.wia.io (port 3001) - Secure
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
 </code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getSecretKey</span><span class="o">());</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">connectToStream</span><span class="o">();</span>
+
+<span class="c1">//for specific log level:</span>
+<span class="kd">final</span> <span class="n">String</span> <span class="n">logLevel</span> <span class="o">=</span> <span class="s">"info"</span><span class="o">;</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">,</span> <span class="n">logLevel</span><span class="o">,</span> <span class="k">new</span> <span class="n">WiaLogSubscribeCallback</span><span class="o">(){</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">received</span><span class="o">(</span><span class="n">Log</span> <span class="n">log</span><span class="o">){</span>
+    <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Got log, Timestamp: "</span> <span class="o">+</span> <span class="n">log</span><span class="o">.</span><span class="na">getTimestamp</span><span class="o">());</span>
+    <span class="o">}</span>
+  <span class="o">});</span>
+
+<span class="c1">//for all levels:</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">,</span> <span class="k">new</span> <span class="n">WiaLogSubscribeCallback</span><span class="o">(){</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">received</span><span class="o">(</span><span class="n">Log</span> <span class="n">log</span><span class="o">){</span>
+      <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Got log, Timestamp: "</span> <span class="o">+</span> <span class="n">log</span><span class="o">.</span><span class="na">getTimestamp</span><span class="o">());</span>
+    <span class="o">}</span>
+  <span class="o">});</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="k">def</span> <span class="nf">example_func</span><span class="p">(</span><span class="n">payload</span><span class="p">):</span>
+  <span class="c">#payload will have logs</span>
+  <span class="k">pass</span>
+
+<span class="c">#for all logs use:</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">example_func</span>
+  <span class="p">)</span>
+
+<span class="c">#for a specific log level use:</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">level</span><span class="o">=</span><span class="s">"level"</span><span class="p">,</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">example_func</span>
+  <span class="p">)</span>
+</code></pre>
 
 <blockquote>
 <p>The above command returns a log object when one has been received.</p>
@@ -2721,6 +3087,29 @@ wss://api.wia.io (port 3001) - Secure
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
 </code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+
+<span class="c1">//for specific levels:</span>
+<span class="kd">final</span> <span class="n">String</span> <span class="n">logLevel</span> <span class="o">=</span> <span class="s">"info"</span><span class="o">;</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">,</span> <span class="n">logLevel</span><span class="o">);</span>
+
+<span class="c1">//for all levels:</span>
+<span class="n">Log</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">);</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="c">#for all logs use:</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span>
+  <span class="p">)</span>
+<span class="c">#for specific log level use:</span>
+<span class="n">wia</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">level</span><span class="o">=</span><span class="s">"level"</span>
+  <span class="p">)</span>
+</code></pre>
 
 <p>This endpoint unsubscribes from device logs.</p>
 
@@ -2786,6 +3175,25 @@ wss://api.wia.io (port 3001) - Secure
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.wia.models.SensorCollection</span><span class="o">;</span>
+
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"device"</span><span class="o">,</span> <span class="s">"device_id"</span><span class="o">);</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"limit"</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
+
+<span class="n">LogCollection</span> <span class="n">LogCollection</span> <span class="o">=</span> <span class="n">Log</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="nb">list</span><span class="p">(</span>
+          <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+          <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+          <span class="n">page</span><span class="o">=</span><span class="mi">0</span>
+        <span class="p">)</span>
 </code></pre>
 
 <blockquote>
@@ -2917,7 +3325,7 @@ wss://api.wia.io (port 3001) - Secure
     </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"helloFunction"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"isEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"device"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dev_gh8jfg9MASDu"</span><span class="w">    
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dev_gh8jfg9MASDu"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"enabledAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1445253805000</span><span class="p">,</span><span class="w">
     </span><span class="nt">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1444995244000</span><span class="p">,</span><span class="w">
@@ -2995,6 +3403,18 @@ wss://api.wia.io (port 3001) - Secure
 <span class="p">);</span>
 </code></pre>
 <pre class="highlight objective_c"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="k">def</span> <span class="nf">test_function</span><span class="p">(</span><span class="n">argument</span><span class="p">):</span>
+  <span class="c">#function implementation</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Function</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">'function_name'</span><span class="p">,</span>
+    <span class="n">function</span><span class="o">=</span><span class="n">test_function</span>
+  <span class="p">)</span>
 </code></pre>
 
 <blockquote>
@@ -3076,6 +3496,14 @@ wss://api.wia.io (port 3001) - Secure
 <span class="p">);</span>
 </code></pre>
 <pre class="highlight objective_c"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">Function</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+    <span class="s">"function_id"</span>
+  <span class="p">)</span>
 </code></pre>
 
 <blockquote>
@@ -3169,6 +3597,16 @@ wss://api.wia.io (port 3001) - Secure
 </span>    <span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
       <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">Function</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">func</span><span class="o">=</span><span class="s">"function_id"</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s">'arg'</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+  <span class="p">)</span>
 </code></pre>
 
 <blockquote>
@@ -3266,6 +3704,16 @@ wss://api.wia.io (port 3001) - Secure
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Function</span><span class="o">.</span><span class="nb">list</span><span class="p">(</span>
+    <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
+    <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">page</span><span class="o">=</span><span class="mi">0</span>
+  <span class="p">)</span>
 </code></pre>
 
 <blockquote>
@@ -3447,6 +3895,10 @@ wss://api.wia.io (port 3001) - Secure
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
 </code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
 
 <blockquote>
 <p>Example Response</p>
@@ -3462,7 +3914,7 @@ wss://api.wia.io (port 3001) - Secure
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>This endpoint creates a customer. </p>
+<p>This endpoint creates a customer.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -3533,12 +3985,16 @@ wss://api.wia.io (port 3001) - Secure
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
-<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">retrieveCustomer</span><span class="p">:</span><span class="s">@"cus_kndfg82mM90fdgm1"</span> 
+<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">retrieveCustomer</span><span class="p">:</span><span class="s">@"cus_kndfg82mM90fdgm1"</span>
   <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">WiaCustomer</span> <span class="o">*</span><span class="n">customer</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// Success
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="n">Not</span> <span class="n">available</span>
 </code></pre>
 
 <blockquote>
@@ -3599,7 +4055,7 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key or token'</span><span class="p">);</span>
 
-<span class="nx">wia</span><span class="p">.</span><span class="nx">customers</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="s2">"cus_kndfg82mM90fdgm1"</span><span class="p">,</span> 
+<span class="nx">wia</span><span class="p">.</span><span class="nx">customers</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="s2">"cus_kndfg82mM90fdgm1"</span><span class="p">,</span>
     <span class="p">{</span><span class="s2">"fullName"</span><span class="p">:</span><span class="s2">"Tyrell Wellick"</span><span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">customer</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">customer</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">customer</span><span class="p">);</span>
@@ -3608,15 +4064,19 @@ wss://api.wia.io (port 3001) - Secure
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
-<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">updateCustomer</span><span class="p">:</span><span class="s">@"cus_kndfg82mM90fdgm1"</span> 
+<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">updateCustomer</span><span class="p">:</span><span class="s">@"cus_kndfg82mM90fdgm1"</span>
   <span class="nf">fields</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
     <span class="s">@"fullName"</span><span class="o">:</span> <span class="s">@"Tyrell Wellick"</span>
-  <span class="p">}</span> 
+  <span class="p">}</span>
   <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">WiaCustomer</span> <span class="o">*</span><span class="n">customer</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// Success
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="n">Not</span> <span class="n">available</span>
 </code></pre>
 
 <blockquote>
@@ -3704,12 +4164,16 @@ wss://api.wia.io (port 3001) - Secure
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
-<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">deleteCustomer</span><span class="p">:</span><span class="s">@"cus_kndfg82mM90fdgm1"</span> 
+<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">deleteCustomer</span><span class="p">:</span><span class="s">@"cus_kndfg82mM90fdgm1"</span>
   <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">deleted</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// Success
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="n">Not</span> <span class="n">available</span>
 </code></pre>
 
 <blockquote>
@@ -3781,6 +4245,10 @@ wss://api.wia.io (port 3001) - Secure
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
 </code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
 
 <blockquote>
 <p>Example Response</p>
@@ -3803,7 +4271,7 @@ wss://api.wia.io (port 3001) - Secure
     </span><span class="nt">"fullName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tyrell Wellick"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1444063382000</span><span class="p">,</span><span class="w">
     </span><span class="nt">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1444063382000</span><span class="w">
-  </span><span class="p">}],</span><span class="w"> 
+  </span><span class="p">}],</span><span class="w">
   </span><span class="s2">"count"</span><span class="err">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -3895,12 +4363,16 @@ wss://api.wia.io (port 3001) - Secure
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
-<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">addDevice</span><span class="p">:</span><span class="s">@""</span> <span class="n">toUser</span><span class="s">@""</span> 
+<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">addDevice</span><span class="p">:</span><span class="s">@""</span> <span class="n">toUser</span><span class="s">@""</span>
     <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">added</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// Success
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="n">Not</span> <span class="n">available</span>
 </code></pre>
 
 <blockquote>
@@ -3978,12 +4450,16 @@ wss://api.wia.io (port 3001) - Secure
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
-<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">removeDevice</span><span class="p">:</span><span class="s">@""</span> <span class="n">fromCustomer</span><span class="s">@""</span> 
+<span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">removeDevice</span><span class="p">:</span><span class="s">@""</span> <span class="n">fromCustomer</span><span class="s">@""</span>
     <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">removed</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// Success
 </span><span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// An error occurred
 </span><span class="p">}];</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
+</code></pre>
+<pre class="highlight python"><code><span class="n">Not</span> <span class="n">available</span>
 </code></pre>
 
 <blockquote>
