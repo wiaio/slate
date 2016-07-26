@@ -146,6 +146,14 @@ var accessToken = wia.generateAccessToken({
 }];
 ```
 
+```java
+Not available
+```
+
+```python
+Not available
+```
+
 > Example of an access token
 
 ```
@@ -507,7 +515,7 @@ device = wia.Device.create(
 }
 ```
 
-This endpoint creates a device. 
+This endpoint creates a device.
 
 ### HTTP Request
 
@@ -670,7 +678,7 @@ retrievedDevice.update(updateParams);
 import wia
 
 wia.secret_key = "sk_asdgf23uNsdfu23jnfdgJKHG"
- 
+
 device = wia.Device.retrieve("dev_kw8bnfimsngubdfg23")
 device.name = "New device name"
 device.save()
@@ -748,7 +756,7 @@ WiaDeletedObject deletedDevice = device.delete();
 import wia
 
 wia.secret_key = "sk_asdgf23uNsdfu23jnfdgJKHG"
- 
+
 device = wia.Device.retrieve("dev_kw8bnfimsngubdfg23")
 device.delete()
 ```
@@ -820,7 +828,7 @@ DeviceCollection devicesCollection = Device.list(params);
 import wia
 
 wia.secret_key = "secret_key"
- 
+
 result = wia.Device.list(limit=40)
 ```
 
@@ -841,7 +849,7 @@ result = wia.Device.list(limit=40)
     "isOnline": false,
     "createdAt": 1445199652859,
     "updatedAt": 1445199652234
-  }], 
+  }],
   "count": 2
 ]
 ```
@@ -941,6 +949,28 @@ wia.events.publish(
 }];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getDeviceSecretKey());
+
+Map<String, Object> params = new HashMap<String, Object>();
+params.put("name", "testEvent");
+
+Event event = Event.publish(params);
+```
+
+```python
+import wia
+
+wia.secret_key = "secret_key"
+
+result = wia.Event.publish(
+            name="event_name",
+            data=100
+            )
+```
+
 > The above command returns status 200 OK when event has been created.
 
 This endpoint publishes an event.
@@ -1014,6 +1044,56 @@ wia.events.subscribe(
 }];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getSecretKey());
+
+Wia.connectToStream();
+
+//for specific events:
+final String eventName = "myFirstEvent";
+Event.subscribe("device_id", eventName, new WiaEventSubscribeCallback(){
+    @Override
+    public void received(Event event){
+    logger.debug("Got event, Timestamp: " + event.getTimestamp());
+    }
+  });
+
+//for all events:
+Event.subscribe("device_id", new WiaEventSubscribeCallback(){
+    @Override
+    public void received(Event event){
+      logger.debug("Got event, Timestamp: " + event.getTimestamp());
+    }
+  });
+```
+
+```python
+
+import wia
+
+wia.Stream.connect()
+
+def example_func(payload):
+  #payload contains event messages
+  pass
+
+#for all events use:
+wia.Event.subscribe(
+    device="device_id",
+    func=example_func
+  )
+
+#for specific events use:
+wia.Event.subscribe(
+    device="device_id",
+    name="event_name",
+    func=example_func
+  )
+
+```
+
 > The above command returns an Event object when one has been received.
 
 This endpoint subscribes to events.
@@ -1076,6 +1156,36 @@ wia.events.unsubscribe(
 }];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getDeviceSecretKey());
+
+//for specific events:
+final String eventName = "someEvent";
+Event.unsubscribe("device_id", eventName);
+
+//for all events:
+Event.unsubscribe("device_id");
+
+```
+
+```python
+import wia
+
+#for all events use
+wia.Event.unsubscribe(
+    device="device_id",
+  )
+
+#for specific events use:
+wia.Event.unsubscribe(
+    device="device_id",
+    name="event_name"
+  )
+
+```
+
 > The above command returns an Event object when one has been received.
 
 This endpoint unsubscribes from device events.
@@ -1127,6 +1237,29 @@ wia.events.list({
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+import io.wia.Wia;
+import io.wia.models.EventCollection;
+
+Wia.setSecretKey("secret_key");
+
+Map<String, Object> params = new HashMap<String, Object>();
+params.put("limit", 10);
+
+EventCollection EventCollection = Event.list(params);
+```
+
+```python
+import wia
+
+result = wia.Event.list(
+        device="device_id",
+        limit=20,
+        page=0
+        )
+
 ```
 
 > Example Response
@@ -1250,6 +1383,28 @@ wia.sensors.publish(
 }];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getDeviceSecretKey());
+
+Map<String, Object> params = new HashMap<String, Object>();
+params.put("name", "temperature");
+params.put("data", 21.453);
+
+Sensor sensor = Sensor.publish(params);
+```
+
+```python
+import wia
+
+result = wia.Sensor.publish(
+    name="sensor_name",
+    data=100
+  )
+
+```
+
 > The above command returns status 200 OK when sensor has been created.
 
 This endpoint publishes a sensor event.
@@ -1320,6 +1475,53 @@ wia.sensors.subscribe(
 	@"device": @"dev_23idgksdf0smd",
 	@"name": @"temperature"
 }];
+```
+
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getSecretKey());
+
+Wia.connectToStream();
+
+//for specific sensors:
+final String sensorName = "temperature";
+Sensor.subscribe("device_id", sensorName, new WiaSensorSubscribeCallback(){
+    @Override
+    public void received(Sensor sensor){
+    logger.debug("Got sensor, Timestamp: " + sensor.getTimestamp());
+    }
+  });
+
+//for all sensors:
+Sensor.subscribe("device_id", new WiaSensorSubscribeCallback(){
+    @Override
+    public void received(Sensor sensor){
+      logger.debug("Got sensor, Timestamp: " + sensor.getTimestamp());
+    }
+  });
+```
+
+```python
+import wia
+
+def example_func(payload):
+  #payload will have sensor messages
+  pass
+
+#for all sensors use:
+wia.Sensor.subscribe(
+    device="device_id",
+    func=example_func
+  )
+
+#for specific sensors use:
+wia.Sensor.subscribe(
+    device="device_id",
+    name="sensor_name",
+    func=example_func
+  )
+```
 
 > The above command returns an Sensor object when one has been received.
 
@@ -1389,6 +1591,34 @@ wia.sensors.unsubscribe(
 }];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getDeviceSecretKey());
+
+//for specific sensors:
+final String sensorName = "temperature";
+Sensor.unsubscribe("device_id", sensorName);
+
+//for all sensors:
+Sensor.unsubscribe("device_id");
+```
+
+```python
+import wia
+
+#for all sensors use:
+wia.Sensor.unsubscribe(
+    device="device_id"
+  )
+
+#for a specific sensor use:
+wia.Sensor.unsubscribe(
+    device="device_id",
+    name="sensor_name"
+  )
+```
+
 > The above command returns an Sensor object when one has been received.
 
 This endpoint unsubscribes from device sensors.
@@ -1440,6 +1670,29 @@ wia.sensors.list({
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+import io.wia.Wia;
+import io.wia.models.SensorCollection;
+
+Wia.setSecretKey("secret_key");
+
+Map<String, Object> params = new HashMap<String, Object>();
+params.put("device", "device_id");
+params.put("limit", 10);
+
+SensorCollection SensorCollection = Sensor.list(params);
+```
+
+```python
+import wia
+
+result = wia.Sensor.list(
+    device="device_id",
+    limit=20,
+    page=0
+  )
 ```
 
 > Example Response
@@ -1554,6 +1807,27 @@ wia.locations.publish(
 }];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getDeviceSecretKey());
+
+Map<String, Object> params = new HashMap<String, Object>();
+params.put("longitude", -6.260310);
+params.put("latitude", 53.349805);
+
+Location location = Location.publish(params);
+```
+
+```python
+import wia
+
+result = wia.Location.publish(
+    longitude=-6.260310,
+    latitude=53.349805
+  )
+```
+
 > The above command returns status 200 OK when location has been published.
 
 This endpoint publishes a location.
@@ -1611,7 +1885,34 @@ wia.locations.subscribe(
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getSecretKey());
+
+Wia.connectToStream();
+
+Location.subscribe("device_id", new WiaLocationSubscribeCallback(){
+    @Override
+    public void received(Location location){
+      logger.debug("Got location, Timestamp: " + location.getTimestamp());
+    }
+  });
+```
+
+```python
+import wia
+
+def example_func(payload):
+  #payload will contain location messages
+  pass
+
+wia.Location.subscribe(
+    device="device_id",
+    func=example_func
+  )
 ```
 
 > The above command returns a Location object when one has been received.
@@ -1661,7 +1962,22 @@ wia.locations.unsubscribe(
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getDeviceSecretKey());
+
+Location.unsubscribe("device_id");
+```
+
+```python
+import wia
+
+wia.Location.unsubscribe(
+    device="device_id"
+  )
 ```
 
 > The above command unsubscribe from devices locations.
@@ -1715,6 +2031,29 @@ wia.locations.list({
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+import io.wia.Wia;
+import io.wia.models.LocationCollection;
+
+Wia.setSecretKey("secret_key");
+
+Map<String, Object> params = new HashMap<String, Object>();
+params.put("device", "device_id");
+params.put("limit", 10);
+
+LocationCollection LocationsCollection = Location.list(params);
+```
+
+```python
+import wia
+
+wia.Location.list(
+    device="device_name"
+    limit=20,
+    page=0
+  )
 ```
 
 > Example Response
@@ -1839,6 +2178,27 @@ wia.logs.publish(
 }];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getDeviceSecretKey());
+
+Map<String, Object> params = new HashMap<String, Object>();
+params.put("level", "info");
+params.put("message", "test");
+
+Log log = Log.publish(params);
+```
+
+```python
+import wia
+
+result = wia.Log.publish(
+          level="info",
+          message="example message"
+          )
+```
+
 > The above command returns status 200 OK when log has been created.
 
 This endpoint publishes a log. Requires a Device token.
@@ -1918,6 +2278,52 @@ wia.logs.subscribe(
 }];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getSecretKey());
+
+Wia.connectToStream();
+
+//for specific log level:
+final String logLevel = "info";
+Log.subscribe("device_id", logLevel, new WiaLogSubscribeCallback(){
+    @Override
+    public void received(Log log){
+    logger.debug("Got log, Timestamp: " + log.getTimestamp());
+    }
+  });
+
+//for all levels:
+Log.subscribe("device_id", new WiaLogSubscribeCallback(){
+    @Override
+    public void received(Log log){
+      logger.debug("Got log, Timestamp: " + log.getTimestamp());
+    }
+  });
+```
+
+```python
+import wia
+
+def example_func(payload):
+  #payload will have logs
+  pass
+
+#for all logs use:
+wia.Log.subscribe(
+    device="device_id",
+    func=example_func
+  )
+
+#for a specific log level use:
+wia.Log.subscribe(
+    device="device_id",
+    level="level",
+    func=example_func
+  )
+```
+
 > The above command returns a log object when one has been received.
 
 This endpoint subscribes to logs.
@@ -1986,6 +2392,33 @@ wia.logs.unsubscribe(
 }];
 ```
 
+```java
+import io.wia.Wia;
+
+Wia.setSecretKey(getDeviceSecretKey());
+
+//for specific levels:
+final String logLevel = "info";
+Log.unsubscribe("device_id", logLevel);
+
+//for all levels:
+Log.unsubscribe("device_id");
+```
+
+```python
+import wia
+
+#for all logs use:
+wia.Log.unsubscribe(
+    device="device_id"
+  )
+#for specific log level use:
+wia.Log.unsubscribe(
+    device="device_id",
+    level="level"
+  )
+```
+
 This endpoint unsubscribes from device logs.
 
 ### HTTP Request
@@ -2036,6 +2469,29 @@ wia.logs.list({
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+import io.wia.Wia;
+import io.wia.models.SensorCollection;
+
+Wia.setSecretKey("secret_key");
+
+Map<String, Object> params = new HashMap<String, Object>();
+params.put("device", "device_id");
+params.put("limit", 10);
+
+LogCollection LogCollection = Log.list(params);
+```
+
+```python
+import wia
+
+result = wia.Log.list(
+          device="device_id",
+          limit=20,
+          page=0
+        )
 ```
 
 > Example Response
@@ -2101,7 +2557,7 @@ until | Timestamp | - | Timestamp to return up until.
 	"name": "helloFunction",
 	"isEnabled": true,
 	"device": {
-		"id": "dev_gh8jfg9MASDu"	
+		"id": "dev_gh8jfg9MASDu"
 	},
 	"enabledAt": 1445253805000,
 	"createdAt": 1444995244000,
@@ -2148,6 +2604,22 @@ wia.functions.create(
 
 ```objective_c
 Not available
+```
+
+```java
+Not available
+```
+
+```python
+import wia
+
+def test_function(argument):
+  #function implementation
+
+result = wia.Function.create(
+    name='function_name',
+    function=test_function
+  )
 ```
 
 > Example Response
@@ -2206,6 +2678,18 @@ wia.functions.delete(
 
 ```objective_c
 Not available
+```
+
+```java
+Not available
+```
+
+```python
+import wia
+
+wia.Function.delete(
+    "function_id"
+  )
 ```
 
 > Example Response
@@ -2272,6 +2756,20 @@ wia.functions.call(
 }];
 ```
 
+```java
+Not available
+```
+
+```python
+import wia
+
+wia.Function.call(
+    device="device_id",
+    func="function_id",
+    data={'arg': 100}
+  )
+```
+
 > Example Response
 
 ```
@@ -2334,6 +2832,20 @@ wia.functions.list({
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+Not available
+```
+
+```python
+import wia
+
+result = wia.Function.list(
+    device="device_id",
+    limit=20,
+    page=0
+  )
 ```
 
 > Example Response
@@ -2445,6 +2957,14 @@ wia.customers.create({
 }];
 ```
 
+```java
+Not available
+```
+
+```python
+Not available
+```
+
 > Example Response
 
 ```json
@@ -2459,7 +2979,7 @@ wia.customers.create({
 }
 ```
 
-This endpoint creates a customer. 
+This endpoint creates a customer.
 
 ### HTTP Request
 
@@ -2502,12 +3022,20 @@ wia.users.retrieve("cus_kndfg82mM90fdgm1", function(err, user) {
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] retrieveCustomer:@"cus_kndfg82mM90fdgm1" 
+[[WiaClient sharedInstance] retrieveCustomer:@"cus_kndfg82mM90fdgm1"
   success:^(WiaCustomer *customer) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+Not available
+```
+
+```python
+Not available
 ```
 
 > Example Response
@@ -2552,7 +3080,7 @@ curl "https://api.wia.io/v1/customers/cus_kndfg82mM90fdgm1"
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.customers.update("cus_kndfg82mM90fdgm1", 
+wia.customers.update("cus_kndfg82mM90fdgm1",
 	{"fullName":"Tyrell Wellick"}, function(err, customer) {
 	if (err) console.log(err);
 	if (customer) console.log(customer);
@@ -2563,15 +3091,23 @@ wia.customers.update("cus_kndfg82mM90fdgm1",
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] updateCustomer:@"cus_kndfg82mM90fdgm1" 
+[[WiaClient sharedInstance] updateCustomer:@"cus_kndfg82mM90fdgm1"
   fields:@{
     @"fullName": @"Tyrell Wellick"
-  } 
+  }
   success:^(WiaCustomer *customer) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+Not available
+```
+
+```python
+Not available
 ```
 
 > Example Response
@@ -2631,12 +3167,20 @@ wia.customers.delete("cus_kndfg82mM90fdgm1", function(err, customer) {
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] deleteCustomer:@"cus_kndfg82mM90fdgm1" 
+[[WiaClient sharedInstance] deleteCustomer:@"cus_kndfg82mM90fdgm1"
   success:^(BOOL deleted) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+Not available
+```
+
+```python
+Not available
 ```
 
 > Example Response
@@ -2694,6 +3238,14 @@ wia.customers.list({
 }];
 ```
 
+```java
+Not available
+```
+
+```python
+Not available
+```
+
 > Example Response
 
 ```json
@@ -2715,7 +3267,7 @@ wia.customers.list({
 	"fullName": "Tyrell Wellick",
 	"createdAt": 1444063382000,
 	"updatedAt": 1444063382000
-  }], 
+  }],
   "count": 2
 ]
 ```
@@ -2765,12 +3317,20 @@ wia.customers.addDevice("cus_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, ad
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] addDevice:@"" toUser@"" 
+[[WiaClient sharedInstance] addDevice:@"" toUser@""
 	success:^(BOOL added) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+Not available
+```
+
+```python
+Not available
 ```
 
 > Example Response
@@ -2821,12 +3381,20 @@ wia.users.removeDevice("cus_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, rem
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] removeDevice:@"" fromCustomer@"" 
+[[WiaClient sharedInstance] removeDevice:@"" fromCustomer@""
 	success:^(BOOL removed) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
 }];
+```
+
+```java
+Not available
+```
+
+```python
+Not available
 ```
 
 > Example Response
