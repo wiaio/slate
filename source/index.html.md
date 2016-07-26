@@ -664,7 +664,7 @@ wia.devices.update("dev_23idgk0smd", {
 import io.wia.Wia;
 import io.wia.models.Device;
 
-Wia.setSecretKey("secret key");
+Wia.setSecretKey("secret_key");
 
 Device retrievedDevice = Device.retrieve("dev_kn18herg9");
 
@@ -1047,7 +1047,7 @@ wia.events.subscribe(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey("secret key");
+Wia.setSecretKey("secret_key");
 
 Wia.connectToStream();
 
@@ -1480,7 +1480,7 @@ wia.sensors.subscribe(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey("secret key");
+Wia.setSecretKey("secret_key");
 
 Wia.connectToStream();
 
@@ -2050,7 +2050,7 @@ LocationCollection LocationsCollection = Location.list(params);
 import wia
 
 wia.Location.list(
-    device="device_name"
+    device="device_name",
     limit=20,
     page=0
   )
@@ -2281,7 +2281,7 @@ wia.logs.subscribe(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey("secret key");
+Wia.setSecretKey("secret_key");
 
 Wia.connectToStream();
 
