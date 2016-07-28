@@ -1195,7 +1195,7 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
-<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">;</span>
 
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
 <span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="s">"testEvent"</span><span class="o">);</span>
@@ -1448,7 +1448,7 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
-<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
 
 <span class="c1">//for specific events:</span>
 <span class="kd">final</span> <span class="n">String</span> <span class="n">eventName</span> <span class="o">=</span> <span class="s">"someEvent"</span><span class="o">;</span>
@@ -1763,7 +1763,7 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
-<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
 
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
 <span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="s">"temperature"</span><span class="o">);</span>
@@ -2013,7 +2013,7 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
-<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
 
 <span class="c1">//for specific sensors:</span>
 <span class="kd">final</span> <span class="n">String</span> <span class="n">sensorName</span> <span class="o">=</span> <span class="s">"temperature"</span><span class="o">;</span>
@@ -2329,7 +2329,7 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
-<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
 
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
 <span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"longitude"</span><span class="o">,</span> <span class="o">-</span><span class="mf">6.260310</span><span class="o">);</span>
@@ -2528,7 +2528,7 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
-<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
 
 <span class="n">Location</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">);</span>
 </code></pre>
@@ -2829,7 +2829,7 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
-<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
 
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
 <span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"level"</span><span class="o">,</span> <span class="s">"info"</span><span class="o">);</span>
@@ -3089,7 +3089,7 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">io.wia.Wia</span><span class="o">;</span>
 
-<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="n">getDeviceSecretKey</span><span class="o">());</span>
+<span class="n">Wia</span><span class="o">.</span><span class="na">setSecretKey</span><span class="o">(</span><span class="s">"secret_key"</span><span class="o">);</span>
 
 <span class="c1">//for specific levels:</span>
 <span class="kd">final</span> <span class="n">String</span> <span class="n">logLevel</span> <span class="o">=</span> <span class="s">"info"</span><span class="o">;</span>
