@@ -952,7 +952,7 @@ wia.events.publish(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey(getDeviceSecretKey());
+Wia.setSecretKey("secret_key";
 
 Map<String, Object> params = new HashMap<String, Object>();
 params.put("name", "testEvent");
@@ -1159,7 +1159,7 @@ wia.events.unsubscribe(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey(getDeviceSecretKey());
+Wia.setSecretKey("secret_key");
 
 //for specific events:
 final String eventName = "someEvent";
@@ -1386,7 +1386,7 @@ wia.sensors.publish(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey(getDeviceSecretKey());
+Wia.setSecretKey("secret_key");
 
 Map<String, Object> params = new HashMap<String, Object>();
 params.put("name", "temperature");
@@ -1594,7 +1594,7 @@ wia.sensors.unsubscribe(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey(getDeviceSecretKey());
+Wia.setSecretKey("secret_key");
 
 //for specific sensors:
 final String sensorName = "temperature";
@@ -1810,7 +1810,7 @@ wia.locations.publish(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey(getDeviceSecretKey());
+Wia.setSecretKey("secret_key");
 
 Map<String, Object> params = new HashMap<String, Object>();
 params.put("longitude", -6.260310);
@@ -1967,7 +1967,7 @@ wia.locations.unsubscribe(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey(getDeviceSecretKey());
+Wia.setSecretKey("secret_key");
 
 Location.unsubscribe("device_id");
 ```
@@ -2181,7 +2181,7 @@ wia.logs.publish(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey(getDeviceSecretKey());
+Wia.setSecretKey("secret_key");
 
 Map<String, Object> params = new HashMap<String, Object>();
 params.put("level", "info");
@@ -2395,7 +2395,7 @@ wia.logs.unsubscribe(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey(getDeviceSecretKey());
+Wia.setSecretKey("secret_key");
 
 //for specific levels:
 final String logLevel = "info";
