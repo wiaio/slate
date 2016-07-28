@@ -161,7 +161,7 @@ wss://api.wia.io (port 3001) - Secure
 
 <aside class="warning">If you are not using the correct type of token, you will get a 401 Unauthorized response.</aside>
 <pre class="highlight shell"><code>curl https://api.wia.io/v1 <span class="se">\</span>
-    -H <span class="s2">"Authorization: Bearer token"</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2ASDFWs1fjslju0hDxe"</span>
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key or token'</span><span class="p">);</span>
 
@@ -223,6 +223,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">generateAccessToken</span><span class="p">:</span><span class="s">@"username"</span>
   <span class="nf">password</span><span class="p">:</span><span class="s">@"password"</span>
   <span class="nf">grantType</span><span class="p">:</span><span class="s">@"password"</span>
@@ -342,6 +344,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">connectToStream</span><span class="p">];</span>
 </code></pre>
@@ -370,6 +374,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">disconnectFromStream</span><span class="p">];</span>
 </code></pre>
@@ -600,6 +606,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">createDevice</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
   <span class="nf">name</span><span class="p">:</span> <span class="s">@"My first device"</span>
@@ -702,6 +710,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">retrieveDevice</span><span class="p">:</span><span class="s">@"dev_23idgk0smd"</span>
 <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">WiaDevice</span> <span class="o">*</span><span class="n">device</span><span class="p">)</span> <span class="p">{</span>
@@ -809,6 +819,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">updateDevice</span><span class="p">:</span><span class="s">@"dev_23idgk0smd"</span>
   <span class="nf">fields</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
@@ -905,6 +917,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">deleteDevice</span><span class="p">:</span><span class="s">@"dev_23idgksdf0smd"</span>
   <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">deleted</span><span class="p">)</span> <span class="p">{</span>
@@ -985,6 +999,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">listDevices</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
   <span class="s">@"limit"</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
@@ -1183,6 +1199,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">publishEvent</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
     <span class="s">@"name"</span><span class="o">:</span> <span class="s">@"testEvent"</span><span class="p">,</span>
@@ -1309,6 +1327,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 
 <span class="c1">// For all events use:
@@ -1347,6 +1367,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight python"><code>
 <span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="n">wia</span><span class="o">.</span><span class="n">Stream</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
 
@@ -1433,6 +1455,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 
 <span class="c1">// For all events use:
@@ -1459,6 +1483,8 @@ wss://api.wia.io (port 3001) - Secure
 
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="c">#for all events use</span>
 <span class="n">wia</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span>
@@ -1530,6 +1556,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">listEvents</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
     <span class="s">@"device"</span><span class="o">:</span> <span class="s">@"dev_23idgksdf0smd"</span><span class="p">,</span>
@@ -1552,6 +1580,8 @@ wss://api.wia.io (port 3001) - Secure
 <span class="n">EventCollection</span> <span class="n">EventCollection</span> <span class="o">=</span> <span class="n">Event</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="nb">list</span><span class="p">(</span>
         <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
@@ -1751,6 +1781,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">publishSensor</span><span class="p">:</span><span class="o">:</span><span class="err">@</span><span class="p">{</span>
     <span class="s">@"name"</span><span class="o">:</span> <span class="s">@"temperature"</span><span class="p">,</span>
@@ -1772,6 +1804,8 @@ wss://api.wia.io (port 3001) - Secure
 <span class="n">Sensor</span> <span class="n">sensor</span> <span class="o">=</span> <span class="n">Sensor</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Sensor</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s">"sensor_name"</span><span class="p">,</span>
@@ -1872,6 +1906,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 
 <span class="c1">// For all sensors use:
@@ -1909,6 +1945,8 @@ wss://api.wia.io (port 3001) - Secure
   <span class="o">});</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="k">def</span> <span class="nf">example_func</span><span class="p">(</span><span class="n">payload</span><span class="p">):</span>
   <span class="c">#payload will have sensor messages</span>
@@ -1992,6 +2030,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 
 <span class="c1">// For all sensors use:
@@ -2023,6 +2063,8 @@ wss://api.wia.io (port 3001) - Secure
 <span class="n">Sensor</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">);</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="c">#for all sensors use:</span>
 <span class="n">wia</span><span class="o">.</span><span class="n">Sensor</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span>
@@ -2093,6 +2135,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">listSensors</span><span class="p">:</span><span class="s">@"dev_23idgksdf0smd"</span>
   <span class="nf">params</span><span class="p">:</span> <span class="err">@</span><span class="p">{</span>
@@ -2116,6 +2160,8 @@ wss://api.wia.io (port 3001) - Secure
 <span class="n">SensorCollection</span> <span class="n">SensorCollection</span> <span class="o">=</span> <span class="n">Sensor</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Sensor</span><span class="o">.</span><span class="nb">list</span><span class="p">(</span>
     <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
@@ -2316,6 +2362,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">publishLocation</span><span class="p">:</span> <span class="err">@</span><span class="p">{</span>
     <span class="s">@"latitude"</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="mi">53</span><span class="p">.</span><span class="mi">349805</span><span class="p">),</span>
@@ -2338,6 +2386,8 @@ wss://api.wia.io (port 3001) - Secure
 <span class="n">Location</span> <span class="n">location</span> <span class="o">=</span> <span class="n">Location</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Location</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
     <span class="n">longitude</span><span class="o">=-</span><span class="mf">6.260310</span><span class="p">,</span>
@@ -2427,6 +2477,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 
 <span class="c1">// For all events use:
@@ -2451,6 +2503,8 @@ wss://api.wia.io (port 3001) - Secure
   <span class="o">});</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="k">def</span> <span class="nf">example_func</span><span class="p">(</span><span class="n">payload</span><span class="p">):</span>
   <span class="c">#payload will contain location messages</span>
@@ -2517,6 +2571,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">unsubscribeFromLocations</span><span class="p">:</span><span class="s">@"dev_23idgksdf0smd"</span>
@@ -2533,6 +2589,8 @@ wss://api.wia.io (port 3001) - Secure
 <span class="n">Location</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">);</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="n">wia</span><span class="o">.</span><span class="n">Location</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span>
     <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span>
@@ -2596,6 +2654,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">listLocations</span><span class="p">:</span><span class="s">@"dev_23idgksdf0smd"</span>
   <span class="nf">params</span><span class="p">:</span> <span class="err">@</span><span class="p">{</span>
@@ -2619,6 +2679,8 @@ wss://api.wia.io (port 3001) - Secure
 <span class="n">LocationCollection</span> <span class="n">LocationsCollection</span> <span class="o">=</span> <span class="n">Location</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="n">wia</span><span class="o">.</span><span class="n">Location</span><span class="o">.</span><span class="nb">list</span><span class="p">(</span>
     <span class="n">device</span><span class="o">=</span><span class="s">"device_name"</span><span class="p">,</span>
@@ -2815,6 +2877,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">publishLog</span><span class="p">:</span><span class="s">@"level"</span>
   <span class="nf">message</span><span class="p">:</span> <span class="s">@"My first log message"</span>
@@ -2838,6 +2902,8 @@ wss://api.wia.io (port 3001) - Secure
 <span class="n">Log</span> <span class="n">log</span> <span class="o">=</span> <span class="n">Log</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
           <span class="n">level</span><span class="o">=</span><span class="s">"info"</span><span class="p">,</span>
@@ -2942,6 +3008,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 
 <span class="c1">// For all logs use:
@@ -2985,6 +3053,8 @@ wss://api.wia.io (port 3001) - Secure
   <span class="o">});</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="k">def</span> <span class="nf">example_func</span><span class="p">(</span><span class="n">payload</span><span class="p">):</span>
   <span class="c">#payload will have logs</span>
@@ -3068,6 +3138,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 
 <span class="c1">// For all logs use:
@@ -3099,6 +3171,8 @@ wss://api.wia.io (port 3001) - Secure
 <span class="n">Log</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="s">"device_id"</span><span class="o">);</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="c">#for all logs use:</span>
 <span class="n">wia</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">(</span>
@@ -3164,6 +3238,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">listLogs</span><span class="p">:</span><span class="s">@"id"</span>
   <span class="nf">params</span><span class="p">:</span> <span class="err">@</span><span class="p">{</span>
@@ -3188,6 +3264,8 @@ wss://api.wia.io (port 3001) - Secure
 <span class="n">LogCollection</span> <span class="n">LogCollection</span> <span class="o">=</span> <span class="n">Log</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">params</span><span class="o">);</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="nb">list</span><span class="p">(</span>
           <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
@@ -3408,6 +3486,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
 
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
+
 <span class="k">def</span> <span class="nf">test_function</span><span class="p">(</span><span class="n">argument</span><span class="p">):</span>
   <span class="c">#function implementation</span>
 
@@ -3501,6 +3581,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
 
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
+
 <span class="n">wia</span><span class="o">.</span><span class="n">Function</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
     <span class="s">"function_id"</span>
   <span class="p">)</span>
@@ -3587,6 +3669,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">callFunction</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
         <span class="s">@"id"</span><span class="o">:</span> <span class="s">@"dev_id"</span><span class="p">,</span>
@@ -3601,6 +3685,8 @@ wss://api.wia.io (port 3001) - Secure
 <pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="n">wia</span><span class="o">.</span><span class="n">Function</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
     <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
@@ -3693,6 +3779,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">listFunctions</span><span class="p">:</span><span class="s">@"id"</span>
   <span class="nf">params</span><span class="p">:</span> <span class="err">@</span><span class="p">{</span>
@@ -3708,6 +3796,8 @@ wss://api.wia.io (port 3001) - Secure
 <pre class="highlight java"><code><span class="n">Not</span> <span class="n">available</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">wia</span>
+
+<span class="n">wia</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">"secret_key"</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">wia</span><span class="o">.</span><span class="n">Function</span><span class="o">.</span><span class="nb">list</span><span class="p">(</span>
     <span class="n">device</span><span class="o">=</span><span class="s">"device_id"</span><span class="p">,</span>
@@ -3885,6 +3975,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"secret key"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">createCustomer</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
     <span class="nf">fullName</span><span class="p">:</span> <span class="s">@"Elliot Anderson"</span><span class="p">,</span>
@@ -3984,6 +4076,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">retrieveCustomer</span><span class="p">:</span><span class="s">@"cus_kndfg82mM90fdgm1"</span>
   <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">WiaCustomer</span> <span class="o">*</span><span class="n">customer</span><span class="p">)</span> <span class="p">{</span>
@@ -4063,6 +4157,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">updateCustomer</span><span class="p">:</span><span class="s">@"cus_kndfg82mM90fdgm1"</span>
   <span class="nf">fields</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
@@ -4163,6 +4259,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">deleteCustomer</span><span class="p">:</span><span class="s">@"cus_kndfg82mM90fdgm1"</span>
   <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">deleted</span><span class="p">)</span> <span class="p">{</span>
@@ -4235,6 +4333,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">listCustomers</span><span class="p">:</span><span class="err">@</span><span class="p">{</span>
   <span class="s">@"limit"</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
@@ -4362,6 +4462,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">addDevice</span><span class="p">:</span><span class="s">@""</span> <span class="n">toUser</span><span class="s">@""</span>
     <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">added</span><span class="p">)</span> <span class="p">{</span>
@@ -4449,6 +4551,8 @@ wss://api.wia.io (port 3001) - Secure
 </code></pre>
 <pre class="highlight objective_c"><code><span class="cp">#import "Wia.h"
 </span>
+<span class="n">Wia</span><span class="p">.</span><span class="n">setSecretKey</span><span class="p">(</span><span class="s">"secret_key"</span><span class="p">);</span>
+
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">initWithToken</span><span class="p">:</span><span class="s">@"token"</span><span class="p">];</span>
 <span class="p">[[</span><span class="n">WiaClient</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">removeDevice</span><span class="p">:</span><span class="s">@""</span> <span class="n">fromCustomer</span><span class="s">@""</span>
     <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">removed</span><span class="p">)</span> <span class="p">{</span>
