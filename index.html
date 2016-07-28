@@ -591,7 +591,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/devices"</span>
-    -H <span class="s2">"Authorization: Bearer token"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2GDWTGHs1SW9khf6hDxe"</span> <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     -X POST -d <span class="s1">'{"name":"My first device"}'</span>
 </code></pre>
@@ -699,7 +699,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/devices/:id"</span>
-    -H <span class="s2">"Authorization: Bearer token"</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2GDWTGHs1SW9khf6hDxe"</span>
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key or token'</span><span class="p">);</span>
 
@@ -803,7 +803,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/devices/dev_23idgk0smd"</span> <span class="se">\</span>
-    -H <span class="s2">"Authorization: Bearer token"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2GDWTGHs1SW9khf6hDxe"</span> <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     -X PUT -d <span class="s1">'{"name":"New Device Name"}'</span>
 </code></pre>
@@ -902,7 +902,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/devices/:id"</span> <span class="se">\</span>
-    -H <span class="s2">"Authorization: Bearer token"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2GDWTGHs1SW9khf6hDxe"</span> <span class="se">\</span>
     -X DELETE
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key or token'</span><span class="p">);</span>
@@ -984,7 +984,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/devices?limit=20"</span> <span class="se">\</span>
-    -H <span class="s2">"Authorization: Bearer token"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2GDWTGHs1SW9khf6hDxe"</span> <span class="se">\</span>
     -X GET
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key or token'</span><span class="p">);</span>
@@ -1182,7 +1182,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl https://api.wia.io/v1/events <span class="se">\</span>
-    -H <span class="s2">"Authorization: Bearer token"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bearer d_sk_1MwdKZHFYKM3xyf8iftCqOjg"</span> <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     -X POST -d <span class="s1">'{"name":"temperature","data":21.5}'</span>
 </code></pre>
@@ -1541,7 +1541,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/events"</span>
-    -H <span class="s2">"Authorization: Bearer token"</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2GDWTGHs1SW9khf6hDxe"</span>
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key or token'</span><span class="p">);</span>
 
@@ -1764,7 +1764,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl https://api.wia.io/v1/sensors <span class="se">\</span>
-    -H <span class="s2">"Authorization: Bearer token"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bearer d_sk_1MwdKZHFYKM3xyf8iftCqOjg"</span> <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     -X POST -d <span class="s1">'{"name":"temperature","data":21.5}'</span>
 </code></pre>
@@ -2120,7 +2120,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/sensors"</span>
-    -H <span class="s2">"Authorization: Bearer token"</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2GDWTGHs1SW9khf6hDxe"</span>
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key'</span><span class="p">);</span>
 
@@ -2345,7 +2345,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl https://api.wia.io/v1/locations <span class="se">\</span>
-    -H <span class="s2">"Authorization: Bearer token"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bearer d_sk_1MwdKZHFYKM3xyf8iftCqOjg"</span> <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     -X POST -d <span class="s1">'{"latitude":53.349805,"longitude":-6.260310}'</span>
 </code></pre>
@@ -2639,7 +2639,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/locations"</span>
-    -H <span class="s2">"Authorization: Bearer token"</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2GDWTGHs1SW9khf6hDxe"</span>
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key or token'</span><span class="p">);</span>
 
@@ -2860,7 +2860,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl https://api.wia.io/v1/logs <span class="se">\</span>
-    -H <span class="s2">"Authorization: Bearer token"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bearer d_sk_1MwdKZHFYKM3xyf8iftCqOjg"</span> <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     -X POST -d <span class="s1">'{"level":"info","message":"message"}'</span>
 </code></pre>
@@ -3223,7 +3223,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/logs"</span>
-    -H <span class="s2">"Authorization: Bearer token"</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2GDWTGHs1SW9khf6hDxe"</span>
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key or token'</span><span class="p">);</span>
 
@@ -3463,7 +3463,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/functions"</span>
-    -H <span class="s2">"Authorization: Bearer token"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bearer d_sk_1MwdKZHFYKM3xyf8iftCqOjg"</span> <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     -X POST -d <span class="s1">'{"name":"functionName"}'</span>
 </code></pre>
@@ -3561,7 +3561,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/functions/func_aba7812nsdfk"</span>
-    -H <span class="s2">"Authorization: Bearer token"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bearer d_sk_1MwdKZHFYKM3xyf8iftCqOjg"</span> <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     -X DELETE -d <span class="s1">'{"name":"functionName"}'</span>
 </code></pre>
@@ -3653,7 +3653,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/functions/:id/call"</span>
-    -H <span class="s2">"Authorization: Bearer token"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2GDWTGHs1SW9khf6hDxe"</span> <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     -X DELETE
 </code></pre>
@@ -3765,7 +3765,7 @@ wss://api.wia.io (port 3001) - Secure
 <p>Example Request</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://api.wia.io/v1/functions"</span>
-    -H <span class="s2">"Authorization: Bearer token"</span>
+    -H <span class="s2">"Authorization: Bearer u_sk_0kl0z2GDWTGHs1SW9khf6hDxe"</span>
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">wia</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'wia'</span><span class="p">)(</span><span class="s1">'secret key or token'</span><span class="p">);</span>
 
