@@ -2851,24 +2851,27 @@ result = wia.Function.list(
 > Example Response
 
 ```json
-[
-	{   
-	    "id": "func_nj1msdf89k83jdf",
-  		"name":"helloFunction1",
-  		"isEnabled":true,
-  		"enabledAt":1445253805000,
-  		"createdAt":1444995244000,
-  		"updatedAt":1445253805000
-  	},
-  	{
-	    "id": "func_8912jdfg9MSADh9",
-  		"name":"helloFunction2",
-  		"isEnabled":true,
-  		"enabledAt":1445253805000,
-  		"createdAt":1445253575000,
-  		"updatedAt":1445253805000
-  	}
-]
+{
+    "functions": [
+    	{   
+    	    "id": "func_nj1msdf89k83jdf",
+      		"name":"helloFunction1",
+      		"isEnabled":true,
+      		"enabledAt":1445253805000,
+      		"createdAt":1444995244000,
+      		"updatedAt":1445253805000
+      	},
+      	{
+    	    "id": "func_8912jdfg9MSADh9",
+      		"name":"helloFunction2",
+      		"isEnabled":true,
+      		"enabledAt":1445253805000,
+      		"createdAt":1445253575000,
+      		"updatedAt":1445253805000
+      	}
+    ],
+    "count": 2
+}
 ```
 
 This endpoint retrieves a list of functions for a device.
