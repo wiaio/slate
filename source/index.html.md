@@ -68,38 +68,45 @@ curl https://api.wia.io/v1 \
 ```javascript
 var wia = require('wia')('secret key or token');
 
-// With access token in constructor object
-var wia = require('wia')({
-	accessToken: 'token'
-});
-
 // With secret key in constructor object
 var wia = require('wia')({
 	secretKey: 'secretKey'
 });
 
-// With public key in constructor object
+// With application key in constructor object
 var wia = require('wia')({
-	publicKey: 'publicKey'
+	appKey: 'appKey'
 });
 ```
 
 ```objective_c
 #import "Wia.h"
 
+// Set the secret key
 [[WiaClient sharedInstance] setSecretKey:"secret_key"];
+
+// Set the app key
+[[WiaClient sharedInstance] setAppKey:"app_key"];
 ```
 
 ```java
 import io.wia.Wia;
 
+// Set the secret key
 Wia.setSecretKey("secret_key");
+
+// Set the app key
+Wia.setAppKey("app_key");
 ```
 
 ```python
 import wia
 
+# Set the secret key
 wia.secret_key = "secret_key"
+
+# Set the app key
+wia.app_key = "app_key"
 ```
 
 If you are connecting using your own MQTT client, put your access token in the username field and blank space for the password.
@@ -107,90 +114,6 @@ If you are connecting using your own MQTT client, put your access token in the u
 `Endpoint: mqtt://api.wia.io:1883 or mqtts://api.wia.io:8883`  
 `Username: "token"`  
 `Password: " " // Note the space`  
-
-## Generate an access token
-> To generate a user access token, use this code:
-
-```shell
-curl https://api.wia.io/v1/auth/token \
-	-d username=<username> \
-	-d password=<password> \
-	-d grantType=password \
-	-d scope=user
-```
-
-```javascript
-var wia = require('wia')('');
-var accessToken = wia.generateAccessToken({
-		username: "username",
-		password: "password",
-		grantType: "password",
-		scope: "user"
-	}, function(err, accessToken) {
-		if (err) console.log(err);
-		else if (accessToken) console.log(accessToken);
-	});
-```
-
-```objective_c
-#import "Wia.h"
-
-[[WiaClient sharedInstance] generateAccessToken:@"username"
-  password:@"password"
-  grantType:@"password"
-  scope:@"user"
-  success:^(WiaAccessToken *accessToken) {
-  // Got access token
-} failure:(void (^)(NSError *error))failure{
-  // Failed
-}];
-```
-
-```java
-Not available
-```
-
-```python
-Not available
-```
-
-> Example of an access token
-
-```
-{
-	"accessToken": "u_kna8MAsd92ksdf00ksla0k2mhndf",
-	"refreshToken": "u_mdfg8MMAS8msd912kasdf89mj",
-	"tokenType": "bearer",
-	"expiresIn": "0",
-	"scope": "user"
-}
-```
-
-An access token may be generated for a user.
-
-By default, access tokens expire after 24 hours unless specified using `expiresIn` parameter. For an access token that lives forever, set `expiresIn` to `0`.
-
-Access token request parameters:
-
-Parameter | Type | Description
---------- | ----------- | -----------
-username | String | Username of the entity requesting access.
-password | String | Password of the entity requesting access.
-expiresIn | Number | Number of seconds this token is valid for. 0 means forever.
-grantType | String | One of either 'password' or 'refreshToken'.
-scope | String | Scope of the access token that is being requested. Default is 'user'.
-
-All access tokens are made up of the same object structure.
-
-The Access Token object
-
-Parameter | Type | Description
---------- | ----------- | -----------
-accessToken | String | Unique access token that is used for all requests.
-refreshToken | String | Unique refresh token that is used to generate a new access token.
-tokenType | String | The type of access token.
-expiresIn | Number | Number of seconds this token is valid for. 0 means forever.
-scope | String | Scope of the access token.
 
 # Stream
 ## Connect to stream
@@ -3148,7 +3071,7 @@ Parameter | Type | Description
 fullName | String | Full name of the customer to be created.
 email | String | Email address of customer to be created.
 
-## Delete a user
+## Delete a customer
 
 > Example Request
 
