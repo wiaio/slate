@@ -2519,8 +2519,10 @@ wia.functions.create(
    		// Function to run
    		console.log("Hello world!");
 	}, function(err, registered) {
-		if (err) // Error occurred
-		if (registered) // Registered successfully
+    if (err) // Error occurred
+      console.log(err);
+    if (registered) // Registered successfully
+      console.log(registered);
 	}
 );
 ```
