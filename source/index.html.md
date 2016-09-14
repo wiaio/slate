@@ -337,25 +337,23 @@ Error | Emitted when a client cannot connect or a parsing error occurs.
 
 ```
 {
-	"id": "dev_sdf892mdfgj238kdfg",
-	"name": "Device One",
-	"events": {
-	    "temperature": {
-		    "data": 21.5,
-	        "timestamp": 1444995825836
-	    },
-	    "gyroscope": {
-		    "data": {
-			    "x": 0.015,
-			    "y": 0.67,
-			    "z": 0.49
-		    },
-	        "timestamp": 1444995825836
-	    }
-	},
-	"isOnline": true,
-	"createdAt": "1445198559000",
-	"updatedAt": "1445198559000"
+  "id": "dev_qLsLQpLCt0CtJ6ki",
+  "name": "My first device",
+  "events": {
+    "temperature": {
+      "eventId": "97532d96-452e-4c1f-9526-0b6bf3b18446",
+      "name": "temperature",
+      "data": "93457.2348",
+      "producer": "rest",
+      "timestamp": 1473256138153,
+      "receivedTimestamp": 1473256138154
+    }
+  },
+  "sensors": { },
+  "location": { },
+  "public": false,
+  "createdAt": 1473254188000,
+  "updatedAt": 1473254188000
 }
 ```
 
@@ -366,9 +364,14 @@ Parameter | Type | Description
 id | String | Unique identifier of the device.
 name | String | Name of the device.
 events | Object | List of most recent events.
-isOnline | Boolean | Online status of the device.
+sensors | Object | List of most recent sensor readings.
+location | Object | List of most recent locations.
+public | Boolean | Visibility of the device whether private or public.
 createdAt | Timestamp | Timestamp of when device was created.
 updatedAt | Timestamp | Timestamp of when device was updated.
+
+<br>
+Device Ids are required in the examples so "<b>dev_qLsLQpLCt0CtJ6ki</b>" will serve as an example device Id throughout the code examples provided.
 
 ## Create a device
 
@@ -387,8 +390,10 @@ var wia = require('wia')('secret key or token');
 wia.devices.create({
 	name: "My first device"
 }, function(err, device) {
-	if (err) console.log(err);
-	if (device) console.log(device);
+	if (err)
+      console.log(err);
+	if (device)
+      console.log(device);
 });
 ```
 
@@ -430,11 +435,14 @@ device = wia.Device.create(
 
 ```json
 {
-	"id": "dev_1msdf89k83jdf",
-	"name": "Device One",
-	"isOnline": false,
-	"createdAt": 1444062135000,
-	"updatedAt": 1444062135000
+  "id": "dev_qLsLQpLCt0CtJ6ki",
+  "name": "My first device",
+  "events": { },
+  "sensors": { },
+  "location": { },
+  "public": false,
+  "createdAt": 1473254188000,
+  "updatedAt": 1473254188000
 }
 ```
 
@@ -454,9 +462,10 @@ Customer | x
 
 ### Parameters
 
-Parameter | Description
---------- | -----------
-name | Name of the device to be created
+Parameter | Type | Default | Description
+--------- | ---- | -------- | -------------
+name | String | - |Name of the device to be created
+public| Boolean | false | Visibility of the device
 
 ## Retrieve a device
 
@@ -470,9 +479,12 @@ curl "https://api.wia.io/v1/devices/:id"
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.devices.retrieve("dev_23idgk0smd", function(err, device) {
-	if (err) console.log(err);
-	if (device) console.log(device);
+wia.devices.retrieve("dev_qLsLQpLCt0CtJ6ki",
+  function(err, device) {
+    if (err)
+      console.log(err);
+    if (device)
+      console.log(device);
 });
 ```
 
@@ -480,7 +492,7 @@ wia.devices.retrieve("dev_23idgk0smd", function(err, device) {
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] retrieveDevice:@"dev_23idgk0smd"
+[[WiaClient sharedInstance] retrieveDevice:@"dev_qLsLQpLCt0CtJ6ki"
 success:^(WiaDevice *device) {
   // Success
 } failure:^(NSError *error) {
@@ -493,7 +505,7 @@ import io.wia.Wia;
 
 Wia.setSecretKey("secret_key");
 
-Device device = Device.retrieve("dev_kj28hfgno19");
+Device device = Device.retrieve("dev_qLsLQpLCt0CtJ6ki");
 ```
 
 ```python
@@ -501,31 +513,30 @@ import wia
 
 wia.secret_key = "secret_key"
 
-device = wia.Device.retrieve("dev_kj28hfgno19")
+device = wia.Device.retrieve("dev_qLsLQpLCt0CtJ6ki")
 ```
 
 > Example Response
 
 ```json
 {
-	"id": "dev_23idgk0smd",
-	"name": "Device One",
-	"isOnline": true,
-	"events": {
-	    "sensor": {
-	        "timestamp": 1444995825836,
-	        "ambientTemperature": {
-	            "value": 19.7867,
-	            "timestamp": 1444995825836
-	        },
-	        "light": {
-	            "value": 123.65,
-	            "timestamp": 1444995825836
-	        }
-	    }
-	},
-	"createdAt": 1445199652859,
-	"updatedAt": 1445199652234
+  "id": "dev_qLsLQpLCt0CtJ6ki",
+  "name": "My first device",
+  "events": {
+    "temperature": {
+      "eventId": "97532d96-452e-4c1f-9526-0b6bf3b18446",
+      "name": "temperature",
+      "data": "93457.2348",
+      "producer": "rest",
+      "timestamp": 1473256138153,
+      "receivedTimestamp": 1473256138154
+    }
+  },
+  "sensors": { },
+  "location": { },
+  "public": false,
+  "createdAt": 1473254188000,
+  "updatedAt": 1473254188000
 }
 ```
 
@@ -550,7 +561,7 @@ To retrieve the current authenticated device, pass the "me" as the ID.
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/devices/dev_23idgk0smd" \
+curl "https://api.wia.io/v1/devices/dev_qLsLQpLCt0CtJ6ki" \
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
 	-X PUT -d '{"name":"New Device Name"}'
@@ -559,11 +570,14 @@ curl "https://api.wia.io/v1/devices/dev_23idgk0smd" \
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.devices.update("dev_23idgk0smd", {
+wia.devices.update("dev_qLsLQpLCt0CtJ6ki", {
 		name: "New Device Name"
-	}, function(err, device) {
-		if (err) console.log(err);
-		if (device) console.log(device);
+	},
+  function(err, device) {
+    if (err)
+      console.log(err);
+    if (device)
+      console.log(device);
 	}
 );
 ```
@@ -572,7 +586,7 @@ wia.devices.update("dev_23idgk0smd", {
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] updateDevice:@"dev_23idgk0smd"
+[[WiaClient sharedInstance] updateDevice:@"dev_qLsLQpLCt0CtJ6ki"
   fields:@{
     @"name": @"New device name"
   }
@@ -589,7 +603,7 @@ import io.wia.models.Device;
 
 Wia.setSecretKey("secret_key");
 
-Device retrievedDevice = Device.retrieve("dev_kn18herg9");
+Device retrievedDevice = Device.retrieve("dev_qLsLQpLCt0CtJ6ki");
 
 Map<String, Object> updateParams = new HashMap<String, Object>();
 updateParams.put("name", "New device name");
@@ -602,7 +616,7 @@ import wia
 
 wia.secret_key = "sk_asdgf23uNsdfu23jnfdgJKHG"
 
-device = wia.Device.retrieve("dev_kw8bnfimsngubdfg23")
+device = wia.Device.retrieve("dev_qLsLQpLCt0CtJ6ki")
 device.name = "New device name"
 device.save()
 ```
@@ -611,8 +625,8 @@ device.save()
 
 ```json
 {
-	"id": "dev_23idgk0smd",
-	"name": "Device One",
+	"id": "dev_qLsLQpLCt0CtJ6ki",
+	"name": "New device name",
 	"createdAt": 1445199652859,
 	"updatedAt": 1445199652234
 }
@@ -646,10 +660,12 @@ curl "https://api.wia.io/v1/devices/:id" \
 var wia = require('wia')('secret key or token');
 
 wia.devices.delete(
-	"dev_23idgk0smd",
+	"dev_qLsLQpLCt0CtJ6ki",
 	function(err, deleted) {
-	  if (err) console.log(err);
-	  if (deleted) console.log(deleted);
+	  if (err)
+        console.log(err);
+	  if (deleted)
+        console.log(deleted);
 	}
 );
 ```
@@ -658,7 +674,7 @@ wia.devices.delete(
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] deleteDevice:@"dev_23idgksdf0smd"
+[[WiaClient sharedInstance] deleteDevice:@"dev_qLsLQpLCt0CtJ6ki"
   success:^(BOOL deleted) {
   // Success
 } failure:^(NSError *error) {
@@ -670,7 +686,7 @@ wia.devices.delete(
 import io.wia.Wia;
 import io.wia.models.Device;
 
-Device device = Device.retrieve("dev_1j12k2erhgjng89l");
+Device device = Device.retrieve("dev_qLsLQpLCt0CtJ6ki");
 
 WiaDeletedObject deletedDevice = device.delete();
 ```
@@ -680,7 +696,7 @@ import wia
 
 wia.secret_key = "sk_asdgf23uNsdfu23jnfdgJKHG"
 
-device = wia.Device.retrieve("dev_kw8bnfimsngubdfg23")
+device = wia.Device.retrieve("dev_qLsLQpLCt0CtJ6ki")
 device.delete()
 ```
 
@@ -716,8 +732,10 @@ wia.devices.list({
 	limit: 20,
 	page: 0
 }, function(err, data) {
- 	if (err) console.log(err);
-	if (data) console.log(data);
+ 	if (err)
+      console.log(err);
+	if (data)
+      console.log(data);
 });
 ```
 
@@ -760,16 +778,16 @@ result = wia.Device.list(limit=40)
 ```json
 [
   "devices": [{
-    "id": "dev_23idgksdf0smd",
-    "name": "Device One",
-    "isOnline": true,
+    "id": "dev_qLsLQpLCt0CtJ6ki",
+    "name": "My first device",
+    "public": true,
     "createdAt": 1445199652859,
     "updatedAt": 1445199652234
   },
   {
     "id": "dev_823nmdfgoshISj",
-    "name": "Device Two",
-    "isOnline": false,
+    "name": "My second device",
+    "public": false,
     "createdAt": 1445199652859,
     "updatedAt": 1445199652234
   }],
@@ -808,9 +826,12 @@ customer | String | - | ID of customer to get devices for.
 
 ```
 {
-	"name": "eventName",
-	"data": "value",
-	"timestamp": 1440597871365
+  "eventId": "0093753d-8bd8-4f13-b11e-ff4069496d5",
+  "name": "eventName",
+  "data": "value",
+  "producer": "rest",
+  "timestamp": 1440597871365,
+  "receivedTimestamp": 1440597871365
 }
 ```
 
@@ -818,11 +839,14 @@ customer | String | - | ID of customer to get devices for.
 
 ```
 {
-	"name": "eventName",
-	"data": {
-		"key": "value"
-	},
-	"timestamp": 1440597871654
+  "eventId": "0093753d-8bd8-4f13-b11e-ff4069496d5",
+  "name": "eventName",
+  "data": {
+    "key": "value"
+  },
+  "producer": "rest",
+  "timestamp": 1440597871365,
+  "receivedTimestamp": 1440597871365
 }
 ```
 
@@ -830,9 +854,12 @@ All events are made up of the same object structure.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
+id | String | Unique identifier for the event.
 name | String | Name of the event. Alphanumeric characters only.
 data | Any | Data associated with the event. A number, string or object can be passed into this.
+producer | String | Route of the event being presented i.e Rest, or MQTT.
 timestamp | Timestamp | Timestamp of the event in milliseconds.
+receivedTimestamp | Timestamp | Received timestamp of the event in milliseconds.
 
 ## Publish an event
 
@@ -852,8 +879,10 @@ wia.events.publish(
 	{ name: "temperature",
 	  data: 21.5 },
 	function(err, published) {
-	    if (err) console.log(err);
-	    if (published) console.log("Event published.");
+	    if (err)
+          console.log(err);
+	    if (published)
+          console.log("Event published.");
 	}
 );
 ```
@@ -919,6 +948,8 @@ data | Any | Data associated with the event. A number, string or object can be p
 file | Buffer | File to be associated with the event.
 timestamp | Timestamp | Timestamp of the event in milliseconds.
 
+Publish uses the server timestamp as a default but this can be manually overwritten as a parameter.
+
 ## Subscribe to events
 
 > Example
@@ -932,20 +963,24 @@ var wia = require('wia')('secret key or token');
 
 // For all events use:
 wia.events.subscribe(
-	{ device: "dev_23idgksdf0smd" },
+	{ device: "dev_qLsLQpLCt0CtJ6ki" },
 	function(err, event) {
-	    if (err) console.log(err);
-	    if (event) console.log(event);
+	    if (err)
+          console.log(err);
+	    if (event)
+          console.log(event);
 	}
 );
 
 // For a specific event use:
 wia.events.subscribe(
-	{ device: "dev_23idgksdf0smd",
+	{ device: "dev_qLsLQpLCt0CtJ6ki",
 	  name: "temperature" },
 	function(err, event) {
-	    if (err) console.log(err);
-	    if (event) console.log(event);
+	    if (err)
+          console.log(err);
+	    if (event)
+          console.log(event);
 	}
 );
 ```
@@ -957,12 +992,12 @@ wia.events.subscribe(
 
 // For all events use:
 [[WiaClient sharedInstance] subscribeToEvents:@{
-  @"device": @"dev_23idgksdf0smd"
+  @"device": @"dev_qLsLQpLCt0CtJ6ki"
 }];
 
 // For a specific event use:
 [[WiaClient sharedInstance] subscribeToEvents:@{
-  @"device": @"dev_23idgksdf0smd",
+  @"device": @"dev_qLsLQpLCt0CtJ6ki",
   @"name": @"temperature"
 }];
 ```
@@ -1046,18 +1081,20 @@ var wia = require('wia')('secret key or token');
 
 // For all device events use:
 wia.events.unsubscribe(
-	{ device: "dev_23idgksdf0smd" },
+	{ device: "dev_qLsLQpLCt0CtJ6ki" },
 	function(err) {
- 	   if (err) console.log(err);
+ 	   if (err)
+        console.log(err);
 	}
 );
 
 // For a specific device event use:
 wia.events.unsubscribe(
-	{ device: "dev_23idgksdf0smd",
+	{ device: "dev_qLsLQpLCt0CtJ6ki",
 	  name: "temperature" },
 	function(err) {
- 	   if (err) console.log(err);
+ 	  if (err)
+        console.log(err);
 	}
 );
 ```
@@ -1069,12 +1106,12 @@ wia.events.unsubscribe(
 
 // For all events use:
 [[WiaClient sharedInstance] unsubscribeFromEvents:@{
-  @"device": @"dev_23idgksdf0smd"
+  @"device": @"dev_qLsLQpLCt0CtJ6ki"
 }];
 
 // For a specific event use:
 [[WiaClient sharedInstance] unsubscribeFromEvents:@{
-  @"device": @"dev_23idgksdf0smd",
+  @"device": @"dev_qLsLQpLCt0CtJ6ki",
   @"name": @"temperature"
 }];
 ```
@@ -1138,12 +1175,14 @@ curl "https://api.wia.io/v1/events"
 var wia = require('wia')('secret key or token');
 
 wia.events.list({
-	device: "dev_23idgksdf0smd",
+	device: "dev_qLsLQpLCt0CtJ6ki",
 	limit: 20,
 	page: 0
 }, function(err, data) {
-	if (err) console.log(err);
-	if (data) console.log(data);
+	if (err)
+      console.log(err);
+	if (data)
+      console.log(data);
 });
 ```
 
@@ -1152,7 +1191,7 @@ wia.events.list({
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
 [[WiaClient sharedInstance] listEvents:@{
-	@"device": @"dev_23idgksdf0smd",
+	@"device": @"dev_qLsLQpLCt0CtJ6ki",
 	@"limit": @(20),
 	@"page": @(0)
 } success:^(NSArray *events, NSNumber *count) {
@@ -1190,13 +1229,13 @@ result = wia.Event.list(
 ```json
 [
   "events": [{
-	"id": "dev_ms8dfgknLA9k",
+	"id": "dev_qLsLQpLCt0CtJ6ki",
     "name": "temperature",
     "data": 25.4,
   	"timestamp": 1440683447764
   },
   {
-	"id": "dev_bijgwe29nNlop",	 
+	"id": "dev_qLsLQpLCt0CtJ6ki",	 
     "name": "location",
     "data": {
   		"latitude": 54.60247,
@@ -1238,37 +1277,46 @@ until | Timestamp | - | Timestamp to return up until.
 # Sensors
 ## The sensor object
 
-> Example of an Sensor object with single data value
+> Example of an Sensor Reading object with single data value
 
 ```
 {
-	"name": "sensorName",
-	"data": "value",
-	"timestamp": 1440597871365
+  "id": "24c15f94-34a2-4c6c-be7d-3e5b893b45ca",
+  "name": "sensorName",
+  "data": "value",
+  "producer": "rest",
+  "timestamp": 1440597871365,
+  "receivedTimestamp": 1440597871365
 }
 ```
 
-> Example of an Sensor object with object in data
+> Example of an Sensor Reading object with object in data
 
 ```
 {
-	"name": "sensorName",
-	"data": {
-		"key": "value"
-	},
-	"timestamp": 1440597871654
+  "id": "24c15f94-34a2-4c6c-be7d-3e5b893b45ca",
+  "name": "sensorName",
+  "data": {
+    "key": "value"
+  },
+  "producer": "rest",
+  "timestamp": 1440597871365,
+  "receivedTimestamp": 1440597871365
 }
 ```
 
-All sensors are made up of the same object structure.
+All sensor readings are made up of the same object structure.
 
 Parameter | Type | Description
 --------- | ----------- | -----------
+id | String | Unique id for the sensor reading.
 name | String | Name of the sensor. Alphanumeric characters only.
 data | Any | Data associated with the sensor. A number, string or object can be passed into this.
+producer | String | Route of the event being presented i.e Rest, or MQTT.
 timestamp | Timestamp | Timestamp of the sensor in milliseconds.
+receivedTimestamp | Timestamp | Received Timestamp of the sensor in milliseconds.
 
-## Publish an sensor
+## Publish a sensor reading
 
 > Example Request
 
@@ -1286,8 +1334,10 @@ wia.sensors.publish(
 	{ name: "temperature",
 	  data: 21.5 },
 	function(err, published) {
-	    if (err) console.log(err);
-	    if (published) console.log("Sensor published.");
+	    if (err)
+          console.log(err);
+	    if (published)
+          console.log("Sensor reading published.");
 	}
 );
 ```
@@ -1330,7 +1380,7 @@ result = wia.Sensor.publish(
 
 > The above command returns status 200 OK when sensor has been created.
 
-This endpoint publishes a sensor event.
+This endpoint publishes a sensor reading event.
 
 ### HTTP Request
 
@@ -1365,20 +1415,24 @@ var wia = require('wia')('secret key or token');
 
 // For all sensors use:
 wia.sensors.subscribe(
-	{ device: "dev_23idgksdf0smd" },
+	{ device: "dev_qLsLQpLCt0CtJ6ki" },
 	function(err, sensor) {
-	    if (err) console.log(err);
-	    if (sensor) console.log(sensor);
+	    if (err)
+          console.log(err);
+	    if (sensor)
+          console.log(sensor);
 	}
 );
 
 // For a specific sensor use:
 wia.sensors.subscribe(
-	{ device: "dev_23idgksdf0smd",
+	{ device: "dev_qLsLQpLCt0CtJ6ki",
 	  name: "temperature" },
 	function(err, sensor) {
-	    if (err) console.log(err);
-	    if (sensor) console.log(sensor);
+	    if (err)
+          console.log(err);
+	    if (sensor)
+          console.log(sensor);
 	}
 );
 ```
@@ -1390,12 +1444,12 @@ wia.sensors.subscribe(
 
 // For all sensors use:
 [[WiaClient sharedInstance] subscribeToSensors:@{
-	@"device": @"dev_23idgksdf0smd"
+	@"device": @"dev_qLsLQpLCt0CtJ6ki"
 }];
 
 // For a specific sensor use:
 [[WiaClient sharedInstance] subscribeToSensors:@{
-	@"device": @"dev_23idgksdf0smd",
+	@"device": @"dev_qLsLQpLCt0CtJ6ki",
 	@"name": @"temperature"
 }];
 ```
@@ -1446,7 +1500,7 @@ wia.Sensor.subscribe(
   )
 ```
 
-> The above command returns an Sensor object when one has been received.
+> The above command returns a Sensor Reading object when one has been received.
 
 This endpoint subscribes to sensor events.
 
@@ -1475,18 +1529,20 @@ var wia = require('wia')('secret key');
 
 // For all device sensors use:
 wia.sensors.unsubscribe(
-	{ device: "dev_23idgksdf0smd" },
+	{ device: "dev_qLsLQpLCt0CtJ6ki" },
 	function(err) {
- 	   if (err) console.log(err);
+ 	   if (err)
+        console.log(err);
 	}
 );
 
 // For a specific device sensor use:
 wia.sensors.unsubscribe(
-	{ device: "dev_23idgksdf0smd",
+	{ device: "dev_qLsLQpLCt0CtJ6ki",
 	  name: "temperature" },
 	function(err) {
- 	   if (err) console.log(err);
+ 	   if (err)
+        console.log(err);
 	}
 );
 ```
@@ -1497,7 +1553,7 @@ wia.sensors.unsubscribe(
 [[WiaClient sharedInstance] initWithToken:@"token"];
 
 // For all sensors use:
-[[WiaClient sharedInstance] unsubscribeFromSensors:@"dev_23idgksdf0smd"
+[[WiaClient sharedInstance] unsubscribeFromSensors:@"dev_qLsLQpLCt0CtJ6ki"
   success:^() {
   // Success
 } failure:^(NSError *error) {
@@ -1505,7 +1561,7 @@ wia.sensors.unsubscribe(
 }];
 
 // For a specific sensor use:
-[[WiaClient sharedInstance] unsubscribeFromSensors:@"dev_23idgksdf0smd"
+[[WiaClient sharedInstance] unsubscribeFromSensors:@"dev_qLsLQpLCt0CtJ6ki"
   name:@"temperature"
   success:^() {
   // Success
@@ -1542,9 +1598,9 @@ wia.Sensor.unsubscribe(
   )
 ```
 
-> The above command returns an Sensor object when one has been received.
+> The above command returns a Sensor Reading object when one has been received.
 
-This endpoint unsubscribes from device sensors.
+This endpoint unsubscribes from device sensor readings.
 
 ### HTTP Request
 
@@ -1558,7 +1614,7 @@ User | ✓
 Organisation | ✓
 Customer | ✓
 
-## List sensors
+## List sensor readings
 
 > Example Request
 
@@ -1571,12 +1627,14 @@ curl "https://api.wia.io/v1/sensors"
 var wia = require('wia')('secret key');
 
 wia.sensors.list({
-	device: "dev_23idgksdf0smd",
+	device: "dev_qLsLQpLCt0CtJ6ki",
 	limit: 20,
 	page: 0
 }, function(err, data) {
-	if (err) console.log(err);
-	if (data) console.log(data);
+	if (err)
+      console.log(err);
+	if (data)
+      console.log(data);
 });
 ```
 
@@ -1584,7 +1642,7 @@ wia.sensors.list({
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] listSensors:@"dev_23idgksdf0smd"
+[[WiaClient sharedInstance] listSensors:@"dev_qLsLQpLCt0CtJ6ki"
   params: @{
     @"limit": @(20)
   }
@@ -1623,7 +1681,7 @@ result = wia.Sensor.list(
 ```json
 [
   {
-	"id": "dev_ms8dfgknLA9k",
+	"id": "dev_qLsLQpLCt0CtJ6ki",
     "name": "temperature",
     "data": 25.4,
   	"timestamp": 1440683447764
@@ -1637,7 +1695,7 @@ result = wia.Sensor.list(
 ]
 ```
 
-This endpoint retrieves a list of sensor events for a device.
+This endpoint retrieves a list of sensor readings for a device.
 
 ### HTTP Request
 
@@ -1671,12 +1729,13 @@ until | Timestamp | - | Timestamp to return up until.
 
 ```
 {
-	"id": "B7EB5EAA-9166-422E-8482-DC41EFD076B2",
-	"latitude": 53.349805,
-	"longitude": -6.260310,
-	"altitude": 0,
-	"timestamp": 1440597871365,
-	"receivedTimestamp": 1440597871365
+  "id": "B7EB5EAA-9166-422E-8482-DC41EFD076B2",
+  "latitude": 53.349805,
+  "longitude": -6.260310,
+  "altitude": 6,
+  "producer": "rest",
+  "timestamp": 1440597871365,
+  "receivedTimestamp": 1440597871365
 }
 ```
 
@@ -1688,6 +1747,7 @@ id | String | Unique identifier for the location object.
 latitude | Number | Latitude of the location.
 longitude | Number | Longitude of the location.
 altitude | Number | Altitude of the location.
+producer | String | Route of the event being presented i.e Rest, or MQTT.
 timestamp | Timestamp | Timestamp of the location in milliseconds.
 receivedTimestamp | Timestamp | Received timestamp of the location in milliseconds.
 
@@ -1709,8 +1769,10 @@ wia.locations.publish(
 	{ "latitude": 53.349805,
 	  "longitude": -6.260310 },
 	function(err, published) {
-	    if (err) console.log(err);
-	    if (published) console.log("Location published.");
+	    if (err)
+          console.log(err);
+	    if (published)
+          console.log("Location published.");
 	}
 );
 ```
@@ -1787,10 +1849,12 @@ Not supported
 var wia = require('wia')('secret key or token');
 
 wia.locations.subscribe(
-	{ device: "dev_23idgksdf0smd" },
+	{ device: "dev_qLsLQpLCt0CtJ6ki" },
 	function(err, location) {
-	    if (err) console.log(err);
-	    if (location) console.log(location);
+	    if (err)
+          console.log(err);
+	    if (location)
+          console.log(location);
 	}
 );
 
@@ -1802,7 +1866,7 @@ wia.locations.subscribe(
 [[WiaClient sharedInstance] initWithToken:@"token"];
 
 // For all events use:
-[[WiaClient sharedInstance] subscribeToLocations:@"dev_23idgksdf0smd"
+[[WiaClient sharedInstance] subscribeToLocations:@"dev_qLsLQpLCt0CtJ6ki"
   success:^(WiaLocation *location) {
   // Success
 } failure:^(NSError *error) {
@@ -1866,9 +1930,10 @@ Not supported
 var wia = require('wia')('secret key or token');
 
 wia.locations.unsubscribe(
-	{ device: "dev_23idgksdf0smd" },
+	{ device: "dev_qLsLQpLCt0CtJ6ki" },
 	function(err) {
- 	   if (err) console.log(err);
+ 	   if (err)
+        console.log(err);
 	}
 );
 
@@ -1879,7 +1944,7 @@ wia.locations.unsubscribe(
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
 
-[[WiaClient sharedInstance] unsubscribeFromLocations:@"dev_23idgksdf0smd"
+[[WiaClient sharedInstance] unsubscribeFromLocations:@"dev_qLsLQpLCt0CtJ6ki"
   success:^() {
   // Success
 } failure:^(NSError *error) {
@@ -1932,12 +1997,14 @@ curl "https://api.wia.io/v1/locations"
 var wia = require('wia')('secret key or token');
 
 wia.locations.list({
-	device: "dev_23idgksdf0smd",
+	device: "dev_qLsLQpLCt0CtJ6ki",
 	limit: 20,
 	page: 0
 }, function(err, data) {
-	if (err) console.log(err);
-	if (data) console.log(data);
+	if (err)
+      console.log(err);
+	if (data)
+      console.log(data);
 });
 ```
 
@@ -1945,7 +2012,7 @@ wia.locations.list({
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] listLocations:@"dev_23idgksdf0smd"
+[[WiaClient sharedInstance] listLocations:@"dev_qLsLQpLCt0CtJ6ki"
   params: @{
     @"limit": @(20)
   }
@@ -2043,12 +2110,15 @@ until | Timestamp | - | Timestamp to return up until.
 
 ```
 {
-	"level": "warning",
-	"message": "Memory usage too high.",
-	"data": {
-		"memory": 425
-	},
-	"timestamp": 1440597871365
+  "level": "warning",
+  "message": "Memory usage too high.",
+  "data": {
+    "memory": 425
+  },
+  "producer": "rest",
+  "timestamp": 1440597871365,
+  "receivedTimestamp": 1440597871365,
+  "id": "1dff7d4c-c8d0-4d8e-9c50-d2069ca22a4f"
 }
 ```
 
@@ -2059,7 +2129,11 @@ Parameter | Type | Description
 level | String | Level of the log. Only 'fatal','error','warn','info','debug' or 'trace' allowed.
 message | String | Message of the log
 data | Any | Data associated with the log. A number, string or object can be passed into this.
+producer | String | Route of the event being presented i.e Rest, or MQTT.
 timestamp | Timestamp | Timestamp of the event in milliseconds.
+receivedTimestamp | Timestamp | Received timestamp of the event in milliseconds.
+id | String | Unique identifier for the log object
+
 
 ## Publish a log
 
@@ -2079,8 +2153,10 @@ wia.logs.publish(
 	{ level: "info",
 	  message: "message" },
 	function(err, published) {
-	    if (err) console.log(err);
-	    if (published) console.log("Log published.");
+	    if (err)
+          console.log(err);
+	    if (published)
+          console.log("Log published.");
 	}
 );
 ```
@@ -2160,20 +2236,24 @@ var wia = require('wia')('secret key or token');
 
 // For all logs use:
 wia.logs.subscribe(
-	{ device: "dev_kndjg832hjdfg" },
+	{ device: "dev_qLsLQpLCt0CtJ6ki" },
 	function(err, log) {
-	    if (err) console.log(err);
-	    if (log) console.log(log);
+	    if (err)
+          console.log(err);
+	    if (log)
+          console.log(log);
 	}
 );
 
 // For a specific log level use:
 wia.logs.subscribe(
-	{ device: "dev_kndjg832hjdfg",
+	{ device: "dev_qLsLQpLCt0CtJ6ki",
 	  level: "level" },
 	function(err, log) {
-	    if (err) console.log(err);
-	    if (log) console.log(log);
+	    if (err)
+          console.log(err);
+	    if (log)
+          console.log(log);
 	}
 );
 ```
@@ -2278,7 +2358,8 @@ var wia = require('wia')('secret key or token');
 wia.logs.unsubscribe(
 	{ device: "id" },
 	function(err) {
- 	   if (err) console.log(err);
+ 	   if (err)
+        console.log(err);
 	}
 );
 
@@ -2287,7 +2368,8 @@ wia.logs.unsubscribe(
 	{ device: "id",
 	  level: "level" },
 	function(err) {
- 	   if (err) console.log(err);
+ 	   if (err)
+        console.log(err);
 	}
 );
 ```
@@ -2369,12 +2451,14 @@ curl "https://api.wia.io/v1/logs"
 var wia = require('wia')('secret key or token');
 
 wia.logs.list({
-	device: "dev_ksdnf28bndfg",
+	device: "dev_qLsLQpLCt0CtJ6ki",
 	limit: 20,
 	page: 0
 }, function(err, data) {
-	if (err) console.log(err);
-	if (data) console.log(data);
+	if (err)
+      console.log(err);
+	if (data)
+      console.log(data);
 });
 ```
 
@@ -2422,22 +2506,26 @@ result = wia.Log.list(
 ```json
 [
   {
-	"id": "dev_ksd892MN9k12l",
-	"level": "warning",
-	"message": "Memory usage too high.",
-	"data": {
-		"memory": 425
-	},
-	"timestamp": 1440597871365
+    "level": "warning",
+    "message": "Memory usage too high.",
+    "data": {
+    "memory": 425
+  },
+    "producer": "rest",
+    "timestamp": 1440597871365,
+    "receivedTimestamp": 1440597871365,
+    "id": "c6a2acac-a94c-42bb-a55e-911da2b4a16b"
   },
   {
-	"id": "dev_ksd892MN9k12l",
-	"level": "warning",
-	"message": "Memory usage too high.",
-	"data": {
-		"memory": 425
-	},
-	"timestamp": 1440597871365
+    "level": "warning",
+    "message": "Memory usage too high.",
+    "data": {
+      "memory": 425
+    },
+    "producer": "rest",
+    "timestamp": 1440597871365,
+    "receivedTimestamp": 1440597871365,
+    "id": "1dff7d4c-c8d0-4d8e-9c50-d2069ca22a4f"
   }
 ]
 ```
@@ -2480,7 +2568,7 @@ until | Timestamp | - | Timestamp to return up until.
 	"name": "helloFunction",
 	"isEnabled": true,
 	"device": {
-		"id": "dev_gh8jfg9MASDu"
+		"id": "dev_qLsLQpLCt0CtJ6ki"
 	},
 	"enabledAt": 1445253805000,
 	"createdAt": 1444995244000,
@@ -2595,8 +2683,10 @@ var wia = require('wia')('secret key or token');
 wia.functions.delete(
 	"func_aba7812nsdfk",
 	function(err, deregistered) {
-		if (err) // Error occurred
-		if (deregistered) // Deregistered successfully
+    if (err) // Error occurred
+      console.log(err);
+    if (deregistered) // deregistered successfully
+      console.log(deregistered);
 	}
 );
 ```
@@ -2657,12 +2747,27 @@ curl "https://api.wia.io/v1/functions/:id/call"
 ```javascript
 var wia = require('wia')('secret key or token');
 
+// example function call:
 wia.functions.call(
-	{ id: "func_9thkLKKf9jsdfm",
-	  device: "dev_knsd9k1n2dfg" },
-	function(err) {
-    	if (err) console.log(err);
-	}
+  { id: "func_9thkLKKf9jsdfm",
+	  device: "dev_qLsLQpLCt0CtJ6ki"
+  },
+  function(err) {
+    if (err)
+      console.log(err);
+  }
+);
+
+// example function call passing data:
+wia.functions.call(
+  { id: "func_9thkLKKf9jsdfm",
+    device: "dev_qLsLQpLCt0CtJ6ki",
+    data: { item: "Black Hoodie", size: "L"}
+  },
+  function(err) {
+    if (err)
+      console.log(err);
+  }
 );
 ```
 
@@ -2735,11 +2840,14 @@ curl "https://api.wia.io/v1/functions"
 var wia = require('wia')('secret key or token');
 
 wia.functions.list({
-	device: "dev_jndg81bdfngl",
+	device: "dev_qLsLQpLCt0CtJ6ki",
 	limit: 20
-}, function(err, functions) {
-	if (err) console.log(err);
-	if (functions) console.log(functions);
+},
+function(err, functions) {
+  if (err)
+    console.log(err);
+  if (functions)
+    console.log(functions);
 });
 ```
 
@@ -2824,11 +2932,11 @@ page | Number | 0 | Page of results.
 # Customers
 ## The customer object
 
-> Example of a User object
+> Example of a Customer object
 
 ```
 {
-	"id": "cus_BDjfkdsd8Jasd1fg",
+	"id": "cus_hZM9bkpW5OrWs3JW",
 	"username": "elliot@alderson.com",
 	"email": "elliot@alderson.com",
 	"fullName": "Elliot Alderson",
@@ -2848,6 +2956,8 @@ avatar | String | URL to the customers avatar.
 createdAt | Timestamp | Timestamp of the when the customer was created.
 updatedAt | Timestamp | Timestamp of the when the customer was updated.
 
+Customer Ids are required in the examples so “<b>cus_hZM9bkpW5OrWs3JW</b>” will serve as an example customer Id throughout the code examples provided.
+
 ## Create a customer
 
 > Example Request
@@ -2865,9 +2975,12 @@ var wia = require('wia')('secret key');
 wia.customers.create({
 	fullName: "Elliot Anderson",
 	email: "elliot@fsociety.com"
-}, function(err, user) {
-	if (err) console.log(err);
-	if (user) console.log(user);
+},
+function(err, customer) {
+  if (err)
+    console.log(err);
+  if (user)
+    console.log(customer);
 });
 ```
 
@@ -2878,7 +2991,7 @@ wia.customers.create({
 [[WiaClient sharedInstance] createCustomer:@{
 	fullName: @"Elliot Anderson",
 	email: @"elliot@fsociety.com"
-} success:^(WiaUser *user) {
+} success:^(WiaUser *customer) {
   // Success
 } failure:^(NSError *error) {
   // An error occurred
@@ -2897,7 +3010,7 @@ Not available
 
 ```json
 {
-	"id": "cus_BDjfkdsd8Jasd1fg",
+	"id": "cus_hZM9bkpW5OrWs3JW",
 	"username": "elliot@alderson.com",
 	"email": "elliot@alderson.com",
 	"fullName": "Elliot Alderson",
@@ -2940,9 +3053,11 @@ curl "https://api.wia.io/v1/customers/cus_kndfg82mM90fdgm1"
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.users.retrieve("cus_kndfg82mM90fdgm1", function(err, user) {
-	if (err) console.log(err);
-	if (user) console.log(user);
+wia.users.retrieve("cus_hZM9bkpW5OrWs3JW", function(err, customer) {
+  if (err)
+    console.log(err);
+  if (user)
+    console.log(customer);
 });
 ```
 
@@ -2950,7 +3065,7 @@ wia.users.retrieve("cus_kndfg82mM90fdgm1", function(err, user) {
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] retrieveCustomer:@"cus_kndfg82mM90fdgm1"
+[[WiaClient sharedInstance] retrieveCustomer:@"cus_hZM9bkpW5OrWs3JW"
   success:^(WiaCustomer *customer) {
   // Success
 } failure:^(NSError *error) {
@@ -2970,7 +3085,7 @@ Not available
 
 ```json
 {
-	"id": "cus_jhdfg8ndfglk",
+	"id": "cus_hZM9bkpW5OrWs3JW",
 	"username": "elliot@fsociety.com",
 	"firstName": "Elliot",
 	"lastName": "Alderson",
@@ -2999,7 +3114,7 @@ Customer | x
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/customers/cus_kndfg82mM90fdgm1"
+curl "https://api.wia.io/v1/customers/cus_hZM9bkpW5OrWs3JW"
 	-H "Authorization: Bearer token" \
 	-H "Content-Type: application/json" \
 	-X PUT -d '{"fullName":"Tyrell Wellick"}'
@@ -3008,10 +3123,12 @@ curl "https://api.wia.io/v1/customers/cus_kndfg82mM90fdgm1"
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.customers.update("cus_kndfg82mM90fdgm1",
+wia.customers.update("cus_hZM9bkpW5OrWs3JW",
 	{"fullName":"Tyrell Wellick"}, function(err, customer) {
-	if (err) console.log(err);
-	if (customer) console.log(customer);
+    if (err)
+      console.log(err);
+    if (customer)
+      console.log(customer);
 });
 ```
 
@@ -3019,7 +3136,7 @@ wia.customers.update("cus_kndfg82mM90fdgm1",
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] updateCustomer:@"cus_kndfg82mM90fdgm1"
+[[WiaClient sharedInstance] updateCustomer:@"cus_hZM9bkpW5OrWs3JW"
   fields:@{
     @"fullName": @"Tyrell Wellick"
   }
@@ -3042,7 +3159,7 @@ Not available
 
 ```json
 {
-	"id": "user_jhdfg8ndfglk",
+	"id": "cus_hZM9bkpW5OrWs3JW",
 	"username": "elliot@fsociety.com",
 	"firstName": "Tyrell",
 	"lastName": "Wellick",
@@ -3085,9 +3202,11 @@ curl "https://api.wia.io/v1/customers/cus_kndfg82mM90fdgm1"
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.customers.delete("cus_kndfg82mM90fdgm1", function(err, customer) {
-	if (err) console.log(err);
-	if (customer) console.log(customer);
+wia.customers.delete("cus_hZM9bkpW5OrWs3JW", function(err, customer) {
+  if (err)
+    console.log(err);
+  if (customer)
+    console.log(customer);
 });
 ```
 
@@ -3095,7 +3214,7 @@ wia.customers.delete("cus_kndfg82mM90fdgm1", function(err, customer) {
 #import "Wia.h"
 
 [[WiaClient sharedInstance] initWithToken:@"token"];
-[[WiaClient sharedInstance] deleteCustomer:@"cus_kndfg82mM90fdgm1"
+[[WiaClient sharedInstance] deleteCustomer:@"cus_hZM9bkpW5OrWs3JW"
   success:^(BOOL deleted) {
   // Success
 } failure:^(NSError *error) {
@@ -3147,8 +3266,10 @@ wia.customers.list({
 	limit: 20,
 	page: 0
 }, function(err, data) {
- 	if (err) console.log(err);
-	if (data) console.log(data);
+  if (err)
+    console.log(err);
+  if (data)
+    console.log(data);
 });
 ```
 
@@ -3178,8 +3299,8 @@ Not available
 
 ```json
 [
-  "users": [{
-	"id": "cus_jhdfg8ndfglk",
+  "customers": [{
+	"id": "cus_hZM9bkpW5OrWs3JW",
 	"username": "elliot@fsociety.com",
 	"firstName": "Elliot",
 	"lastName": "Anderson",
@@ -3188,7 +3309,7 @@ Not available
 	"updatedAt": 1444063382000
   },
   {
-	"id": "cus_mkn324875gBasdu",
+	"id": "cus_hZM9bkpW5OrWs3JW",
 	"username": "tyrell@ecorp.com",
 	"firstName": "Tyrell",
 	"lastName": "Wellick",
@@ -3227,17 +3348,19 @@ sort | String | 'desc' | Either ascending 'asc' or descending 'desc'.
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/customers/cus_jhdfg8ndfglk/devices" \
+curl "https://api.wia.io/v1/customers/cus_hZM9bkpW5OrWs3JW/devices" \
 	-H "Authorization: Bearer token" \
-	-X POST -d '{"device":"dev_ms8dfgknLA9k"}'
+	-X POST -d '{"device":"dev_qLsLQpLCt0CtJ6ki"}'
 ```
 
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.customers.addDevice("cus_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, added) {
- 	if (err) console.log(err);
-	if (added) console.log(added);
+wia.customers.addDevice("cus_hZM9bkpW5OrWs3JW", "dev_qLsLQpLCt0CtJ6ki", function(err, added) {
+  if (err)
+    console.log(err);
+  if (added)
+    console.log(added);
 });
 ```
 
@@ -3285,13 +3408,15 @@ Customer | x
 
 Parameter | Type | Default | Description
 --------- | ---- | ------- | -----------
+customer | String | - | Unique identifier of the customer to which the device is being added.
 device | String | - | Unique identifier of device to be added to customer.
+
 
 ## Remove device from customer
 > Example Request
 
 ```shell
-curl "https://api.wia.io/v1/customers/cus_jhdfg8ndfglk/devices/dev_ms8dfgknLA9k" \
+curl "https://api.wia.io/v1/customers/cus_hZM9bkpW5OrWs3JW/devices/dev_qLsLQpLCt0CtJ6ki" \
 	-H "Authorization: Bearer token" \
 	-X DELETE
 ```
@@ -3299,9 +3424,11 @@ curl "https://api.wia.io/v1/customers/cus_jhdfg8ndfglk/devices/dev_ms8dfgknLA9k"
 ```javascript
 var wia = require('wia')('secret key or token');
 
-wia.users.removeDevice("cus_jhdfg8ndfglk", "dev_ms8dfgknLA9k", function(err, removed) {
- 	if (err) console.log(err);
-	if (removed) console.log(removed);
+wia.users.removeDevice("cus_hZM9bkpW5OrWs3JW", "dev_qLsLQpLCt0CtJ6ki", function(err, removed) {
+  if (err)
+    console.log(err);
+  if (removed)
+    console.log(removed);
 });
 ```
 
