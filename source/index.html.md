@@ -917,7 +917,7 @@ import wia
 
 wia.secret_key = "secret_key"
 
-result = wia.Event.publish(
+result = wia.Events.publish(
             name="event_name",
             data=100
             )
@@ -1038,13 +1038,13 @@ def example_func(payload):
   pass
 
 #for all events use:
-wia.Event.subscribe(
+wia.Events.subscribe(
     device="device_id",
     func=example_func
   )
 
 #for specific events use:
-wia.Event.subscribe(
+wia.Events.subscribe(
     device="device_id",
     name="event_name",
     func=example_func
@@ -1134,12 +1134,12 @@ Event.unsubscribe("device_id");
 import wia
 
 #for all events use
-wia.Event.unsubscribe(
+wia.Events.unsubscribe(
     device="device_id",
   )
 
 #for specific events use:
-wia.Event.unsubscribe(
+wia.Events.unsubscribe(
     device="device_id",
     name="event_name"
   )
@@ -1216,7 +1216,7 @@ EventCollection EventCollection = Event.list(params);
 ```python
 import wia
 
-result = wia.Event.list(
+result = wia.Events.list(
         device="device_id",
         limit=20,
         page=0
@@ -1371,7 +1371,7 @@ Sensor sensor = Sensor.publish(params);
 ```python
 import wia
 
-result = wia.Sensor.publish(
+result = wia.Sensors.publish(
     name="sensor_name",
     data=100
   )
@@ -1487,13 +1487,13 @@ def example_func(payload):
   pass
 
 #for all sensors use:
-wia.Sensor.subscribe(
+wia.Sensors.subscribe(
     device="device_id",
     func=example_func
   )
 
 #for specific sensors use:
-wia.Sensor.subscribe(
+wia.Sensors.subscribe(
     device="device_id",
     name="sensor_name",
     func=example_func
@@ -1587,12 +1587,12 @@ Sensor.unsubscribe("device_id");
 import wia
 
 #for all sensors use:
-wia.Sensor.unsubscribe(
+wia.Sensors.unsubscribe(
     device="device_id"
   )
 
 #for a specific sensor use:
-wia.Sensor.unsubscribe(
+wia.Sensors.unsubscribe(
     device="device_id",
     name="sensor_name"
   )
@@ -1669,7 +1669,7 @@ SensorCollection SensorCollection = Sensor.list(params);
 ```python
 import wia
 
-result = wia.Sensor.list(
+result = wia.Sensors.list(
     device="device_id",
     limit=20,
     page=0
@@ -1807,7 +1807,7 @@ Location location = Location.publish(params);
 ```python
 import wia
 
-result = wia.Location.publish(
+result = wia.Locations.publish(
     longitude=-6.260310,
     latitude=53.349805
   )
@@ -1896,7 +1896,7 @@ def example_func(payload):
   #payload will contain location messages
   pass
 
-wia.Location.subscribe(
+wia.Locations.subscribe(
     device="device_id",
     func=example_func
   )
@@ -1963,7 +1963,7 @@ Location.unsubscribe("device_id");
 ```python
 import wia
 
-wia.Location.unsubscribe(
+wia.Locations.unsubscribe(
     device="device_id"
   )
 ```
@@ -2039,7 +2039,7 @@ LocationCollection LocationsCollection = Location.list(params);
 ```python
 import wia
 
-wia.Location.list(
+wia.Locations.list(
     device="device_name",
     limit=20,
     page=0
@@ -2192,7 +2192,7 @@ Log log = Log.publish(params);
 ```python
 import wia
 
-result = wia.Log.publish(
+result = wia.Logs.publish(
           level="info",
           message="example message"
           )
@@ -2314,13 +2314,13 @@ def example_func(payload):
   pass
 
 #for all logs use:
-wia.Log.subscribe(
+wia.Logs.subscribe(
     device="device_id",
     func=example_func
   )
 
 #for a specific log level use:
-wia.Log.subscribe(
+wia.Logs.subscribe(
     device="device_id",
     level="level",
     func=example_func
@@ -2414,11 +2414,12 @@ Log.unsubscribe("device_id");
 import wia
 
 #for all logs use:
-wia.Log.unsubscribe(
+wia.Logs.unsubscribe(
     device="device_id"
   )
+
 #for specific log level use:
-wia.Log.unsubscribe(
+wia.Logs.unsubscribe(
     device="device_id",
     level="level"
   )
@@ -2494,7 +2495,7 @@ LogCollection LogCollection = Log.list(params);
 ```python
 import wia
 
-result = wia.Log.list(
+result = wia.Logs.list(
           device="device_id",
           limit=20,
           page=0
@@ -2629,7 +2630,7 @@ import wia
 def test_function(argument):
   #function implementation
 
-result = wia.Function.create(
+result = wia.Functions.create(
     name='function_name',
     function=test_function
   )
@@ -2702,7 +2703,7 @@ Not available
 ```python
 import wia
 
-wia.Function.delete(
+wia.Functions.delete(
     "function_id"
   )
 ```
@@ -2793,7 +2794,7 @@ Not available
 ```python
 import wia
 
-wia.Function.call(
+wia.Functions.call(
     device="device_id",
     func="function_id",
     data={'arg': 100}
@@ -2874,7 +2875,7 @@ Not available
 ```python
 import wia
 
-result = wia.Function.list(
+result = wia.Functions.list(
     device="device_id",
     limit=20,
     page=0
