@@ -776,7 +776,7 @@ result = wia.Device.list(limit=40)
 > Example Response
 
 ```json
-[
+{
   "devices": [{
     "id": "dev_qLsLQpLCt0CtJ6ki",
     "name": "My first device",
@@ -792,7 +792,7 @@ result = wia.Device.list(limit=40)
     "updatedAt": 1445199652234
   }],
   "count": 2
-]
+}
 ```
 
 This endpoint retrieves devices and a total count.
@@ -3041,6 +3041,7 @@ Parameter | Type | Description
 --------- | ---- | -----------
 fullName | String | Full name of the customer to be created. Required.
 email | String | Email address of customer to be created. Required.
+password | String | Password of the customer. Required.
 
 ## Retrieve a customer
 
