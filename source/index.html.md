@@ -229,7 +229,7 @@ wia.stream.on('reconnect', function() {
 
 ```objective_c
 [[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamReconnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-	NSLog(@"Stream connected");
+	NSLog(@"Stream reconnecting!");
 });
 ```
 
@@ -255,7 +255,7 @@ wia.stream.on('disconnect', function() {
 
 ```objective_c
 [[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamDisconnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-	NSLog(@"Stream connected");
+	NSLog(@"Stream disconnected!");
 });
 ```
 
@@ -281,7 +281,7 @@ wia.stream.on('offline', function() {
 
 ```objective_c
 [[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamOffline" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-	NSLog(@"Stream connected");
+	NSLog(@"Stream offline");
 });
 ```
 
@@ -308,7 +308,7 @@ wia.stream.on('error', function(error) {
 
 ```objective_c
 [[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamError" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-	NSLog(@"Stream connected");
+	NSLog(@"Stream error");
 });
 ```
 
