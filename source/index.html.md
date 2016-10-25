@@ -109,7 +109,7 @@ wia.secret_key = "secret_key"
 wia.app_key = "app_key"
 ```
 
-If you are connecting using your own MQTT client, put your access token in the username field and blank space for the password.
+If you are connecting using your own MQTT or Websocket client, put your access token in the username field and blank space for the password.
 
 `Endpoint: mqtt://api.wia.io:1883 or mqtts://api.wia.io:8883`  
 `Username: "token"`  
@@ -229,7 +229,7 @@ wia.stream.on('reconnect', function() {
 
 ```objective_c
 [[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamReconnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-	NSLog(@"Stream connected");
+	NSLog(@"Stream reconnecting");
 });
 ```
 
@@ -255,7 +255,7 @@ wia.stream.on('disconnect', function() {
 
 ```objective_c
 [[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamDisconnect" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-	NSLog(@"Stream connected");
+	NSLog(@"Stream disconnected");
 });
 ```
 
@@ -281,7 +281,7 @@ wia.stream.on('offline', function() {
 
 ```objective_c
 [[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamOffline" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-	NSLog(@"Stream connected");
+	NSLog(@"Stream offline");
 });
 ```
 
@@ -308,7 +308,7 @@ wia.stream.on('error', function(error) {
 
 ```objective_c
 [[NSNotificationCenter defaultCenter] addObserverForName:@"WiaStreamError" object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-	NSLog(@"Stream connected");
+	NSLog(@"Stream error");
 });
 ```
 
@@ -902,6 +902,10 @@ This endpoint publishes an event.
 
 `POST https://api.wia.io/v1/events`
 
+### MQTT Topic
+
+`devices/:deviceId/events/:eventName`
+
 ### Authorization
 Access Type | Permitted
 -------------- | --------------
@@ -1336,6 +1340,10 @@ This endpoint publishes a sensor event.
 
 `POST https://api.wia.io/v1/sensors`
 
+### MQTT Topic
+
+`devices/:deviceId/sensors/:sensorName`
+
 ### Authorization
 Access Type | Permitted
 -------------- | --------------
@@ -1759,6 +1767,10 @@ This endpoint publishes a location.
 
 `POST https://api.wia.io/v1/locations`
 
+### MQTT Topic
+
+`devices/:deviceId/locations`
+
 ### Authorization
 Access Type | Permitted
 -------------- | --------------
@@ -2129,6 +2141,10 @@ This endpoint publishes a log. Requires a Device token.
 ### HTTP Request
 
 `POST https://api.wia.io/v1/logs`
+
+### MQTT Topic
+
+`devices/:deviceId/logs/:logLevel`
 
 ### Authorization
 Access Type | Permitted
