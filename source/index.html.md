@@ -1371,7 +1371,7 @@ Sensor sensor = Sensor.publish(params);
 ```python
 import wia
 
-result = wia.Sensors.publish(
+wia.Sensors.publish(
     name="sensor_name",
     data=100
   )
