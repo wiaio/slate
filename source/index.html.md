@@ -904,7 +904,7 @@ wia.events.publish(
 ```java
 import io.wia.Wia;
 
-Wia.setSecretKey("secret_key";
+Wia.setSecretKey("secret_key");
 
 Map<String, Object> params = new HashMap<String, Object>();
 params.put("name", "testEvent");
@@ -1371,10 +1371,12 @@ Sensor sensor = Sensor.publish(params);
 ```python
 import wia
 
+wia.secret_key = "secret_key"
+
 wia.Sensors.publish(
-    name="sensor_name",
-    data=100
-  )
+  name="sensor_name",
+  data=100
+)
 
 ```
 
