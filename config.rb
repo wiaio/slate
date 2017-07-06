@@ -10,10 +10,10 @@ set :markdown,
     no_intra_emphasis: true
 
 # Assets
-set :css_dir, 'stylesheets'
-set :js_dir, 'javascripts'
-set :images_dir, 'images'
-set :fonts_dir, 'fonts'
+set :css_dir, 'slate/stylesheets'
+set :js_dir, 'slate/javascripts'
+set :images_dir, 'slate/images'
+set :fonts_dir, 'slate/fonts'
 
 # Activate the syntax highlighter
 activate :syntax
@@ -28,7 +28,7 @@ configure :build do
   # out the following two lines has been known to help
   activate :minify_css
   activate :minify_javascript
-  
+
 	activate :autoprefixer do |config|
 	  config.browsers = ['last 2 version', 'Firefox ESR']
 	  config.cascade  = false
