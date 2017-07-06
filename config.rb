@@ -20,7 +20,7 @@ activate :syntax
 
 # Github pages require relative links
 activate :relative_assets
-set :relative_links, false
+set :relative_links, true
 
 # Build Configuration
 configure :build do
