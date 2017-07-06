@@ -10,17 +10,17 @@ set :markdown,
     no_intra_emphasis: true
 
 # Assets
-set :css_dir, 'slate/stylesheets'
-set :js_dir, 'slate/javascripts'
-set :images_dir, 'slate/images'
-set :fonts_dir, 'slate/fonts'
+set :css_dir, '/slate/stylesheets'
+set :js_dir, 'javascripts'
+set :images_dir, 'images'
+set :fonts_dir, 'fonts'
 
 # Activate the syntax highlighter
 activate :syntax
 
 # Github pages require relative links
 activate :relative_assets
-set :relative_links, true
+set :relative_links, false
 
 # Build Configuration
 configure :build do
