@@ -11,7 +11,7 @@ set :markdown,
 
 # Assets
 set :css_dir, '/slate/stylesheets'
-set :js_dir, '/slate/javascripts'
+set :js_dir, 'javascripts'
 set :images_dir, '/slate/images'
 set :fonts_dir, '/slate/fonts'
 
@@ -27,9 +27,8 @@ configure :build do
   # If you're having trouble with Middleman hanging, commenting
   # out the following two lines has been known to help
   activate :minify_css
-    set :js_dir, 'stylesheets'
   activate :minify_javascript
-    set :js_dir, 'javascripts'
+    set :js_dir, '/slate/javascripts'
 
 	activate :autoprefixer do |config|
 	  config.browsers = ['last 2 version', 'Firefox ESR']
