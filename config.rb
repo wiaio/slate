@@ -27,7 +27,9 @@ configure :build do
   # If you're having trouble with Middleman hanging, commenting
   # out the following two lines has been known to help
   activate :minify_css
+    set :js_dir, 'stylesheets'
   activate :minify_javascript
+    set :js_dir, 'javascripts'
 
 	activate :autoprefixer do |config|
 	  config.browsers = ['last 2 version', 'Firefox ESR']
